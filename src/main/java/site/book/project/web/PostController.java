@@ -54,48 +54,18 @@ public class PostController {
     @Transactional(readOnly = true)
     @GetMapping("/list")
     public String list(@AuthenticationPrincipal UserSecurityDto userSecurityDto, String postWriter, Model model) {
-        log.info("list()");
-//        bookService.readPostCountByAllBookId();
-     
      
         User user = null; 
         List<PostListDto> postList = new ArrayList<>();
         
-        if(userSecurityDto == null) {
-             user = userService.read(postWriter);
-            Integer userId = user.getId();
-            
-           postList = postService.postDtoList(userId);
-            
-               
-        } else if (postWriter == null) {
-            
-            Integer userId = userSecurityDto.getId();
-            user = userService.read(userId);
-            log.info("id= {}",userId);
-        
-            postList = postService.postDtoList(userId);
-        
-              
-        }  else if(userSecurityDto.getUsername().equals(postWriter)) {
-            
-            Integer userId = userSecurityDto.getId();
-             user = userService.read(userId);
-            log.info("id= {}",userId);
-        
-            postList = postService.postDtoList(userId);
-        
-        
-        } else if(!userSecurityDto.getUsername().equals(postWriter)) {
-           
-            
+        if (postWriter == null) {         
+            user = userService.read(userSecurityDto.getId());        
+            postList = postService.postDtoList(userSecurityDto.getId());
+        } else if (postWriter != null) {
             user = userService.read(postWriter);
-            Integer userId = user.getId();
-            
-            postList = postService.postDtoList(userId);
-      } 
-        
-    
+            postList = postService.postDtoList(user.getId());
+        }
+         
        
        // 포스트 create 날짜랑 오늘 날짜랑 같으면 new 하려고
         LocalDate now = LocalDate.now();
@@ -117,11 +87,7 @@ public class PostController {
                 books.add(book);
             }
         }
-            
-       
-    
-        
-        
+                
             model.addAttribute("day", day);
             model.addAttribute("user", user);      
             model.addAttribute("list", postList);
@@ -130,8 +96,6 @@ public class PostController {
         return "/post/list";
     }
 
-
-   
     
     @PostMapping("/create")
     public String create(PostCreateDto dto, RedirectAttributes attrs) {
@@ -182,14 +146,14 @@ public class PostController {
         }
         
         // (예진) 리플 작성칸 nickName 주기
-        String nick = userDto.getNickName();
-        
+        if(userDto != null) {
+            String nick = userDto.getNickName();
+            model.addAttribute("nick", nick);
+        } 
     
          model.addAttribute("recomList",recomList );    // 2)
          model.addAttribute("post", p);
          model.addAttribute("book", b);
-         model.addAttribute("nick", nick);
-
     }
    
     @PreAuthorize("hasRole('USER')")
