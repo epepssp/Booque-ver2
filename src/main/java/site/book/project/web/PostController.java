@@ -87,12 +87,15 @@ public class PostController {
         
         
         } else if(!userSecurityDto.getUsername().equals(postWriter)) {
+           
+            
             user = userService.read(postWriter);
             Integer userId = user.getId();
             
-             postList = postService.postDtoList(userId);
+            postList = postService.postDtoList(userId);
       } 
         
+    
        
        // 포스트 create 날짜랑 오늘 날짜랑 같으면 new 하려고
         LocalDate now = LocalDate.now();
@@ -115,6 +118,9 @@ public class PostController {
             }
         }
             
+       
+    
+        
         
             model.addAttribute("day", day);
             model.addAttribute("user", user);      
