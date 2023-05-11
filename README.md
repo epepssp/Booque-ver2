@@ -358,7 +358,7 @@ public class Notices {
     }    
 ```
 
-알림 확인 및 삭제
+알림 확인
 
 > notice.js
 
@@ -452,6 +452,7 @@ public class Notices {
         
     });
 ```
+알림 삭제
 
 > NoticeRestController.java
 
