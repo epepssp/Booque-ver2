@@ -13,9 +13,9 @@
 
 ## 구현 기능(담당)
 + 외부경로 프로필 이미지 업로드
-
-```java
 > SecurityConfig.java 추가
+```java
+
 
  @Bean  // 로컬 폴터 이미지 불러오기 위한 config 추가
     public WebSecurityCustomizer webSecurityCustomizer() {
