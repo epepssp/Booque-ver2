@@ -118,8 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
      function tempImage() {
         
         const id = document.querySelector('#id').value;
-        console.log("tempImage: id", id);
-        
+ 
         axios
         .get('/tempView/' + id)  
         .then(response => { viewImage(response.data) } )
@@ -159,7 +158,6 @@ window.addEventListener('DOMContentLoaded', () => {
         
         const result = confirm('프로필 사진을 변경하시겠습니까?');
         if(result) {
-         
             profileForm.action = '/post/profile/imageUpdate';
             profileForm.method= 'post';
             profileForm.submit();
