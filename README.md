@@ -24,7 +24,8 @@
 - 작성중인 글 임시 저장 
 
 ## 구현 기능(담당)
-+ 외부경로 프로필 이미지 업로드
++ 외부 경로(로컬 폴더) 이미지 업로드
+  
 > SecurityConfig.java 추가
 
 ```java
@@ -36,64 +37,35 @@
                     );
         };
     }
+
 ```
 
 > application.properties 외부경로 위치 추가
 
 ``` application.properties
+
 site.book.upload.path=E:\\study\\images
+
 ```
 
-> PostController.java 일부
-
+> ImageUploadController. java 일부
 ```java
-    @PostMapping("/profile/imageUpdate")    // (예진) 프로필 이미지 업로드
-    public String profileImageUpdate(Integer id, MultipartFile file, HttpServletRequest request) throws Exception{ 
-        
-        userService.write(id, file);
 
-        // Post, MyPage등 여러 페이지에서 프로필 이미지 업로드 할 수 있음 - 현재 페이지로 리다이렉트 하기 위해
-        String referer = request.getHeader("referer");  // 현재 페이지 주소
-        String urlTemp = referer.toString().substring(21);  // localhost:8888 뒷 부분만 잘라냄
-      
-        return "redirect:"+urlTemp;  // 현재 페이지로 리다이렉트 
-    }
-```
+    @Value("${site.book.upload.path}") // (예진) 이미지 저장할 절대 경로(로컬 폴더) 값 주입 
+    private String imageFilePath; 
 
-> UserService.java 일부
-
-```java
- @Value("${site.book.upload.path}") // (예진) 절대 경로(외부 경로) 값 주입
-    private String imageFilePath;
-
-     public void write(Integer id, MultipartFile file) throws IllegalStateException, IOException {  // (예진) 프로필 이미지 업로드
-  
-        UUID uuid = UUID.randomUUID();  // 식별자
-        String fileName = uuid + "_" + file.getOriginalFilename();
-
-        File saveFile=new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
-        file.transferTo(saveFile);
-        
-        User user = userRepository.findById(id).get();
-        
-        user.setFileName(fileName);
-        user.setFilePath(imageFilePath+"/"+fileName);
-        user.setUserImage("/view/"+fileName);
-
-        userRepository.save(user);
-     }
 ```
 
 > list.html 일부
 
 ```html
-  <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
+   <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
       <img th:src="${user.userImage}" width=200px; /><!-- (예진) 프로필 이미지-->
-  </a>     
+   </a>     
 
    <!-- (예진) 프로필 사진 업데이트 버튼 -->
    <span th:if="${ user.username } == ${ #authentication.name }" >
-          <img onclick="imagePop()" src="/images/im.png" width=22px; align="right" />
+        <img onclick="imagePop()" src="/images/im.png" width=22px; align="right" />
    </span>
 
    <!-- 프사 이미지 변경 모달 -->
@@ -102,7 +74,7 @@ site.book.upload.path=E:\\study\\images
                 <div class="modal-content">
                      <div class="modal-header">
                           <h5 class="modal-title">프로필 이미지</h5>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="profileForm" enctype="multipart/form-data" method="post" action="/post/profile/imageUpdate">
@@ -121,24 +93,20 @@ site.book.upload.path=E:\\study\\images
 > imageUpload.js 
 
 ```javascript
-window.addEventListener('DOMContentLoaded', () => {
-    
-     // (예진) 이미지 업데이트 
-     
-     tempImage();
-    
-     function tempImage() {
+
+    function tempImage() { // 현재 설정해 둔 프로필 이미지 정보 요청
         
         const id = document.querySelector('#id').value;
- 
+        console.log("tempImage: id", id);
+        
         axios
         .get('/tempView/' + id)  
         .then(response => { viewImage(response.data) } )
         .catch(err => { console.log(err) })
 
-    };
+     };
        
-       function viewImage(data) {
+     function viewImage(data) { // 받은 대답으로 프로필 이미지 show
 
         const divProfileImage = document.querySelector('#divProfileImage');
             
@@ -147,37 +115,111 @@ window.addEventListener('DOMContentLoaded', () => {
         .then(response => { console.log('성공!!') } )
         .catch(err => { console.log(err) })
         
-        let img ='';
-        if(data.fileName) {
-           img +=  `<img src="/view/${data.fileName}" width=200px />`;
-        } else {
-           // 설정한 프사 없을 경우 디폴트 이미지
-           img +=  `<img src="/view/113163657.jpg" width=200px />`;
-        }
-        divProfileImage.innerHTML = img;
-       
-    };     
-   
-    // profile form HTML 요소를 찾음.
-    const profileForm = document.querySelector('#profileForm');
+         let img ='';
+         if(data.fileName) {
+            img +=  `<img src="/view/${data.fileName}" width=200px />`;
+         } else {
+             // 설정한 프사 없을 경우 디폴트 이미지
+             img +=  `<img src="/view/113163657.jpg" width=200px />`;
+         }
+          divProfileImage.innerHTML = img;
+       };     
 
-    // 프로필 이미지 변경 버튼 찾아서 이벤트 리스너 등록
-    const btnProfileUpdate = document.querySelector('#btnProfileUpdate');
-    btnProfileUpdate.addEventListener('click', submitForm);
+
+        // profile form HTML 요소를 찾음.
+        const profileForm = document.querySelector('#profileForm');
+
+        // 프로필 이미지 변경 버튼 찾아서 이벤트 리스너 등록
+        const btnProfileUpdate = document.querySelector('#btnProfileUpdate');
+        btnProfileUpdate.addEventListener('click', submitForm);
     
-    function submitForm(event){
-        event.preventDefault();
+        function submitForm(event){
+             event.preventDefault();
         
-        const result = confirm('프로필 사진을 변경하시겠습니까?');
-        if(result) {
-            profileForm.action = '/post/profile/imageUpdate';
-            profileForm.method= 'post';
-            profileForm.submit();
-        }     
-    tempImage();     
-    }
-});
+             const result = confirm('프로필 사진을 변경하시겠습니까?');
+             if(result) {
+                  profileForm.action = '/post/profile/imageUpdate';
+                  profileForm.method= 'post';
+                  profileForm.submit();
+              }     
+                 tempImage();  
+     };
+
 ```
+
+> ImageUploadController. java 일부
+```java
+
+    @GetMapping("/view/{fileName}")  // 로컬 폴더 이미지 불러오기
+    public ResponseEntity<Resource> viewUpdatedImage(@PathVariable String fileName) {
+        
+        File file = new File(imageFilePath, fileName);
+        
+        String contentType = null;
+        try {
+            contentType = Files.probeContentType(file.toPath());
+        } catch (IOException e) {
+            log.error("{} : {}", e.getCause(), e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", contentType);
+        
+        Resource resource = new FileSystemResource(file);
+       
+        return ResponseEntity.ok().headers(headers).body(resource);
+    }
+
+```
+
+>  PostController. java 일부
+
+```java
+ @PostMapping("/profile/imageUpdate")  
+    public String profileImageUpdate(Integer id, MultipartFile file, HttpServletRequest request) throws Exception{
+        
+        String referer = request.getHeader("referer");  // 현재 페이지 주소
+        log.info("CurrentUrl ={}", referer);
+        String urlTemp = referer.toString().substring(21);  // localhost:8888 뒷 부분만 잘라냄
+        log.info("urlTemp ={}", urlTemp);  
+        
+        userService.write(id, file);
+        
+        return "redirect:"+urlTemp;  // 현재 페이지로 리다이렉트 
+    }
+```
+
+
+> UserService.java 일부
+
+```java
+
+    @Value("${site.book.upload.path}") // (예진) 절대 경로(외부 경로) 값 주입
+    private String imageFilePath;
+
+    public void write(Integer id, MultipartFile file) throws IllegalStateException, IOException {  // (예진) 프로필 이미지 업로드
+  
+        UUID uuid = UUID.randomUUID();  // 식별자
+        String fileName = uuid + "_" + file.getOriginalFilename();
+
+        File saveFile=new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
+        file.transferTo(saveFile);
+        
+        User user = userRepository.findById(id).get();
+        
+        user.setFileName(fileName);
+        user.setFilePath(imageFilePath+"/"+fileName);
+        user.setUserImage("/view/"+fileName);
+
+        userRepository.save(user);
+
+   }
+```
+<br>
+
+
+
 
 + 알림
 
