@@ -24,13 +24,13 @@
 - 작성중인 글 임시 저장 
 
 ## 구현 기능(담당)
-+ 외부 경로(로컬 폴더) 이미지 업로드
+ + ### 외부 경로(로컬 폴더) 이미지 업로드
   
-> SecurityConfig.java 추가
+ > SecurityConfig.java 추가
 
-```java
+ ```java
 
- @Bean  // 로컬 폴터 이미지 불러오기 위한 config 추가
+    @Bean  // 로컬 폴터 이미지 불러오기 위한 config 추가
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
             web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()
@@ -38,37 +38,37 @@
         };
     }
 
-```
+ ```
 
-> application.properties 외부경로 위치 추가
+ > application.properties 외부경로 위치 추가
 
-``` application.properties
+ ``` application.properties
 
-site.book.upload.path=E:\\study\\images
+     site.book.upload.path=E:\\study\\images
 
-```
+ ```
 
-> ImageUploadController. java 일부
-```java
+ > ImageUploadController. java 일부
+ ```java
 
     @Value("${site.book.upload.path}") // (예진) 이미지 저장할 절대 경로(로컬 폴더) 값 주입 
     private String imageFilePath; 
 
-```
+ ```
 
-> list.html 일부
+ > list.html 일부
 
-```html
-   <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
+ ```html
+    <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
       <img th:src="${user.userImage}" width=200px; /><!-- (예진) 프로필 이미지-->
-   </a>     
+    </a>     
 
-   <!-- (예진) 프로필 사진 업데이트 버튼 -->
-   <span th:if="${ user.username } == ${ #authentication.name }" >
+    <!-- (예진) 프로필 사진 업데이트 버튼 -->
+    <span th:if="${ user.username } == ${ #authentication.name }" >
         <img onclick="imagePop()" src="/images/im.png" width=22px; align="right" />
-   </span>
+    </span>
 
-   <!-- 프사 이미지 변경 모달 -->
+    <!-- 프사 이미지 변경 모달 -->
         <div class="modal" id ="imageModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -88,11 +88,11 @@ site.book.upload.path=E:\\study\\images
                  </div>
             </div>
         </div>
-```
+ ```
 
-> imageUpload.js 
+ > imageUpload.js 
 
-```javascript
+ ```javascript
 
     function tempImage() { // 현재 설정해 둔 프로필 이미지 정보 요청
         
@@ -143,12 +143,12 @@ site.book.upload.path=E:\\study\\images
                   profileForm.submit();
               }     
                  tempImage();  
-     };
+       };
 
-```
+ ```
 
-> ImageUploadController. java 일부
-```java
+ > ImageUploadController. java 일부
+ ```java
 
     @GetMapping("/view/{fileName}")  // 로컬 폴더 이미지 불러오기
     public ResponseEntity<Resource> viewUpdatedImage(@PathVariable String fileName) {
@@ -171,12 +171,12 @@ site.book.upload.path=E:\\study\\images
         return ResponseEntity.ok().headers(headers).body(resource);
     }
 
-```
+ ```
 
->  PostController. java 일부
+ >  PostController. java 일부
 
-```java
- @PostMapping("/profile/imageUpdate")  
+ ```java
+    @PostMapping("/profile/imageUpdate")  
     public String profileImageUpdate(Integer id, MultipartFile file, HttpServletRequest request) throws Exception{
         
         String referer = request.getHeader("referer");  // 현재 페이지 주소
@@ -188,12 +188,12 @@ site.book.upload.path=E:\\study\\images
         
         return "redirect:"+urlTemp;  // 현재 페이지로 리다이렉트 
     }
-```
+ ```
 
 
-> UserService.java 일부
+ > UserService.java 일부
 
-```java
+ ```java
 
     @Value("${site.book.upload.path}") // (예진) 절대 경로(외부 경로) 값 주입
     private String imageFilePath;
@@ -214,8 +214,8 @@ site.book.upload.path=E:\\study\\images
 
         userRepository.save(user);
 
-   }
-```
+    }
+ ```
 <br>
 
 
