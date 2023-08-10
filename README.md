@@ -221,7 +221,7 @@
 
 
 
-+ 알림
+ + ### 알림(Notice)
 
 > Notices.java 도메인 생성
 
