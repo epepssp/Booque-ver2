@@ -29,11 +29,12 @@
 <br>
 
 ## 구현 기능(담당)
- + ### 외부 경로(로컬 폴더) 이미지 업로드
+ + ### 외부 경로(로컬 폴더) 이미지 업로드 - 프로필 사진 변경
  <br>
  <div align="center"><img src="https://github.com/epepssp/project2/assets/118948099/5e5903d1-a4b7-49d4-ab80-dfcceba214f3" height="400" alt="프사"></div>
  <br> 
- 
+
+ + #### 설정
  > SecurityConfig.java 추가
 
  ```java
@@ -51,16 +52,14 @@
  > application.properties 외부경로 위치 추가
 
  ``` application.properties
-
-     site.book.upload.path=E:\\study\\images
-
+        site.book.upload.path=E:\\study\\images
  ```
-
+ + #### 구현
  > ImageUploadController. java 일부
  ```java
 
-    @Value("${site.book.upload.path}") // (예진) 이미지 저장할 절대 경로(로컬 폴더) 값 주입 
-    private String imageFilePath; 
+      @Value("${site.book.upload.path}") // (예진) 이미지 저장할 절대 경로(로컬 폴더) 값 주입 
+      private String imageFilePath; 
 
  ```
 
@@ -73,7 +72,7 @@
          <img onclick="document.getElementById('imageModal').style.display='block'" src="/images/im.png" width=22px; align="right" />
     </span>
 
-    <!-- 프사변경모달 -->
+    <!-- 프사 변경 모달 -->
     <div id ="imageModal" class="w3-modal">
         <div class="w3-modal-content" style="width: 350px; height: 180px;">
            <span onclick="document.getElementById('imageModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
@@ -132,6 +131,9 @@
 
  > ImageUploadController. java 일부
  ```java
+
+     @Value("${site.book.upload.path}") // 필요한 곳에 절대 경로(로컬 폴더) 값 주입하여 사용 
+     private String imageFilePath;
 
      @PostMapping("/submit/image")
      public ResponseEntity<Integer> upload(@AuthenticationPrincipal UserSecurityDto userSecurityDto, MultipartFile file) 
