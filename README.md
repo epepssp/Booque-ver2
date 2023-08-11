@@ -268,62 +268,71 @@
 
 
         <script>
-            // search 버튼 이벤트 리스너 등록. mainKeyword 컨트롤러로 전달 
+            // search 버튼 이벤트 리스너 등록. 검색어(mainKeyword) 컨트롤러로 전달 
             const btnSearch = document.querySelector('#btnSearchL')
             btnSearch.addEventListener('click', function(){
                  const formSearch = document.querySelector('#formSearch')
             })
         </script>
+     
      ```
 
+     > MarketController.java 
+     ```java
+ 
+        @GetMapping("/mainSearch")
+        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region,
+                        String mainKeyword, Model model, String orderSlt , String status) {
+     
+             // 검색어(mainKeyword) 포함된 책 추천 리스트(4개) 넘겨줌
+             // (예진) 키워드 포함된 책 제목 => 이런 중고책 찾으세요? => 알람 설정 할 수 있게
+             List<Book> list4 = bookService.searchByBookName(mainKeyword);
+             model.addAttribute("list4", list4);
+        }
+     
+     ```
 
+     > mainSearch.html 일부
 
+     ```html
+        <div style="margin-bottom: 40px;"> <!-- (예진) 키워드 알림 등록 -->
+            <h6 class="mb-1 fw-bold" style="margin-left: 40px; font-size: 15px; font-style: italic;">&nbsp;이런 책 찾으시나요?</h6>
+            <h6 style="margin-left: 40px; font-size: 13px; font-style: italic;">&nbsp;원하는 책 클릭하고, 새 글 알림 받아보세요!</h6>
 
-
-
-
-        > mainSearch.html 일부
-
-        ```html
-           <div style="margin-bottom: 40px;"> <!-- (예진) 키워드 알림 등록 -->
-              <h6 class="mb-1 fw-bold" style="margin-left: 40px; font-size: 15px; font-style: italic;">&nbsp;이런 책 찾으시나요?</h6>
-              <h6 style="margin-left: 40px; font-size: 13px; font-style: italic;">&nbsp;원하는 책 클릭하고, 새 글 알림 받아보세요!</h6>
-
-              <div class="rounded" th:each="x : ${ list4 }" style="margin-left: 40px; border: 1px solid silver; display: inline-block;"><!-- main div  -->
-                 <div style="margin: 10px;">
-                    <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
-                       <a th:href="@{ /detail?id={bookId} (bookId = ${ x.bookId })}"><img th:src="${ x.bookImage }" style="width: 60px;" /></a>
-                       <input type="hidden" id="b-Id" th:value="${ x.bookId }"/>
-                    </div>
-                    <div style="text-align: left; display: inline-block;">
-                       <div class="d-inline-flex px-1 my-1  border rounded text-secondary" style="font-size: 10px;">  
-                           <span th:text="${ x.bookgroup }"></span><span> / </span><span th:text="${ x.category }"></span> 
-                       </div>
-                       <div style="font-size: 13px; width: 145px;" class="fw-bold text-truncate"  th:text="${ x.bookName }"></div> 
-                       <div style="font-size: 12px;"><span th:text ="${ '저자: ' + x.author }"></span> </div> 
-                       <div style="font-size: 12px;"><span th:text ="${ x.publisher + ' 출판' }"></span></div>  
-                    </div>
-                    <div style="display: inline-block;">
-                       <!-- 키워드 등록 버튼 --> 
-                       <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
-                    </div> 
+            <div class="rounded" th:each="x : ${ list4 }" style="margin-left: 40px; border: 1px solid silver; display: inline-block;"><!-- main div  -->
+               <div style="margin: 10px;">
+                  <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
+                     <a th:href="@{ /detail?id={bookId} (bookId = ${ x.bookId })}"><img th:src="${ x.bookImage }" style="width: 60px;" /></a>
+                     <input type="hidden" id="b-Id" th:value="${ x.bookId }"/>
                   </div>
-               </div><!-- main div end -->
-           </div>
+                  <div style="text-align: left; display: inline-block;">
+                     <div class="d-inline-flex px-1 my-1  border rounded text-secondary" style="font-size: 10px;">  
+                        <span th:text="${ x.bookgroup }"></span><span> / </span><span th:text="${ x.category }"></span> 
+                     </div>
+                     <div style="font-size: 13px; width: 145px;" class="fw-bold text-truncate"  th:text="${ x.bookName }"></div> 
+                     <div style="font-size: 12px;"><span th:text ="${ '저자: ' + x.author }"></span> </div> 
+                     <div style="font-size: 12px;"><span th:text ="${ x.publisher + ' 출판' }"></span></div>  
+                   </div>
+                   <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
+                       <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
+                   </div> 
+               </div>
+            </div><!-- main div end -->
+         </div>
 
 
-           <script>
-              function register(event) { // 키워드 등록 함수
-                 const bookId = document.querySelector('#b-Id').value;
+        <script>
+           function register(event) { // 키워드 등록 함수
+              const bookId = document.querySelector('#b-Id').value;
 	
-	         axios.get('/register/notice/'+bookId)
-	              .then(response => {
-	                   alert('알림 등록 완료!'); })
-	              .catch(err =>{
-	                   console.log(err); });
-	      }
-           </script>
-```
+	       xios.get('/register/notice/'+bookId)
+	            .then(response => {
+	               alert('알림 등록 완료!'); })
+	            .catch(err =>{
+	                console.log(err); });
+	    }
+         </script>
+      ```
 
 > MarketController.java 
 
