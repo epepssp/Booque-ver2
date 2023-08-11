@@ -399,9 +399,9 @@
            }
       ```
 
-       > NoticeRestController.java
+      > NoticeRestController.java
 
-       ```java
+      ```java
       
           // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
           @GetMapping("/showNotice/{userId}")
@@ -410,11 +410,11 @@
        
               return ResponseEntity.ok(list);
           }
-       ```
+      ```
       
-       > NoticeService.java
+      > NoticeService.java
 
-       ```java
+      ```java
           public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
         
                List<Notices> list = noticeRepository.findByUserIdOrderByNoticeIdDesc(userId);
@@ -456,7 +456,7 @@
             }
             return noticeList;
          }
-      ```
+     ```
 
       > notice.js
 
