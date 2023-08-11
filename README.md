@@ -383,8 +383,9 @@
       ```
 
       
-      
-      
+      + #### 알람 Show
+      + ##### layout 상단바에 알림 버튼
+   
       > layout.html
 
       ```html
@@ -403,17 +404,17 @@
                 </div>
             </div>
       ```
-
+      
+      + ##### 페이지마다 로그인 한 유저의 알람 리스트 보여주는 함수 가장 먼저 실행
       > notice.js
 
       ```javascript
          const userId = document.querySelector('#userId2').innerText;
     
          if(userId){
-            showNotice();      // 로그인 한 유저의 알림 리스트
-         }
+            showNotice();  }
    
-         function showNotice(){
+         function showNotice(){  // 로그인 한 유저의 알림 리스트
              axios.get('/showNotice/' + userId)  
                   .then(response => { 
                           updateNoticeList(response.data) } )
