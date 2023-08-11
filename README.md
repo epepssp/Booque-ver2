@@ -108,7 +108,7 @@
             .catch(err => { console.log(err) })
       });
    
-      function getImage(){  // 유저 프로필 이미지 가져와서 보여주는 함수
+      function getImage(){  // 로그인 유저 프로필 이미지
         
         const id = document.querySelector('#id').value;
         const profileImageDiv = document.querySelector('#profileImageDiv');
