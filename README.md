@@ -408,30 +408,32 @@
            }
        ```
 
---
-      // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
-    @GetMapping("/showNotice/{userId}")
-    public ResponseEntity<List<NoticeDto>> showAllNotices(@PathVariable Integer userId) {
-         log.info("노티스아이디={}",userId);
-        
-         List<NoticeDto> list =noticeService.readNotices(userId);
+       > NoticeRestController.java
+
+       ```java
+          // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
+          @GetMapping("/showNotice/{userId}")
+          public ResponseEntity<List<NoticeDto>> showAllNotices(@PathVariable Integer userId) {
+                   List<NoticeDto> list =noticeService.readNotices(userId);
        
-        return ResponseEntity.ok(list);
-    }
-
-
-  -- 
-  public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
-        
-        List<Notices> list = noticeRepository.findByUserIdOrderByNoticeIdDesc(userId);
-        List<NoticeDto> noticeList = new ArrayList<>();
+              return ResponseEntity.ok(list);
+          }
+       ```
       
-        for (Notices n : list) {
+       > NoticeService.java
+
+       ```java
+          public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
+        
+               List<Notices> list = noticeRepository.findByUserIdOrderByNoticeIdDesc(userId);
+               List<NoticeDto> noticeList = new ArrayList<>();
+      
+               for (Notices n : list) {
             
-            if(n.getUsedBookId() == null) {
-               PostReply r = replyService.readRep(n.getReplyId());
+                   if(n.getUsedBookId() == null) {
+                      PostReply r = replyService.readRep(n.getReplyId());
            
-               NoticeDto dto= NoticeDto.builder()
+                      NoticeDto dto= NoticeDto.builder()
                               .noticeId(n.getNoticeId())
                               .postId(n.getPostId())
                               .bookId(n.getBookId())
@@ -441,34 +443,51 @@
                               .nickName(r.getUser().getNickName())
                               .build();           
             
-                noticeList.add(dto);
+                      noticeList.add(dto);
                 
-            } else {
-                    UsedBook ub = usedBookService.read(n.getUsedBookId());
-                    Book b = bookService.read(n.getBookId());
+                } else {
+                      UsedBook ub = usedBookService.read(n.getUsedBookId());
+                      Book b = bookService.read(n.getBookId());
                 
-                    NoticeDto dto= NoticeDto.builder()
-                        .noticeId(n.getNoticeId())
-                        .bookId(n.getBookId())
-                        .userId(n.getUserId())
-                        .usedBookId(n.getUsedBookId())
-                        .title(ub.getTitle())
-                        .bookName(b.getBookName())
-                        .bookImage(b.getBookImage())
-                        .build();
+                      NoticeDto dto= NoticeDto.builder()
+                          .noticeId(n.getNoticeId())
+                          .bookId(n.getBookId())
+                          .userId(n.getUserId())
+                          .usedBookId(n.getUsedBookId())
+                          .title(ub.getTitle())
+                          .bookName(b.getBookName())
+                          .bookImage(b.getBookImage())
+                          .build();
                 
-                    noticeList.add(dto);
+                       noticeList.add(dto);
+                }
             }
-            
-        }
-        
-        return noticeList;
-    }
+            return noticeList;
+         }
+      ```
 
--------
+      > notice.js
 
+      ```javascript
+         const userId = document.querySelector('#userId2').innerText;
+    
+         if(userId){
+            showNotice();      // 로그인 한 유저의 알림 리스트
+         }
+   
+         function showNotice(){
+             axios.get('/showNotice/' + userId)  
+                  .then(response => { 
+                          updateNoticeList(response.data) } )
+                  .catch(err => { console.log(err) });
+         }    
+      ```
+      
+      > layout.html
 
-<!-- 알림 버튼 -->
+      ```html
+      
+            <!-- 알림 버튼 -->
             <div class="w3-dropdown-hover w3-bar-item w3-right">
                 <button class="w3-button" id="btnAlarm" style="color:white; margin-top:8px; margin-right:30px;">
                    <!-- (예진) 알림 아이콘 오른쪽 상단 빨간 뱃지 가운데 알림 갯수 뜨도록 -->
@@ -477,56 +496,104 @@
                        <span id="noticeCount" class="position-absolute top-50 start-50 translate-middle" style="transform: translate(-50%, -50%); font-size: 15px;"></span>
                     </span>
                 </button>
-
-                <input type="hidden" id="userId" th:value="${ userId }"/>
-                
                 <div class="w3-dropdown-content w3-card-4 w3-bar-block mb-2" style="top:66px; right:46px;">
                     <div id="divNotices" class="notices"></div><!-- (예진) 댓글 알림 리스트 보여줄 영역 -->
                 </div>
             </div>
-            ===============
-	    
- function updateNoticeList(data){
-        
-         const noticeCount = document.querySelector('#noticeCount');
-         let count = '';
-         count += '<span style="color: white;">'+ data.length +'</span>';
-         noticeCount.innerHTML = count;
-        
-         const divNotices = document.querySelector('#divNotices');
-         let str ='';
-        
-         for (let x of data){ 
-             
-            if(x.replyId) {
-              str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+      ```
 
-	          <!-- 새 댓글 알림 클릭하면 알림 확인한 것으로 가정하고 해당 댓글로 이동 후 알림 삭제 -->
-                  + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
-                  + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
-                  + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
-                  + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
-                  + '</a></div>';
-            }
+      > notice.js
+
+       ```javascript
+   
+          function updateNoticeList(data){
+               const noticeCount = document.querySelector('#noticeCount');
+               let count = '';
+               count += '<span style="color: white;">'+ data.length +'</span>';
+               noticeCount.innerHTML = count;
+        
+               const divNotices = document.querySelector('#divNotices');
+               let str ='';
+        
+               for (let x of data){
+    
+                   if(x.replyId) {
+                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+
+	              <!-- 새 댓글 알림 클릭하면 알림 확인한 것으로 가정하고 해당 댓글로 이동 후 알림 삭제 -->
+                     + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
+                     + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                     + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
+                     + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
+                     + '</a></div>';
+                   }
                
-            if(x.usedBookId){
-             str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+                   if(x.usedBookId){
+                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
 
-                  <!-- 키워드 알림 클릭하면 알림 확인한 것으로 가정하고 해당 글로 이동 후 알림 삭제 -->
-                 + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
-                 + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
-                 + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
-                 + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
-                 + '</a></div>';
-          
-            }  
-        }
+                      <!-- 키워드 알림 클릭하면 알림 확인한 것으로 가정하고 해당 글로 이동 후 알림 삭제 -->
+                      + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
+                      + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                      + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
+                      + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
+                      + '</a></div>';
+                   }  
+              }
+               divNotices.innerHTML = str;
+          }
+       ```
+
+       > postReply.js
+
+       ```javascript
+
+          function updateReplyList(data){
+              const divReplies = document.querySelector('#replies');
+              let str = '';
+
+              for (let r of data){
+                  str += '<div class="card border-dark mb-3 w-100" style="text-align: left;">';
+            
+                  if(r.replyId == repId) {  
+                      str +='<div class="bgColor" id="bgColorBtn" style="background-color: #e6f2ff;">';
+                  }
+                  if(r.replyId != repId) {  
+                      str +='<div class="bgColor" id="bgColorBtn">';
+                  }
+      
+                  str +=`<div class="flex-shrink-0"><a href="/post/list?postWriter=${r.replyWriter}">`
+                      + '<img class="rounded-circle m-2" width="45" height="45" src="' + r.userImage + '" alt="..." />'
+                      + `<span class="fw-bold m-2">${r.nickName}</span></a></div>`
+                      + '<div class="card-body text-dark">'
+                      + '<p class="card-text">' + r.replyContent + '</p>'
+                      + '<div><small style="color:gray;"> 작성시간: ' + '<span id="commentDate">' + r.createdTime + '</span>' + '</small></div>'
+                  //     + '<div><small style="color:gray;"> 수정시간: ' + r.modifiedTime + '</small></div>'
+                      + '</div>';
+                
+                 if(r.replyWriter == loginUser){
+                     str += '<div class="card-footer">'
+                         + `<button type="button" class="btnModifies btn btn-outline-primary" data-rid="${r.replyId}">수정</button>`
+                         + '</div>';
+                  }
+                  str += '</div>';
+                  str +='</div>';
+              }
+              divReplies.innerHTML = str;
+          }
         
-        divNotices.innerHTML = str;
- 
-    }
+          // 새 댓글에 준 백그라운드 컬러 댓글 클릭하면 없어지게
+          const bg = document.querySelector('.bgColor');
+        
+          bg.addEventListener('click', function(){
+             const divBg = document.getElementById('bgColorBtn');
+             divBg.style.backgroundColor = 'white';
+             divBg.removeAttribute('class');
+          });
+       ```
 
-====================
+
+
+===========================================================================================
 알람 클릭 - 삭제
 
 
