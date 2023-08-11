@@ -133,8 +133,29 @@
  > ImageUploadController. java 일부
  ```java
 
-    @GetMapping("/view/{fileName}")  // 로컬 폴더 이미지 불러오기
-    public ResponseEntity<Resource> viewUpdatedImage(@PathVariable String fileName) {
+     @PostMapping("/submit/image")
+     public ResponseEntity<Integer> upload(@AuthenticationPrincipal UserSecurityDto userSecurityDto, MultipartFile file) 
+            throws IllegalStateException, IOException {
+        
+        UUID uuid = UUID.randomUUID();  // 식별자
+        String fileName = uuid + "_" + file.getOriginalFilename();
+        
+        File saveFile = new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
+        file.transferTo(saveFile);
+        
+        User user = userRepository.findById(userSecurityDto.getId()).get();
+        
+        user.setFileName(fileName);
+        userRepository.save(user);
+        
+       return ResponseEntity.ok(1);
+
+     }
+    
+    
+     @GetMapping("/api/view/{fileName}")
+     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
+        log.info("viewFile(fileName={})", fileName);
         
         File file = new File(imageFilePath, fileName);
         
@@ -142,62 +163,16 @@
         try {
             contentType = Files.probeContentType(file.toPath());
         } catch (IOException e) {
-            log.error("{} : {}", e.getCause(), e.getMessage());
-            return ResponseEntity.internalServerError().build();
+            e.printStackTrace();
         }
-        
+       
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", contentType);
         
         Resource resource = new FileSystemResource(file);
-       
+        
         return ResponseEntity.ok().headers(headers).body(resource);
-    }
-
- ```
-
- >  PostController. java 일부
-
- ```java
-    @PostMapping("/profile/imageUpdate")  
-    public String profileImageUpdate(Integer id, MultipartFile file, HttpServletRequest request) throws Exception{
-        
-        String referer = request.getHeader("referer");  // 현재 페이지 주소
-        log.info("CurrentUrl ={}", referer);
-        String urlTemp = referer.toString().substring(21);  // localhost:8888 뒷 부분만 잘라냄
-        log.info("urlTemp ={}", urlTemp);  
-        
-        userService.write(id, file);
-        
-        return "redirect:"+urlTemp;  // 현재 페이지로 리다이렉트 
-    }
- ```
-
-
- > UserService.java 일부
-
- ```java
-
-    @Value("${site.book.upload.path}") // (예진) 절대 경로(외부 경로) 값 주입
-    private String imageFilePath;
-
-    public void write(Integer id, MultipartFile file) throws IllegalStateException, IOException {  // (예진) 프로필 이미지 업로드
-  
-        UUID uuid = UUID.randomUUID();  // 식별자
-        String fileName = uuid + "_" + file.getOriginalFilename();
-
-        File saveFile=new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
-        file.transferTo(saveFile);
-        
-        User user = userRepository.findById(id).get();
-        
-        user.setFileName(fileName);
-        user.setFilePath(imageFilePath+"/"+fileName);
-        user.setUserImage("/view/"+fileName);
-
-        userRepository.save(user);
-
-    }
+     }
  ```
 <br>
 <br>
