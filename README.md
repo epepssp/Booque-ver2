@@ -541,11 +541,11 @@
               }
                divNotices.innerHTML = str;
           }
-       ```
+      ```
 
-       > postReply.js
+      > postReply.js
 
-       ```javascript
+      ```javascript
 
           function updateReplyList(data){
               const divReplies = document.querySelector('#replies');
@@ -589,7 +589,7 @@
              divBg.style.backgroundColor = 'white';
              divBg.removeAttribute('class');
           });
-       ```
+      ```
 
 
 
