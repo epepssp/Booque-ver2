@@ -369,12 +369,11 @@
          // 새 포스트 등록시 생성해야 할 노티스 있는지 체크
          // 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
         function checkBookId(bookId,usedBookId) {
-           
-             const data = { bookId : bookId, usedBookId : usedBookId }
+              const data = { bookId : bookId, usedBookId : usedBookId }
       
-             axios.post('/notice/check', data)
-                  .then(response => {  console.log('성공') })
-                  .catch(err => { alert(err) });
+              axios.post('/notice/check', data)
+                   .then(response => {  console.log('성공') })
+                   .catch(err => { alert(err) });
          };
 
       ```
@@ -387,8 +386,7 @@
           // 있다면 노티스 생성  
           @PostMapping("/notice/check")
           public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
-                   log.info("체크데이터={}:{}", noticeDto.getBookId(), noticeDto.getUsedBookId());
-        
+              
                 Integer bookId = noticeDto.getBookId();
                 Integer usedBookId = noticeDto.getUsedBookId();
         
@@ -404,14 +402,14 @@
                         return ResponseEntity.ok(noticeId);
                    } 
                 } 
-          
-              return ResponseEntity.ok(1);
-           }
-       ```
+                 return ResponseEntity.ok(1);
+            }
+        ```
 
        > NoticeRestController.java
 
        ```java
+      
           // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
           @GetMapping("/showNotice/{userId}")
           public ResponseEntity<List<NoticeDto>> showAllNotices(@PathVariable Integer userId) {
