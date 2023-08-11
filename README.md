@@ -478,7 +478,7 @@
 
       ```javascript
    
-          function updateNoticeList(data){
+          function updateNoticeList(data){  // 상단바 알림 버튼 dropdown 에 표시될 알림 리스트  
                const noticeCount = document.querySelector('#noticeCount');
                let count = '';
                count += '<span style="color: white;">'+ data.length +'</span>';
@@ -487,7 +487,7 @@
                const divNotices = document.querySelector('#divNotices');
                let str ='';
         
-               for (let x of data){
+               for (let x of data){   
     
                    if(x.replyId) {
                       str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
@@ -519,7 +519,7 @@
 
       ```javascript
 
-          function updateReplyList(data){
+          function updateReplyList(data){  // 댓글 목록 - 새 댓글 표시
               const divReplies = document.querySelector('#replies');
               let str = '';
 
