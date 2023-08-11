@@ -292,6 +292,13 @@
      
      ```
 
+     > BookRepository.java 
+
+     ```java
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+     ```
+
      > mainSearch.html 일부
 
      ```html
@@ -333,6 +340,30 @@
 	    }
          </script>
       ```
+
+      > NoticeRestController.java 
+
+      ```java
+         // (예진) 키워드 알림 받을 BookId 등록
+         @GetMapping("/register/notice/{bookId}")
+         public ResponseEntity<Integer> registerBookId(@PathVariable Integer bookId, @AuthenticationPrincipal UserSecurityDto dto) {
+        
+                User user = userService.read(dto.getId());
+                user.setNoticeBookId(bookId);
+                userRepository.save(user);
+        
+             return ResponseEntity.ok(1);
+         }
+      ```
+
+
+
+
+
+
+
+
+
 
 > MarketController.java 
 
