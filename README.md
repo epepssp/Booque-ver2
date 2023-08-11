@@ -352,14 +352,14 @@
                 <div class="w3-dropdown-content w3-card-4 w3-bar-block mb-2" style="top:66px; right:46px;">
                     <div id="divNotices" class="notices"></div><!-- (예진) 댓글 알림 리스트 보여줄 영역 -->
                 </div>
-            </div>
-        ```
+             </div>
+       ```
       
        + ##### 상단바 알림 버튼 Dropdown 리스트 - 알림 확인 / 삭제
         
-      > notice.js
+       > notice.js
 
-      ```javascript
+       ```javascript
    
           function updateNoticeList(data){   
                const noticeCount = document.querySelector('#noticeCount');
@@ -381,7 +381,7 @@
                      + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
                      + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
                      + '</a></div>';
-                   }
+                     }
                
                    if(x.usedBookId){
                       str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
@@ -392,17 +392,17 @@
                       + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
                       + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
                       + '</a></div>';
-                   }  
-              }
-               divNotices.innerHTML = str;
-          }
-       ```
+                     }  
+                }
+                divNotices.innerHTML = str;
+           }
+        ```
       
-       + ##### 댓글 리스트 새 댓글 Background-Color
-       + 
-       > postReply.js
+        + ##### 댓글 리스트 새 댓글 Background-Color
+       
+        > postReply.js
 
-      ```javascript
+       ```javascript
 
           function updateReplyList(data){  // 댓글 목록 
               const divReplies = document.querySelector('#replies');
