@@ -54,15 +54,8 @@
  ``` application.properties
         site.book.upload.path=E:\\study\\images
  ```
+
  + #### 구현
- > ImageUploadController. java 일부
- ```java
-
-      @Value("${site.book.upload.path}") // (예진) 이미지 저장할 절대 경로(로컬 폴더) 값 주입 
-      private String imageFilePath; 
-
- ```
-
  > list.html 일부
 
  ```html
