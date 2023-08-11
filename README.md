@@ -402,7 +402,7 @@
        
         > postReply.js
 
-       ```javascript
+        ```javascript
 
           function updateReplyList(data){  // 댓글 목록 
               const divReplies = document.querySelector('#replies');
@@ -447,7 +447,7 @@
              divBg.removeAttribute('class');
           });
       
-      ```
+       ```
       
      + #### 알림 리스트
        + ##### 로그인 유저의 확인 하지 않은, 새로 생성된 모든 알림 
