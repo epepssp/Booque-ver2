@@ -220,45 +220,66 @@
 
 
 
-
  + ### 알림(Notice)
-   + #### 알림 생성
-     + ##### 새 댓글 알림 - 댓글이 작성되는 순간 
+   + #### 새 댓글 알림
 
-     > postReply.javascript
-     ```javascript
+   > postReply.javascript
+   ```javascript
 
-         // 댓글 작성 함수
-         function registerNewReply() {
-                 // 중략
-      
-                 axios.post('/api/reply', data)
-                      .then(response => {
-                            alert('#  댓글 등록 성공');
-                            clearInputContent();
-                            readAllReplies();
-                            updateReplyCount();
+      // 댓글 작성 함수
+      function registerNewReply() {
+                  // 중략
+            axios.post('/api/reply', data)
+                 .then(response => {
+                        alert('#  댓글 등록 성공');
+                        clearInputContent();
+                        readAllReplies();
+                        updateReplyCount();
      
-                            // 댓글 작성 성공 하는 순간 새 댓글 알림 생성 됨
-                            newReplyNotion(response.data);
-                         })
-                        .catch(error => {
-                            console.log(error);
-                         });
-           }
-
-           function newReplyNotion(data){
-      
-               axios.post('/notice', data)
-                    .then(response => {
-                        console.log('노티스 저장성공');
-                     })         
-                     .catch(error => {
+                         // 댓글 작성 완료하는 순간 새 댓글 알림 생성
+                         newReplyNotion(response.data);
+                  })
+                  .catch(error => {
                         console.log(error);
-                     });
-           }
-        ```
-        + ##### 키워드 알림 -> 알림 받고 싶은 키워드(책 제목) 등록 ->  중고책 거래 새 글 올라올떄마다 유저들의 알림 설정 키워드와 비교 -> 일치하는 키워드 있으면 알림 생성 
+                  });
+       }
+
+       function newReplyNotion(data){
+      
+            axios.post('/notice', data)
+                 .then(response => {
+                      console.log('노티스 저장성공');
+                  })         
+                 .catch(error => {
+                      console.log(error);
+                  });
+       }
+     ```
+     + ##### 키워드 알림 -> 알림 받고 싶은 키워드(책 제목) 등록 ->  중고책 거래 새 글 올라올떄마다 유저들의 알림 설정 키워드와 비교 -> 일치하는 키워드 있으면 알림 생성
+     
+     > mainSearch.html
+     ```html
+
+        <input id="searchInput" name="mainKeyword" type="search" placeholder="검색어를 입력하세요!"  th:value="${ mainKeyword }"/>
+            <button id="btnSearchL" style="border: none; background-color: white;">
+                <i class="bi bi-search" style="font-size: 2rem;"></i>
+            </button>
+
+
+        <script>
+            // search 버튼 이벤트 리스너 등록. mainKeyword 컨트롤러로 전달 
+            const btnSearch = document.querySelector('#btnSearchL')
+            btnSearch.addEventListener('click', function(){
+                 const formSearch = document.querySelector('#formSearch')
+            })
+        </script>
+     ```
+
+
+
+
+
+
 
         > mainSearch.html 일부
 
