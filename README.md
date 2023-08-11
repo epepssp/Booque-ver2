@@ -386,24 +386,17 @@
           // 있다면 노티스 생성  
           @PostMapping("/notice/check")
           public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
-              
-                Integer bookId = noticeDto.getBookId();
-                Integer usedBookId = noticeDto.getUsedBookId();
-        
-                List<User> users = userService.read();
+              List<User> users = userService.read();  // 유저 All
             
-                for (User u : users) {
-                   if(u.getNoticeBookId() == bookId) {
-                        Integer uId = u.getId();  
-            
-                        NoticeDto dto = NoticeDto.builder().userId(uId).bookId(bookId).usedBookId(usedBookId).build();
-                        Integer noticeId = noticeService.create(dto);
-            
-                        return ResponseEntity.ok(noticeId);
-                   } 
-                } 
-                 return ResponseEntity.ok(1);
-            }
+              for (User u : users) {
+                 if(u.getNoticeBookId() == noticeDto.getBookId()) { // 유저가 알람 받기 등록한 bookId가 새로 작성된 중고 판매글 bookId와 같을때 -> 노티스 생성
+         
+                      NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
+                      return ResponseEntity.ok(noticeService.create(dto));
+                 } 
+             } 
+              return ResponseEntity.ok(1);
+           }
         ```
 
        > NoticeRestController.java
