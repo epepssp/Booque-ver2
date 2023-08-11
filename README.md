@@ -353,9 +353,9 @@
                     <div id="divNotices" class="notices"></div><!-- (예진) 댓글 알림 리스트 보여줄 영역 -->
                 </div>
             </div>
-      ```
+        ```
       
-      + ##### 상단바 알림 버튼 Dropdown 리스트 - 알림 확인 / 삭제
+       + ##### 상단바 알림 버튼 Dropdown 리스트 - 알림 확인 / 삭제
         
       > notice.js
 
