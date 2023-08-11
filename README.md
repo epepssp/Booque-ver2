@@ -256,7 +256,7 @@
      ```
    
      + ##### 키워드 알림
-     + ###### 알림 받을 키워드(BookId) 등록 부끄장터 등록된 새 글의 bookId와 키워드 알람 설정된 bookId 리스트 비교 -> 일치하는 항목 알림 생성
+     + ###### 알림 받을 키워드(BookId) 등록 
      
      > mainSearch.html
      > 
@@ -328,7 +328,7 @@
 
 
         <script>
-           function register(event) { // 키워드 등록 함수
+           function register(event) { // 키워드 알림 bookId 등록 함수
               const bookId = document.querySelector('#b-Id').value;
 	
 	       axios.get('/register/notice/'+bookId)
@@ -340,20 +340,7 @@
          </script>
       ```
 
-      > NoticeRestController.java 
-
-      ```java
-         // (예진) 키워드 알림 받을 BookId 등록
-         @GetMapping("/register/notice/{bookId}")
-         public ResponseEntity<Integer> registerBookId(@PathVariable Integer bookId, @AuthenticationPrincipal UserSecurityDto dto) {
-        
-                User user = userService.read(dto.getId());
-                user.setNoticeBookId(bookId);
-                userRepository.save(user);
-        
-             return ResponseEntity.ok(1);
-         }
-      ```
+      + ##### 부끄장터 등록된 새 글의 bookId와 키워드 알람 설정된 bookId 리스트 비교 -> 일치하는 항목 알림 생성
 
       > marketCreate.js
       ```javascript
@@ -364,8 +351,8 @@
                checkBookId(bookId,usedBookId);
          }
 
-         // 새 포스트 등록시 생성해야 할 노티스 있는지 체크
-         // 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
+         // 새 글 등록되면 생성해야 할 알림 있는지 체크
+         // 해당 bookId 알림 설정 한 유저가 있다면 노티스 생성
         function checkBookId(bookId,usedBookId) {
               const data = { bookId : bookId, usedBookId : usedBookId }
       
@@ -379,10 +366,8 @@
       > NoticeRestController.java
 
       ```java
-      
-          // (예진) usedBook 새 글 등록 될 때 마다 해당 북아이디 알림 설정한 유저가 있는지 체크
-          // 있다면 노티스 생성  
-          @PostMapping("/notice/check")
+       
+          @PostMapping("/notice/check")  // 설정할 키워드 알람 있는지 체크
           public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
               List<User> users = userService.read();  // 유저 All
             
