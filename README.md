@@ -325,7 +325,7 @@
            function register(event) { // 키워드 등록 함수
               const bookId = document.querySelector('#b-Id').value;
 	
-	       xios.get('/register/notice/'+bookId)
+	       axios.get('/register/notice/'+bookId)
 	            .then(response => {
 	               alert('알림 등록 완료!'); })
 	            .catch(err =>{
