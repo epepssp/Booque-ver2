@@ -206,18 +206,17 @@
        }
      ```
    
-     + ###### 검색어 기반 추천 리스트 제공 -> 알림 받을 키워드(BookId) 등록 
-     + ###### 새 글이 등록될 때 중고책 판매글의 BookId와 유저들이 등록해 둔 알림 키워드(BookId) 목록 비교 -> 일치하는 항목 있다면 키워드 알림 생성 
+     + ###### 검색어 기반 추천 리스트 제공 -> 알림 받고 싶은 키워드(BookId) 등록 
        
      > mainSearch.html
      > 
      ```html
      
-         <!-- 메인창 검색 -->
-         <input id="searchInput" name="mainKeyword" type="search" placeholder="검색어를 입력하세요!"  th:value="${ mainKeyword }"/>
-            <button id="btnSearchL" style="border: none; background-color: white;">
+          <!-- 메인창 검색 -->
+          <input id="searchInput" name="mainKeyword" type="search" placeholder="검색어를 입력하세요!"  th:value="${ mainKeyword }"/>
+             <button id="btnSearchL" style="border: none; background-color: white;">
                 <i class="bi bi-search" style="font-size: 2rem;"></i>
-            </button>
+             </button>
 
 
         <script>
@@ -291,7 +290,7 @@
          </script>
       ```
 
-      + ##### 부끄장터 등록된 새 글의 bookId와 키워드 알람 설정된 bookId 리스트 비교 -> 일치하는 항목 알림 생성
+      + ###### 새 글이 등록될 때 중고책 판매글의 BookId와 유저들이 등록해 둔 알림 키워드(BookId) 목록 비교 -> 일치하는 항목 있다면 키워드 알림 생성 
 
       > marketCreate.js
       ```javascript
@@ -357,7 +356,48 @@
             </div>
       ```
       
+      + ##### 알림 버튼 dropdown 리스트
+      > notice.js
+
+      ```javascript
    
+          function updateNoticeList(data){   
+               const noticeCount = document.querySelector('#noticeCount');
+               let count = '';
+               count += '<span style="color: white;">'+ data.length +'</span>';
+               noticeCount.innerHTML = count;
+        
+               const divNotices = document.querySelector('#divNotices');
+               let str ='';
+        
+               for (let x of data){   
+    
+                   if(x.replyId) {
+                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+
+	              <!-- 새 댓글 알림 클릭하면 해당 댓글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
+                     + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
+                     + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                     + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
+                     + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
+                     + '</a></div>';
+                   }
+               
+                   if(x.usedBookId){
+                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+
+                      <!-- 새 글 키워드 알림 클릭하면 해당 글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
+                      + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
+                      + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                      + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
+                      + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
+                      + '</a></div>';
+                   }  
+              }
+               divNotices.innerHTML = str;
+          }
+       ```
+      
       + ##### 로그인 유저의 알림 리스트
 
        > notice.js
@@ -426,46 +466,7 @@
      ```
 
 
-      > notice.js
-
-      ```javascript
-   
-          function updateNoticeList(data){  // 상단바 알림 버튼 dropdown 에 표시될 알림 리스트  
-               const noticeCount = document.querySelector('#noticeCount');
-               let count = '';
-               count += '<span style="color: white;">'+ data.length +'</span>';
-               noticeCount.innerHTML = count;
-        
-               const divNotices = document.querySelector('#divNotices');
-               let str ='';
-        
-               for (let x of data){   
-    
-                   if(x.replyId) {
-                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
-
-	              <!-- 새 댓글 알림 클릭하면 해당 댓글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
-                     + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
-                     + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
-                     + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
-                     + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
-                     + '</a></div>';
-                   }
-               
-                   if(x.usedBookId){
-                      str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
-
-                      <!-- 새 글 키워드 알림 클릭하면 해당 글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
-                      + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
-                      + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
-                      + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
-                      + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
-                      + '</a></div>';
-                   }  
-              }
-               divNotices.innerHTML = str;
-          }
-      ```
+     
 
       > postReply.js
 
