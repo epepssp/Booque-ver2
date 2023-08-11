@@ -356,8 +356,57 @@
          }
       ```
 
+      > marketCreate.js
+      ```javascript
+      
+         const btnSubmit = document.querySelector('#btnSubmit');
+         btnSubmit.addEventListener('click', function () {
+               
+               checkBookId(bookId,usedBookId);
+         }
 
+         // 새 포스트 등록시 생성해야 할 노티스 있는지 체크
+         // 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
+        function checkBookId(bookId,usedBookId) {
+           
+             const data = { bookId : bookId, usedBookId : usedBookId }
+      
+             axios.post('/notice/check', data)
+                  .then(response => {  console.log('성공') })
+                  .catch(err => { alert(err) });
+         };
 
+      ```
+
+      > NoticeRestController.java
+
+      ```java
+      
+          // (예진) usedBook 새 글 등록 될 때 마다 해당 북아이디 알림 설정한 유저가 있는지 체크
+          // 있다면 노티스 생성  
+          @PostMapping("/notice/check")
+          public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
+                   log.info("체크데이터={}:{}", noticeDto.getBookId(), noticeDto.getUsedBookId());
+        
+                Integer bookId = noticeDto.getBookId();
+                Integer usedBookId = noticeDto.getUsedBookId();
+        
+                List<User> users = userService.read();
+            
+                for (User u : users) {
+                   if(u.getNoticeBookId() == bookId) {
+                        Integer uId = u.getId();  
+            
+                        NoticeDto dto = NoticeDto.builder().userId(uId).bookId(bookId).usedBookId(usedBookId).build();
+                        Integer noticeId = noticeService.create(dto);
+            
+                        return ResponseEntity.ok(noticeId);
+                   } 
+                } 
+          
+              return ResponseEntity.ok(1);
+           }
+       ```
 
 
 
