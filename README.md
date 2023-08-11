@@ -256,7 +256,7 @@
      ```
    
      + ##### 키워드 알림
-     + ##### 알림 받을 키워드(BookId) 등록 -> 부끄장터 등록된 새 글의 bookId와 키워드 알람 설정된 bookId 리스트 비교 -> 일치하는 항목 알림 생성
+     + ###### 알림 받을 키워드(BookId) 등록 부끄장터 등록된 새 글의 bookId와 키워드 알람 설정된 bookId 리스트 비교 -> 일치하는 항목 알림 생성
      
      > mainSearch.html
      > 
@@ -281,7 +281,11 @@
 
      > MarketController.java 
      ```java
- 
+
+        // BookRepository
+            List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+    
+        // MarketController
         @GetMapping("/mainSearch")
         public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region,
                         String mainKeyword, Model model, String orderSlt , String status) {
@@ -293,14 +297,6 @@
         }
      
      ```
-
-     > BookRepository.java 
-
-     ```java
-        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
-     ```
-
      > mainSearch.html 일부
 
      ```html
