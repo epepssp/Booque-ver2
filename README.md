@@ -30,9 +30,10 @@
 
 ## 구현 기능(담당)
  + ### 외부 경로(로컬 폴더) 이미지 업로드
-
+ <br>
  <div align="center"><img src="https://github.com/epepssp/project2/assets/118948099/5e5903d1-a4b7-49d4-ab80-dfcceba214f3" height="400" alt="프사"></div>
-  
+ <br> 
+ 
  > SecurityConfig.java 추가
 
  ```java
