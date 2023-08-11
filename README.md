@@ -504,7 +504,7 @@
 
       > notice.js
 
-       ```javascript
+      ```javascript
    
           function updateNoticeList(data){
                const noticeCount = document.querySelector('#noticeCount');
