@@ -222,53 +222,46 @@
 
 
  + ### 알림(Notice)
-   + #### 1. 블로그 리뷰 글에 새 댓글 알림
-   + #### 2. Booque 장터 알림 키워드 설정하고 키워드 포함 새 글 알림
-> Notices.java 도메인 생성
+   + #### 알림 생성
+     + ##### 새 댓글 알림 - 댓글이 작성되는 순간 
 
-```java
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name ="NOTICES")
-@SequenceGenerator(name = "NOTICES_SEQ_GEN", sequenceName = "NOTICES_SEQ", initialValue = 1, allocationSize = 1)
-public class Notices {
-    // (예진) 새 댓글 알림, 키워드 알림 구현하기 위한 도메인
+     > postReply.javascript
+     ```javascript
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NOTICES_SEQ_GEN")
-    private Integer noticeId;
-    
-    // 새 댓글 알림
-    private Integer userId;  // postWriter id; => 알림 받을 사람
-    private Integer bookId;
-    private Integer postId;
-    private Integer replyId;
-    
-    // usedBookId 알림
-    private Integer subscribedBookId;  // 유저가 알람 받기로 등록한 BookId
-    private Integer usedBookId;  // usedBookPost의 id
-}
-```
-
-1. 새 댓글 알림
-
-알림 생성
-
-> NoticeRestController.java 
-
-```java
-    // (예진) 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
-    // notice create
-    @PostMapping("/notice")
-    public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
+         // 댓글 작성 함수
+         function registerNewReply() {
+                 // 중략
+      
+                 axios.post('/api/reply', data)
+                      .then(response => {
+                            alert('#  댓글 등록 성공');
+                            clearInputContent();
+                            readAllReplies();
+                            updateReplyCount();
      
-       Integer noticeId = noticeService.create(dto);
-       
-       return ResponseEntity.ok(noticeId);
-    }
-```
+                            // 댓글 작성 성공 하는 순간 새 댓글 알림 생성 됨
+                            newReplyNotion(response.data);
+                         })
+                        .catch(error => {
+                            console.log(error);
+                         });
+           }
+
+           function newReplyNotion(data){
+      
+               axios.post('/notice', data)
+                    .then(response => {
+                        console.log('노티스 저장성공');
+                     })         
+                     .catch(error => {
+                        console.log(error);
+                     });
+           }
+        ```
+        + ##### 키워드 알림 -> 알림 받고 싶은 키워드(책 제목) 등록 ->  중고책 거래 새 글 올라올떄마다 유저들의 알림 설정 키워드와 비교 -> 일치하는 키워드 있으면 알림 생성 
+
+
+   
 
 > NoticeService.java 
 
@@ -648,3 +641,45 @@ function register(event) {
         return ResponseEntity.ok(1);
   }
 ```
+
+> Notices.java 도메인 생성
+
+```java
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name ="NOTICES")
+@SequenceGenerator(name = "NOTICES_SEQ_GEN", sequenceName = "NOTICES_SEQ", initialValue = 1, allocationSize = 1)
+public class Notices {
+    // (예진) 새 댓글 알림, 키워드 알림 구현하기 위한 도메인
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NOTICES_SEQ_GEN")
+    private Integer noticeId;
+    
+    // 새 댓글 알림
+    private Integer userId;  // postWriter id; => 알림 받을 사람
+    private Integer bookId;
+    private Integer postId;
+    private Integer replyId;
+    
+    // usedBookId 알림
+    private Integer subscribedBookId;  // 유저가 알람 받기로 등록한 BookId
+    private Integer usedBookId;  // usedBookPost의 id
+}
+```
+
+  > NoticeRestController.java 
+
+     ```java
+            // (예진) 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
+            // notice create
+            @PostMapping("/notice")
+            public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
+     
+                  Integer noticeId = noticeService.create(dto);
+       
+                 return ResponseEntity.ok(noticeId);
+            }
+     ```
