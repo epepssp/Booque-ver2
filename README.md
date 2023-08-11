@@ -356,7 +356,8 @@
             </div>
       ```
       
-      + ##### 알림 버튼 dropdown 리스트
+      + ##### 상단바 알림 버튼 dropdown 리스트
+      + ##### 알림 확인 / 삭제
       > notice.js
 
       ```javascript
@@ -398,8 +399,59 @@
           }
        ```
       
-      + ##### 로그인 유저의 알림 리스트
+       + ##### 댓글 리스트 새 댓글 Background-Color
+       + 
+       > postReply.js
 
+      ```javascript
+
+          function updateReplyList(data){  // 댓글 목록 
+              const divReplies = document.querySelector('#replies');
+              let str = '';
+
+              for (let r of data){
+                  str += '<div class="card border-dark mb-3 w-100" style="text-align: left;">';
+            
+                  if(r.replyId == repId) {   // 새 댓글
+                      str +='<div class="bgColor" id="bgColorBtn" style="background-color: #e6f2ff;">';
+                  }
+                  if(r.replyId != repId) {   // 새 댓글 아닌
+                      str +='<div class="bgColor" id="bgColorBtn">';
+                  }
+      
+                  str +=`<div class="flex-shrink-0"><a href="/post/list?postWriter=${r.replyWriter}">`
+                      + '<img class="rounded-circle m-2" width="45" height="45" src="' + r.userImage + '" alt="..." />'
+                      + `<span class="fw-bold m-2">${r.nickName}</span></a></div>`
+                      + '<div class="card-body text-dark">'
+                      + '<p class="card-text">' + r.replyContent + '</p>'
+                      + '<div><small style="color:gray;"> 작성시간: ' + '<span id="commentDate">' + r.createdTime + '</span>' + '</small></div>'
+                  //     + '<div><small style="color:gray;"> 수정시간: ' + r.modifiedTime + '</small></div>'
+                      + '</div>';
+                
+                 if(r.replyWriter == loginUser){
+                     str += '<div class="card-footer">'
+                         + `<button type="button" class="btnModifies btn btn-outline-primary" data-rid="${r.replyId}">수정</button>`
+                         + '</div>';
+                  }
+                  str += '</div>';
+                  str +='</div>';
+              }
+              divReplies.innerHTML = str;
+          }
+        
+          // 새 댓글에 준 백그라운드 컬러 -> 한 번 클릭하면 없어짐
+          const bg = document.querySelector('.bgColor');
+        
+          bg.addEventListener('click', function(){
+             const divBg = document.getElementById('bgColorBtn');
+             divBg.style.backgroundColor = 'white';
+             divBg.removeAttribute('class');
+          });
+      
+      ```
+      
+     + #### 알림 리스트
+       + ##### 로그인 유저의 확인 하지 않은, 새로 생성된 모든 알림 
        > notice.js
 
       ```javascript
@@ -468,54 +520,7 @@
 
      
 
-      > postReply.js
-
-      ```javascript
-
-          function updateReplyList(data){  // 댓글 목록 - 새 댓글 표시
-              const divReplies = document.querySelector('#replies');
-              let str = '';
-
-              for (let r of data){
-                  str += '<div class="card border-dark mb-3 w-100" style="text-align: left;">';
-            
-                  if(r.replyId == repId) {   // 새 댓글 알림에 해당하는 댓글인 경우 background-color 
-                      str +='<div class="bgColor" id="bgColorBtn" style="background-color: #e6f2ff;">';
-                  }
-                  if(r.replyId != repId) {   // 새 댓글 알림에 해당하지 않는 댓글인 경우
-                      str +='<div class="bgColor" id="bgColorBtn">';
-                  }
-      
-                  str +=`<div class="flex-shrink-0"><a href="/post/list?postWriter=${r.replyWriter}">`
-                      + '<img class="rounded-circle m-2" width="45" height="45" src="' + r.userImage + '" alt="..." />'
-                      + `<span class="fw-bold m-2">${r.nickName}</span></a></div>`
-                      + '<div class="card-body text-dark">'
-                      + '<p class="card-text">' + r.replyContent + '</p>'
-                      + '<div><small style="color:gray;"> 작성시간: ' + '<span id="commentDate">' + r.createdTime + '</span>' + '</small></div>'
-                  //     + '<div><small style="color:gray;"> 수정시간: ' + r.modifiedTime + '</small></div>'
-                      + '</div>';
-                
-                 if(r.replyWriter == loginUser){
-                     str += '<div class="card-footer">'
-                         + `<button type="button" class="btnModifies btn btn-outline-primary" data-rid="${r.replyId}">수정</button>`
-                         + '</div>';
-                  }
-                  str += '</div>';
-                  str +='</div>';
-              }
-              divReplies.innerHTML = str;
-          }
-        
-          // 새 댓글에 준 백그라운드 컬러 -> 댓글 클릭하면 없어지게
-          const bg = document.querySelector('.bgColor');
-        
-          bg.addEventListener('click', function(){
-             const divBg = document.getElementById('bgColorBtn');
-             divBg.style.backgroundColor = 'white';
-             divBg.removeAttribute('class');
-          });
-      
-      ```
+     
 
 
 
