@@ -67,92 +67,67 @@
  > list.html 일부
 
  ```html
-    <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
-      <img th:src="${user.userImage}" width=200px; /><!-- (예진) 프로필 이미지-->
-    </a>     
 
     <!-- (예진) 프로필 사진 업데이트 버튼 -->
     <span th:if="${ user.username } == ${ #authentication.name }" >
-        <img onclick="imagePop()" src="/images/im.png" width=22px; align="right" />
+         <img onclick="document.getElementById('imageModal').style.display='block'" src="/images/im.png" width=22px; align="right" />
     </span>
 
-    <!-- 프사 이미지 변경 모달 -->
-        <div class="modal" id ="imageModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                     <div class="modal-header">
-                          <h5 class="modal-title">프로필 이미지</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="profileForm" enctype="multipart/form-data" method="post" action="/post/profile/imageUpdate">
-                           <input type="hidden" id="id" name="id" th:value="${ user.id }"/>
-                           <input type="file" name="file" id="file"/>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                         <button type="button" id="btnProfileUpdate" class="btn btn-primary">수정하기</button>
-                    </div>
-                 </div>
-            </div>
+    <!-- 프사변경모달 -->
+    <div id ="imageModal" class="w3-modal">
+        <div class="w3-modal-content" style="width: 350px; height: 180px;">
+           <span onclick="document.getElementById('imageModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+           <div style="margin-left: 25x;" class="p-3" align="left"><small>프로필 사진 변경</small></div>
+           <div align="center" class="m-3 pt-4 pb-4" style="border-top: 1px solid #DCDCDC; border-bottom: 1px solid #DCDCDC;">
+               <form id="profileForm" enctype="multipart/form-data" method="post" action="/post/profile/imageUpdate">
+                    <input type="hidden" id="id" name="id" th:value="${ user.id }"/>
+                    <input style="display: inline-block;" type="file" name="file" id="file"/>
+               </form>
+           </div>
+           <div class="mt-3 p-1">
+               <button type="button" id="btnProfileUpdate" class="btn btn-primary">수정하기</button>
+           </div>
         </div>
+     </div>
+
  ```
 
  > imageUpload.js 
 
  ```javascript
 
-    function tempImage() { // 현재 설정해 둔 프로필 이미지 정보 요청
+     getImage();
+
+     btnProfileUpdate.addEventListener('click', e => {
+
+       const fileInput = document.querySelector('input[name="file"]');
+       const file = fileInput.files[0];  // 사진 한 장
+    
+       const formData = new FormData();  // file로 전송할 수 없고 formData 타입으로 바꿔서 보내야
+       formData.append('file', file); // "file"이 서버에서 파일을 받아오는 이름과 일치해야 함
+       
+       document.getElementById('imageModal').style.display = 'none';
+  
+       axios.post('/submit/image', formData)
+            .then(response => { 
+                getImage();
+                console.log(response);
+            })
+            .catch(err => { console.log(err) })
+      });
+   
+      function getImage(){  // 유저 프로필 이미지 가져와서 Show
         
         const id = document.querySelector('#id').value;
-        console.log("tempImage: id", id);
-        
-        axios
-        .get('/tempView/' + id)  
-        .then(response => { viewImage(response.data) } )
-        .catch(err => { console.log(err) })
+        const profileImageDiv = document.querySelector('#profileImageDiv');
 
-     };
-       
-     function viewImage(data) { // 받은 대답으로 프로필 이미지 show
-
-        const divProfileImage = document.querySelector('#divProfileImage');
-            
-        axios
-        .get('/view/'+ data.fileName)  
-        .then(response => { console.log('성공!!') } )
-        .catch(err => { console.log(err) })
-        
-         let img ='';
-         if(data.fileName) {
-            img +=  `<img src="/view/${data.fileName}" width=200px />`;
-         } else {
-             // 설정한 프사 없을 경우 디폴트 이미지
-             img +=  `<img src="/view/113163657.jpg" width=200px />`;
-         }
-          divProfileImage.innerHTML = img;
-       };     
-
-
-        // profile form HTML 요소를 찾음.
-        const profileForm = document.querySelector('#profileForm');
-
-        // 프로필 이미지 변경 버튼 찾아서 이벤트 리스너 등록
-        const btnProfileUpdate = document.querySelector('#btnProfileUpdate');
-        btnProfileUpdate.addEventListener('click', submitForm);
-    
-        function submitForm(event){
-             event.preventDefault();
-        
-             const result = confirm('프로필 사진을 변경하시겠습니까?');
-             if(result) {
-                  profileForm.action = '/post/profile/imageUpdate';
-                  profileForm.method= 'post';
-                  profileForm.submit();
-              }     
-                 tempImage();  
-       };
-
+        axios.get('/user/fileName/' + id)  
+             .then(response => { 
+                   let img = `<img src="/api/view/${response.data}" width=200px; />`;
+                   profileImageDiv.innerHTML = img;
+              })
+             .catch(err => { console.log(err) })
+       }
  ```
 
  > ImageUploadController. java 일부
