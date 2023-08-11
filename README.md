@@ -259,8 +259,9 @@
      
      > mainSearch.html
      ```html
-
-        <input id="searchInput" name="mainKeyword" type="search" placeholder="검색어를 입력하세요!"  th:value="${ mainKeyword }"/>
+     
+         <!-- 메인창 검색 -->
+         <input id="searchInput" name="mainKeyword" type="search" placeholder="검색어를 입력하세요!"  th:value="${ mainKeyword }"/>
             <button id="btnSearchL" style="border: none; background-color: white;">
                 <i class="bi bi-search" style="font-size: 2rem;"></i>
             </button>
