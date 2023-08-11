@@ -384,7 +384,7 @@
 
       
       + #### 알람 Show
-      + ##### layout 상단바에 알림 버튼
+      + ##### layout 상단바 알림 버튼 추가 - 로그인 한 유저의 알림 리스트 보여줄 영역
    
       > layout.html
 
@@ -405,39 +405,31 @@
             </div>
       ```
       
-      + ##### 페이지마다 로그인 한 유저의 알람 리스트 보여주는 함수 가장 먼저 실행
-      > notice.js
+   
+      + ##### 로그인 유저의 알림 리스트
+
+       > notice.js
 
       ```javascript
+      
          const userId = document.querySelector('#userId2').innerText;
     
          if(userId){
-            showNotice();  }
+            showNotice();  // 페이지마다 제일 먼저 showNotice() 실행 
+         }
    
-         function showNotice(){  // 로그인 한 유저의 알림 리스트
+         function showNotice(){  // 로그인 한 유저의 알림 리스트 보여주는 함수
              axios.get('/showNotice/' + userId)  
                   .then(response => { 
                           updateNoticeList(response.data) } )
                   .catch(err => { console.log(err) });
          }    
       ```
-
-     > NoticeRestController.java
-
-      ```java
-      
-          // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
-          @GetMapping("/showNotice/{userId}")
-          public ResponseEntity<List<NoticeDto>> showAllNotices(@PathVariable Integer userId) {
-                   List<NoticeDto> list =noticeService.readNotices(userId);
-       
-              return ResponseEntity.ok(list);
-          }
-      ```
       
       > NoticeService.java
 
       ```java
+      
           public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
         
                List<Notices> list = noticeRepository.findByUserIdOrderByNoticeIdDesc(userId);
@@ -445,7 +437,7 @@
       
                for (Notices n : list) {
             
-                   if(n.getUsedBookId() == null) {
+                   if(n.getUsedBookId() == null) {  // 새 댓글 알람인 경우
                       PostReply r = replyService.readRep(n.getReplyId());
            
                       NoticeDto dto= NoticeDto.builder()
@@ -460,7 +452,7 @@
             
                       noticeList.add(dto);
                 
-                } else {
+                } else { // 키워드 알람인 경우 
                       UsedBook ub = usedBookService.read(n.getUsedBookId());
                       Book b = bookService.read(n.getBookId());
                 
@@ -477,7 +469,7 @@
                        noticeList.add(dto);
                 }
             }
-            return noticeList;
+            return noticeList;    // 생성된 시간 순서대로 하나의 알람 리스트 만들어서 넘김
          }
      ```
 
@@ -500,7 +492,7 @@
                    if(x.replyId) {
                       str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
 
-	              <!-- 새 댓글 알림 클릭하면 알림 확인한 것으로 가정하고 해당 댓글로 이동 후 알림 삭제 -->
+	              <!-- 새 댓글 알림 클릭하면 해당 댓글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
                      + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
                      + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
                      + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
@@ -511,7 +503,7 @@
                    if(x.usedBookId){
                       str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
 
-                      <!-- 키워드 알림 클릭하면 알림 확인한 것으로 가정하고 해당 글로 이동 후 알림 삭제 -->
+                      <!-- 새 글 키워드 알림 클릭하면 해당 글로 이동. 알림 클릭시 확인한 것으로 간주하여 알림 삭제. -->
                       + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
                       + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
                       + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
@@ -534,10 +526,10 @@
               for (let r of data){
                   str += '<div class="card border-dark mb-3 w-100" style="text-align: left;">';
             
-                  if(r.replyId == repId) {  
+                  if(r.replyId == repId) {   // 새 댓글 알림에 해당하는 댓글인 경우 background-color 
                       str +='<div class="bgColor" id="bgColorBtn" style="background-color: #e6f2ff;">';
                   }
-                  if(r.replyId != repId) {  
+                  if(r.replyId != repId) {   // 새 댓글 알림에 해당하지 않는 댓글인 경우
                       str +='<div class="bgColor" id="bgColorBtn">';
                   }
       
@@ -561,7 +553,7 @@
               divReplies.innerHTML = str;
           }
         
-          // 새 댓글에 준 백그라운드 컬러 댓글 클릭하면 없어지게
+          // 새 댓글에 준 백그라운드 컬러 -> 댓글 클릭하면 없어지게
           const bg = document.querySelector('.bgColor');
         
           bg.addEventListener('click', function(){
@@ -569,6 +561,7 @@
              divBg.style.backgroundColor = 'white';
              divBg.removeAttribute('class');
           });
+      
       ```
 
 
