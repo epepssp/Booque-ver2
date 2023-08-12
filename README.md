@@ -115,8 +115,8 @@
 
         axios.get('/user/fileName/' + id)  
              .then(response => { 
-                   let img = `<img src="/api/view/${response.data}" width=200px; />`;
-                   profileImageDiv.innerHTML = img;
+                   let img = `<img src="/api/view/${response.data}" width=200px; />`; 
+                   profileImageDiv.innerHTML = img;  // profileImageDiv에 프로필 사진 넣기
               })
              .catch(err => { console.log(err) })
        }
