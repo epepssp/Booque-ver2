@@ -9,7 +9,7 @@
 <br>
 
 ## 프로젝트 소개
-- Booque ver1 빌드업(세세한 부분 수정보완)
+- Booque ver1 빌드업
 - BOOQUE 장터: 유저간 중고책 거리 플랫폼 추가
 <br>
 
