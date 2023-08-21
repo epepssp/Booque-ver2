@@ -32,7 +32,7 @@
 ## 구현 기능(담당)
  + ### 외부 경로(로컬 폴더) 이미지 업로드 - 프로필 사진 변경
  <br>
- <div align="center"><img src="https://github.com/epepssp/project2/assets/118948099/5e5903d1-a4b7-49d4-ab80-dfcceba214f3" height="400" alt="프사"></div>
+ <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/086e1692-d718-4703-888f-07dd7dbb9766" height="400" alt="프사"></div>
  <br> 
 
  + #### 설정
