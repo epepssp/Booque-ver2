@@ -208,7 +208,7 @@
                   });
        }
      ```
-
+   + #### 새 글 등록 키워드(BookId) 알림
      <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/ca090a59-a4e5-47f5-bf17-c18ada6ceba1" height="400" alt="키워드알림"></div>
      + ###### 검색어 기반 추천 리스트 제공 -> 알림 받고 싶은 키워드(BookId) 등록 
        
