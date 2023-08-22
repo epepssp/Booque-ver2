@@ -29,7 +29,7 @@
 - 작성중인 글 임시 저장 
 <br>
 
-## 구현 기능
+## 나의 구현 기능
  + ### 외부 경로(로컬 폴더) 이미지 업로드 - 프로필 사진 변경
  <br>
  <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/086e1692-d718-4703-888f-07dd7dbb9766" height="400" alt="프사"></div>
