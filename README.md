@@ -41,7 +41,7 @@
  <br>
  
  💡 [**알림(Notice)**](#notice)
- <br>
+
  
  - <small>[테이블 추가 / 도메인 컬럼 추가](#sec1)</small>
   
