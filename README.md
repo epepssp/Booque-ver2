@@ -40,8 +40,8 @@
  <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/086e1692-d718-4703-888f-07dd7dbb9766" height="400" alt="프사"></div>
  <br> 
 
- + #### SecurityConfig 추가
- > application.properties 외부경로 위치 추가
+ + #### 설정
+ > SecurityConfig.java 추가
 
  ```java
 
