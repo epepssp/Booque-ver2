@@ -206,7 +206,7 @@
 <br>
 
 
-## 💡 **<div id="notice">알림 (Notice)</div>** 
+## <div id="notice">💡 **알림 (Notice)**</div>
 <br>
 
 **새댓글 알림** 도서 리뷰 글에 새 댓글 달리면 알림 받을 수 있음<br>
