@@ -244,7 +244,8 @@
                       newReplyNotion(response.data);   // 새 댓글 등록 완료 시점에 새 댓글 알림 생성 
                 }
                 .catch(error => {  console.log(error);  });
-        }  
+        }
+  
 
         // 새 댓글 알림 생성
         function newReplyNotion(data){
@@ -256,18 +257,17 @@
         }
      ```
 
-    > NoticeRestController
-    ```java
-       // (예진) 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
-       // notice create
-       @PostMapping("/notice")
-       public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
+     > NoticeRestController
+     ```java
+        // 리뷰 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
+        @PostMapping("/notice")
+        public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
         
               Integer noticeId = noticeService.create(dto);
        
               return ResponseEntity.ok(noticeId);
-      }  
-    ```
+       }  
+     ```
    키워드 알림? 
    <br>
    - 알림 받고 싶은 키워드 등록
