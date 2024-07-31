@@ -339,6 +339,19 @@
       </script>
      
      ```
+     
+     > NoticeRestController
+     ```java
+        @GetMapping("/register/notice/{bookId}")  // (예진) 알림받을 BookId 등록
+        public ResponseEntity<Integer> registerBookId(@PathVariable Integer bookId, @AuthenticationPrincipal UserSecurityDto dto) {
+                    User user = userService.read(dto.getId());
+                    user.setNoticeBookId(bookId);
+                    userRepository.save(user);
+        
+                    return ResponseEntity.ok(1);
+       } 
+     ```
+
 
    키워드 알림? 
    <br>
