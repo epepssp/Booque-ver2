@@ -219,10 +219,10 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
 + #### 알림 생성
- <h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
+  <h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
 
- > postReply.js
- ```javaScript
+  > postReply.js
+  ```javaScript
 
       // 댓글 작성 함수
       function registerNewReply() {  
@@ -248,7 +248,7 @@
               })
               .catch(error => {  console.log(error);  });
 
-       }  
+        }  
 
        // (예진) 새 댓글 달리면 알림(notice) 만들어짐 - 댓글 작성 함수 then에 함수 추가
        function newReplyNotion(data){
@@ -261,8 +261,8 @@
                     console.log(error);
                 });
      
-        }
-    ```
+         }
+     ```
 
     > NoticeRestController
     ```java
