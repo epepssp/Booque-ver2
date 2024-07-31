@@ -276,6 +276,35 @@
           - 이후 중고장터에 해당 키워드가 포함된 새 글이 등록되면 알림을 받게 됨
      <h5>중고장터 새 글 등록 시, 글의 키워드를 유저들이 알림 받기로 등록한 키워드 리스트와 비교 -> 일치하는 항목 있을 때 알림 생성</h5>
 
+     > MarketController
+     ```java
+        @GetMapping("/mainSearch")
+        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword, Model model,
+                  String orderSlt , String status) {
+                               // (중략)
+                  List<Book> list4 = bookService.searchByBookName(mainKeyword); // 여기 추가
+                  model.addAttribute("list4", list4);      
+        }    
+     ```
+     
+     > NoticeRestController
+     ```java
+        
+        
+     ```
+     
+     > NoticeRestController
+     ```java
+        
+        
+     ```
+     
+     > NoticeRestController
+     ```java
+        
+        
+     ```
+
    키워드 알림? 
    <br>
    - 알림 받고 싶은 키워드 등록
