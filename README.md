@@ -42,7 +42,7 @@
  
  💡 [**알림(Notice)**](#notice)
  <br>
- <span style="font-size: 10px;">[테이블 추가 / 도메인 컬럼 추가](#sec1)</span>
+ <span style="font-size: 50px;">[테이블 추가 / 도메인 컬럼 추가](#sec1)</span>
   
  - [알림 생성](#sec2)
    - 새 댓글 알림: 댓글 작성될 때
