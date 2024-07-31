@@ -216,8 +216,10 @@
  **키워드 알림** 중고장터에 원하는 키워드가 포함된 새 판매 글이 등록되면 알림 받을 수 있음<br>
 
 + #### 테이블/도메인 추가
-<img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f">
+<img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
++ #### 알림 생성
++ ##### 새 댓글 알림? 새 댓글 등록될 때 생성되겠지!
 
  
  + #### 새 댓글 알림 / 새 글 등록 키워드(BookId) 알림
