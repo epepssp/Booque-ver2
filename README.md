@@ -509,12 +509,46 @@
         }
      ```
 
-     > BookRepository
+     > NoticeRestController
      ```java
-        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+        // (예진) userId(postWriter/subscribedBookId) 알림 리스트(notice list) 불러오기
+        @GetMapping("/showNotice/{userId}")
+        public ResponseEntity<List<NoticeDto>> showAllNotices(@PathVariable Integer userId) {
+        
+             List<NoticeDto> list =noticeService.readNotices(userId);
+             return ResponseEntity.ok(list);
+       }
      ```
 
+     > NoticeService
+     ```java
+        public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
+             List<Notices> list = noticeRepository.findByUserIdOrderByNoticeIdDesc(userId);
+             List<NoticeDto> noticeList = new ArrayList<>();
+      
+             for (Notices n : list) {
+                 if(n.getUsedBookId() == null) {
+                    PostReply r = replyService.readRep(n.getReplyId());
+           
+                    NoticeDto dto= NoticeDto.builder().noticeId(n.getNoticeId())
+                         .postId(n.getPostId()).bookId(n.getBookId()).userId(n.getUserId()).replyId(n.getReplyId())
+                         .userImage(r.getUser().getUserImage()).nickName(r.getUser().getNickName()).build();           
+            
+                    noticeList.add(dto);
+                 } else {
+                    UsedBook ub = usedBookService.read(n.getUsedBookId());
+                    Book b = bookService.read(n.getBookId());
+                
+                    NoticeDto dto= NoticeDto.builder().noticeId(n.getNoticeId())
+                         .bookId(n.getBookId()).userId(n.getUserId()).usedBookId(n.getUsedBookId())
+                         .title(ub.getTitle()).bookName(b.getBookName()).bookImage(b.getBookImage()).build();
+                
+                    noticeList.add(dto);
+                 }
+             }
+             return noticeList;
+        } 
+     ```
   
 
  
