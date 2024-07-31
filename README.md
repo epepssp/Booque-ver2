@@ -305,29 +305,29 @@
      > marketSearch.html
      ```html
 
-        <div style="margin-bottom: 40px;">
-          <h6 class="mb-1 fw-bold" style="margin-left: 40px; font-size: 15px; font-style: italic;">&nbsp;이런 책 찾으시나요?</h6>
-          <h6 style="margin-left: 40px; font-size: 13px; font-style: italic;">&nbsp;원하는 책 클릭하고, 새 글 알림 받아보세요!</h6>
-             <div class="rounded" th:each="x : ${ list4 }" style="margin-left: 40px; border: 1px solid silver; display: inline-block;">
-                <div style="margin: 10px;">
-                  <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
-                     <a th:href="@{ /detail?id={bookId} (bookId = ${ x.bookId })}"><img th:src="${ x.bookImage }" style="width: 60px;" /></a>
-                     <input type="hidden" id="b-Id" th:value="${ x.bookId }"/>
+      <div style="margin-bottom: 40px;">
+        <h6 class="mb-1 fw-bold" style="margin-left: 40px; font-size: 15px; font-style: italic;">&nbsp;이런 책 찾으시나요?</h6>
+        <h6 style="margin-left: 40px; font-size: 13px; font-style: italic;">&nbsp;원하는 책 클릭하고, 새 글 알림 받아보세요!</h6>
+          <div class="rounded" th:each="x : ${ list4 }" style="margin-left: 40px; border: 1px solid silver; display: inline-block;">
+            <div style="margin: 10px;">
+               <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
+                 <a th:href="@{ /detail?id={bookId} (bookId = ${ x.bookId })}"><img th:src="${ x.bookImage }" /></a>
+                 <input type="hidden" id="b-Id" th:value="${ x.bookId }"/>
+               </div>
+               <div style="text-align: left; display: inline-block;">
+                  <div class="d-inline-flex px-1 my-1  border rounded text-secondary" style="font-size: 10px;">  
+                     <span th:text="${ x.bookgroup }"></span><span> / </span><span th:text="${ x.category }"></span> 
                   </div>
-                  <div style="text-align: left; display: inline-block;">
-                     <div class="d-inline-flex px-1 my-1  border rounded text-secondary" style="font-size: 10px;">  
-                         <span th:text="${ x.bookgroup }"></span><span> / </span><span th:text="${ x.category }"></span> 
-                     </div>
-                     <div style="font-size: 13px; width: 145px;" class="fw-bold text-truncate"  th:text="${ x.bookName }"></div> 
-                     <div style="font-size: 12px;"><span th:text ="${ '저자: ' + x.author }"></span> </div> 
-                     <div style="font-size: 12px;"><span th:text ="${ x.publisher + ' 출판' }"></span></div>  
-                  </div> 
-                  <div style="display: inline-block;">
-                     <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
-                  </div>
-                </div>
-             </div>
-        </div>
+                  <div style="font-size: 13px; width: 145px;" class="fw-bold text-truncate"  th:text="${ x.bookName }"></div> 
+                  <div style="font-size: 12px;"><span th:text ="${ '저자: ' + x.author }"></span> </div> 
+                  <div style="font-size: 12px;"><span th:text ="${ x.publisher + ' 출판' }"></span></div>  
+               </div> 
+               <div style="display: inline-block;">
+                  <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
+               </div>
+            </div>
+          </div>
+      </div>
      
      ```
 
