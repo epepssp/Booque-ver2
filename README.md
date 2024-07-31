@@ -279,24 +279,27 @@
      > MarketController
      ```java
         @GetMapping("/mainSearch")
-        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword, Model model,
-                  String orderSlt , String status) {
+        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
+                  Model model, String orderSlt , String status) {
                                // (중략)
                   List<Book> list4 = bookService.searchByBookName(mainKeyword); // 여기 추가
                   model.addAttribute("list4", list4);      
         }    
      ```
      
-     > NoticeRestController
+     > BookService
      ```java
-        
-        
+        public List<Book> searchByBookName(String Keyword) {
+     
+                 List<Book> titleList = bookRepository.findTop4ByBookNameIgnoreCaseContaining(Keyword);
+                 return titleList;
+        }   
      ```
      
-     > NoticeRestController
+     > BookRepository
      ```java
-        
-        
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
      ```
      
      > NoticeRestController
