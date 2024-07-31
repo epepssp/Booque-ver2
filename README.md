@@ -36,10 +36,10 @@
 
 ## 나의 구현 기능
  💡 **외부 경로 이미지 업로드 - 프로필 사진 변경**
- <br>
-   - SecurityConfig 추가
-   - application.properties 추가
-   - ImageUploadController(RestController) / JavaScript 이용한 구현
+
+- SecurityConfig 추가
+- application.properties 추가
+- ImageUploadController(RestController) / JavaScript 이용한 구현
  <br>
   
  💡 **알림 (Notice)** 
