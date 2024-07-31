@@ -328,6 +328,15 @@
             </div>
           </div>
       </div>
+
+      <script>
+        function register(event) {
+           const bookId = document.querySelector('#b-Id').value;
+           axios.get('/register/notice/'+bookId)
+                .then(response => {  alert('알림 등록 완료!');  })
+                .catch(err =>{  console.log(err);  });
+        }
+      </script>
      
      ```
 
