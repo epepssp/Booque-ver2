@@ -41,7 +41,7 @@
  <br> 
 
  + #### SecurityConfig 추가
-   
+ > application.properties 외부경로 위치 추가
  ```java
 
     @Bean  // 로컬 폴터 이미지 불러오기 위한 config 추가
