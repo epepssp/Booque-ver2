@@ -220,6 +220,72 @@
 
 + #### 알림 생성
   <h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
+ > postReply.js
+   ```javaScript
+
+      // 댓글 작성 함수
+      function registerNewReply() {  
+   
+        const postId = document.querySelector('#postId').value;   // 포스트 글
+        const replyWriter = document.querySelector('#rWriter').value;  // 댓글 작성자
+        if(replyWriter == "anonymousUser") {
+            alert('로그인 후 이용 가능한 서비스입니다.');
+            return;
+        }
+        const replyContent = document.querySelector('#replyContent').value;  // 댓글 내용
+
+        const data = {  postId: postId, replyContent: replyContent, replyWriter: replyWriter  };  // 서버로 보낼 데이터
+
+        axios.post('/api/reply', data)
+             .then(response => {
+                    alert('#  댓글 등록 성공');
+                    clearInputContent();
+                    readAllReplies();
+                    updateReplyCount();
+                    
+                    newReplyNotion(response.data);   // 새 댓글 등록 되었으니 새 댓글 알림 생성 
+              })
+              .catch(error => {  console.log(error);  });
+
+       }  
+
+       // (예진) 새 댓글 달리면 알림(notice) 만들어짐 - 댓글 작성 함수 then에 함수 추가
+       function newReplyNotion(data){
+      
+           axios.post('/notice', data)
+                .then(response => {
+                     console.log('노티스 저장성공');
+                })         
+                .catch(error => {
+                    console.log(error);
+                });
+     
+        }
+   ```
+
+   > NoticeRestController
+   ```java
+       // (예진) 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
+       // notice create
+       @PostMapping("/notice")
+       public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
+        
+              Integer noticeId = noticeService.create(dto);
+       
+              return ResponseEntity.ok(noticeId);
+      }  
+   ```
+   키워드 알림? 
+   <br>
+   - 알림 받고 싶은 키워드 등록
+     - 사용자가 키워드 검색
+     - 해당 키워드가 제목에 포함된 추천 도서 목록(최대 4개)을 보여줌
+     - 목록에서 관심 있는 책을 클릭해 키워드 알림 받기로 등록 가능
+     - 이후 중고장터에 해당 키워드가 포함된 새 글이 등록되면 알림을 받게 됨
+  
+   - 새글 등록될 때, 새 글 키워드 = 유저들 키워드 리스트에서 일치하는 항목 있는지 확인 ③일치하는 항목 있다면 키워드 알림 생성  
+   <br>
+
 
  
  + #### 새 댓글 알림 / 새 글 등록 키워드(BookId) 알림
