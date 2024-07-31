@@ -450,9 +450,70 @@
           </div>
             
         </th:block>
+
+        <!-- 노티스 자바스크립트 -->
+        <script th:src="@{ /js/notice.js }"></script>
      ```
 
+     > notice.js
+     ```javaScript
 
+        const userId = document.querySelector('#userId2').innerText;
+    
+        if(userId){   // 로그인 한 유저가 있다면
+             showNotice();   // 로그인 한 유저의 알림 리스트 불러오기
+        }
+  
+    
+        function showNotice(){
+            axios.get('/showNotice/' + userId)  
+                 .then(response => { 
+                           updateNoticeList(response.data)  })
+                 .catch(err => { console.log(err) });
+        }    
+    
+        function updateNoticeList(data){
+     
+             // 알림 갯수 count -> 뱃지에 알림 갯수 표시
+             const noticeCount = document.querySelector('#noticeCount');
+             let count = '';
+             count += '<span style="color: white;">'+ data.length +'</span>';
+             noticeCount.innerHTML = count;
+
+
+             // 로그인 한 사용자의 전체 알림 리스트
+             const divNotices = document.querySelector('#divNotices');
+             let str ='';
+        
+             for (let x of data){
+     
+                if(x.replyId) {  // 새 댓글 알림인 경우
+                   str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+                       + `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
+                       + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                       + '내블로그) <img class="rounded-circle m-1" width="30" height="30" src="' + x.userImage + '" />'
+                       + `<span class="under-line"><span class="fw-bold">${x.nickName}</span>님의 새 댓글!</span>`
+                       + '</a></div>';
+                }
+                if(x.usedBookId {  // 키워드 알림인 경우
+                   str +=`<div><a style="font-size: 17px; text-align:left; padding-top:15px; color:#708090;" class="w3-bar-item w3-button"`
+                       + `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
+                       + '<input type="hidden" id="noticeId"  value="'+ x.noticeId +'" />'
+                       + '부끄장터) <img class="rounded-circle m-1" width="30" height="30" src="' + x.bookImage + '" />'
+                       + `<span class="fw-bold">${x.bookName}</span> 새 판매글!`
+                       + '</a></div>';
+                }
+     
+             }
+             divNotices.innerHTML = str;
+        }
+     ```
+
+     > BookRepository
+     ```java
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+     ```
 
   
 
