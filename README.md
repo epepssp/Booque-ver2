@@ -274,7 +274,6 @@
           - 해당 키워드가 제목에 포함된 추천 도서 목록(최대 4개)을 보여줌<br>
           - 목록에서 관심 있는 책을 클릭해 키워드 알림 받기로 등록 가능<br>
           - 이후 중고장터에 해당 키워드가 포함된 새 글이 등록되면 알림을 받게 됨
-     <h5>중고장터 새 글 등록 시, 글의 키워드를 유저들이 알림 받기로 등록한 키워드 리스트와 비교 -> 일치하는 항목 있을 때 알림 생성</h5>
 
      > MarketController
      ```java
@@ -351,7 +350,41 @@
                     return ResponseEntity.ok(1);
        } 
      ```
+     <h5>중고장터 새 글 등록 시, 글의 키워드를 유저들이 알림 받기로 등록한 키워드 리스트와 비교 -> 일치하는 항목 있을 때 알림 생성</h5>
+     > marketCreate.js
+     ```javaScript
+       
+	btnSubmit.addEventListener('click', function () {
+                     // (중략)
+               checkBookId(bookId,usedBookId);
+        }
 
+
+        //(예진) 새 글 등록시 생성해야 할 노티스 있는지 체크: 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
+        function checkBookId(bookId,usedBookId) {
+             const data = { bookId : bookId, usedBookId : usedBookId }
+             axios.post('/notice/check', data)
+                  .then(response => {  console.log('성공')  })
+                  .catch(err => {  alert(err)  });
+        };
+     ```
+
+     
+     > BookRepository
+     ```java
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+     ```
+     > BookRepository
+     ```java
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+     ```
+     > BookRepository
+     ```java
+        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+     ```
 
    키워드 알림? 
    <br>
