@@ -223,19 +223,17 @@
 
   > postReply.js
   ```javaScript
-
       // 댓글 작성 함수
       function registerNewReply() {  
    
-        const postId = document.querySelector('#postId').value;   // 포스트 글
-        const replyWriter = document.querySelector('#rWriter').value;  // 댓글 작성자
+        const postId = document.querySelector('#postId').value;   
+        const replyWriter = document.querySelector('#rWriter').value; 
         if(replyWriter == "anonymousUser") {
             alert('로그인 후 이용 가능한 서비스입니다.');
             return;
         }
-        const replyContent = document.querySelector('#replyContent').value;  // 댓글 내용
-
-        const data = {  postId: postId, replyContent: replyContent, replyWriter: replyWriter  };  // 서버로 보낼 데이터
+        const replyContent = document.querySelector('#replyContent').value; 
+        const data = { postId: postId, replyContent: replyContent, replyWriter: replyWriter }; 
 
         axios.post('/api/reply', data)
              .then(response => {
@@ -243,23 +241,17 @@
                     clearInputContent();
                     readAllReplies();
                     updateReplyCount();
-                    
-                    newReplyNotion(response.data);   // 새 댓글 등록 되었으니 새 댓글 알림 생성 
-              })
+                    newReplyNotion(response.data);   // 새 댓글 등록 완료 시점에 새 댓글 알림 생성 
+              }
               .catch(error => {  console.log(error);  });
+       }  
 
-        }  
-
-       // (예진) 새 댓글 달리면 알림(notice) 만들어짐 - 댓글 작성 함수 then에 함수 추가
+       // 새 댓글 알림 생성
        function newReplyNotion(data){
       
            axios.post('/notice', data)
-                .then(response => {
-                     console.log('노티스 저장성공');
-                })         
-                .catch(error => {
-                    console.log(error);
-                });
+                .then(response => { console.log('노티스 저장성공'); })         
+                .catch(error => { console.log(error); });
      
          }
      ```
