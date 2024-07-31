@@ -216,6 +216,25 @@
  **키워드 알림** 중고장터에 원하는 키워드가 포함된 새 판매 글이 등록되면 알림 받을 수 있음<br>
 
 + #### 테이블/도메인 추가
+```
+   1. Notices 테이블 생성
+      private Integer noticeId;  
+      private Integer userId;                       // 알림 받을 user id
+      // 새 댓글 알림
+      private Integer bookId;
+      private Integer postId;
+      private Integer replyId;
+      // 키워드 알림
+      private Integer subscribedBookId;     // usedBookPost의 BookId
+      private Integer usedBookId;              // usedBookPost id (중고 판매글 id)
+
+
+  2. User 도메인 컬럼 추가
+      private Integer noticeBookId;            // 유저가 알림 받기로 등록한 키워드(BookId) 
+
+```
++ #####
++ 
 <img width="600" alt="노티스설정" src="https://github.com/user-attachments/assets/f9e776a8-dd7c-4532-bf69-824752674a1f">
  
  + #### 새 댓글 알림 / 새 글 등록 키워드(BookId) 알림
