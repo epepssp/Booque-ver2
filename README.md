@@ -219,7 +219,7 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
 + #### 알림 생성
-+ ##### 새 댓글 알림? 새 댓글 등록될 때 생성되겠지!
+  + ##### 새 댓글 알림? 새 댓글 등록될 때 생성되겠지!
 
  
  + #### 새 댓글 알림 / 새 글 등록 키워드(BookId) 알림
