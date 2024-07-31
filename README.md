@@ -355,9 +355,19 @@
      ```javaScript
        
 	btnSubmit.addEventListener('click', function () {
+
                      // (중략)
-               checkBookId(bookId,usedBookId);
-        }
+               const result = confirm('등록하시겠습니까?');
+              if (result) {
+                  document.querySelector('#formCreate').submit();
+                  formCreate.action = '/market/create';
+                  formCreate.method = 'post';
+                  formCreate.submit();
+  
+                  checkBookId(bookId,usedBookId);   //여기
+              }
+    
+        });
 
 
         //(예진) 새 글 등록시 생성해야 할 노티스 있는지 체크: 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
