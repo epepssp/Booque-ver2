@@ -381,15 +381,44 @@
      ```
 
      
-     > BookRepository
+     >  NoticeRestController
      ```java
-        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+        // (예진) usedBook 포스트 등록 될 때 해당 북아이디 알림 받기 설정한 유저가 있는지 체크한 후
+        // 있다면 노티스 생성  
+        @PostMapping("/notice/check")
+        public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
+        
+             List<User> users = userService.read();  // 유저 All
+             for (User u : users) {
+                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 유저가 알람 받기 등록한 bookId가 새로 작성된 중고 판매글 bookId와 같을때 -> 노티스 생성
+                     NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
+                     return ResponseEntity.ok(noticeService.create(dto));
+                } 
+             } 
+             return ResponseEntity.ok(1);
+        }
      ```
-     > BookRepository
+     
+     > NoticeService
      ```java
-        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+        // 새 알림 생성
+        public Integer create(NoticeDto dto) {
+        
+            Notices notice = null;
+            if(dto.getUsedBookId() == null) {
+                   notice = Notices.builder().userId(dto.getUserId())
+                                             .bookId(dto.getBookId())
+                                             .postId(dto.getPostId())
+                                             .replyId(dto.getReplyId()).build();
+            } else {
+                   notice = Notices.builder().userId(dto.getUserId())
+                                             .bookId(dto.getBookId())
+                                             .usedBookId(dto.getUsedBookId()).build();
+            }
+           
+              noticeRepository.save(notice);
+              return notice.getNoticeId();
+        }   
      ```
      > BookRepository
      ```java
