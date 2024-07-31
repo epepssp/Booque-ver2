@@ -219,10 +219,10 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
 + #### 알림 생성
-<h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
+ <h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
 
-> postReply.js
-```javaScript
+ > postReply.js
+ ```javaScript
 
       // 댓글 작성 함수
       function registerNewReply() {  
@@ -262,10 +262,10 @@
                 });
      
         }
-   ```
+    ```
 
-   > NoticeRestController
-   ```java
+    > NoticeRestController
+    ```java
        // (예진) 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
        // notice create
        @PostMapping("/notice")
@@ -275,7 +275,7 @@
        
               return ResponseEntity.ok(noticeId);
       }  
-   ```
+    ```
    키워드 알림? 
    <br>
    - 알림 받고 싶은 키워드 등록
