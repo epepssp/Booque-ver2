@@ -550,7 +550,63 @@
         } 
      ```
  + #### 알림 확인 (= 알림 삭제)
+   <h5>알림 클릭 -> 해당 댓글 또는 판매 글로 이동 -> 알림 확인한 것으로 간주하고 알림 삭제</h5>  
+   <h6>새 댓글 알림 클릭해서 이동하면, 해당 댓글 백그라운드 컬러로 표시 -> 댓글 배경 클릭시 백그라운드 컬러 효과 사라짐</h6>
+
+     > notice.js
+     ```javaScript
+        function updateNoticeList(data){
+           for (let x of data){
+               if(x.replyId) {  
+                   str += `onclick="deleteNotice();" a href="/post/detail?postId=${ x.postId }&bookId=${ x.bookId }&replyId=${ x.replyId }">`
+                if(x.usedBookId {  
+                   str += `onclick="deleteNotice();" a href=" /market/detail?usedBookId=${ x.usedBookId }">`
+                }
+            }
+        }
+  
+   
+        // (예진) 알림 클릭하면 알림 확인한 것으로 보고 notice 삭제
+        function deleteNotice() {
+             const noticeId = document.querySelector('#noticeId').value;
+             axios.delete('/notice/delete/'+ noticeId)
+                  .then(response => { console.log('삭제성공'); })
+                  .catch(err =>{ console.log(err); });
+        };
+     ```
+
+     > postReply.js
+     ```javaScript
      
+        // 댓글 목록 함수
+        function readAllReplies(){
+            axios.get('/api/reply/all/' + postId)  
+                 .then(response => { updateReplyList(response.data) })
+                 .catch(err => { console.log(err) });
+        }    
+
+    
+        function updateReplyList(data){
+            
+            if(r.replyId == repId) {  
+               str +='<div class="bgColor" id="bgColorBtn" style="background-color: #e6f2ff;">';   // 백그라운드 컬러 효과
+            }
+            if(r.replyId != repId) {  
+               str +='<div class="bgColor" id="bgColorBtn">';
+            }      
+                    // (중략)
+      
+     
+            // (예진) 새 댓글에 준 백그라운드 컬러 댓글 클릭하면 없어지게
+            const bg = document.querySelector('.bgColor');
+        
+            bg.addEventListener('click', function(){
+              const divBg = document.getElementById('bgColorBtn');
+              divBg.style.backgroundColor = 'white';
+              divBg.removeAttribute('class');
+        });
+      
+     ```
 
  
  + #### 새 댓글 알림 / 새 글 등록 키워드(BookId) 알림
