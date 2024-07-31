@@ -220,7 +220,7 @@
 
 + #### 알림 생성
   <h5>1-1. 새 댓글 알림: 새 댓글 등록될 때 생성되겠지! </h5>
- > postReply.js
+   > postReply.js
    ```javaScript
 
       // 댓글 작성 함수
