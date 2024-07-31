@@ -613,7 +613,11 @@
       
      ```
 
- 
+ + #### 움짤
+ <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/a81cd3f7-308d-4b45-abe3-a84ad1c32283" height="400" alt="댓글알림"></div>
+
+ <br>
+ <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/ca090a59-a4e5-47f5-bf17-c18ada6ceba1" height="400" alt="키워드알림"></div>
 
 
 
