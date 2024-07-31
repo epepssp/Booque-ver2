@@ -223,37 +223,37 @@
 
   > postReply.js
   ```javaScript
-      // 댓글 작성 함수
-      function registerNewReply() {  
+       // 댓글 작성 함수
+       function registerNewReply() {  
    
-        const postId = document.querySelector('#postId').value;   
-        const replyWriter = document.querySelector('#rWriter').value; 
-        if(replyWriter == "anonymousUser") {
-            alert('로그인 후 이용 가능한 서비스입니다.');
-            return;
-        }
-        const replyContent = document.querySelector('#replyContent').value; 
-        const data = { postId: postId, replyContent: replyContent, replyWriter: replyWriter }; 
+          const postId = document.querySelector('#postId').value;   
+          const replyWriter = document.querySelector('#rWriter').value; 
+          if(replyWriter == "anonymousUser") {
+              alert('로그인 후 이용 가능한 서비스입니다.');
+              return;
+          }
+          const replyContent = document.querySelector('#replyContent').value; 
+          const data = { postId: postId, replyContent: replyContent, replyWriter: replyWriter }; 
 
-        axios.post('/api/reply', data)
-             .then(response => {
-                    alert('#  댓글 등록 성공');
-                    clearInputContent();
-                    readAllReplies();
-                    updateReplyCount();
-                    newReplyNotion(response.data);   // 새 댓글 등록 완료 시점에 새 댓글 알림 생성 
-              }
-              .catch(error => {  console.log(error);  });
-       }  
+          axios.post('/api/reply', data)
+               .then(response => {
+                      alert('#  댓글 등록 성공');
+                      clearInputContent();
+                      readAllReplies();
+                      updateReplyCount();
+                      newReplyNotion(response.data);   // 새 댓글 등록 완료 시점에 새 댓글 알림 생성 
+                }
+                .catch(error => {  console.log(error);  });
+        }  
 
-       // 새 댓글 알림 생성
-       function newReplyNotion(data){
+        // 새 댓글 알림 생성
+        function newReplyNotion(data){
       
            axios.post('/notice', data)
                 .then(response => { console.log('노티스 저장성공'); })         
                 .catch(error => { console.log(error); });
      
-         }
+        }
      ```
 
     > NoticeRestController
