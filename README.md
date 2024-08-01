@@ -41,7 +41,7 @@
  <br>
  
   #### 💡[ 알림(Notice)](#notice)
-  + ##### [  테이블 생성 및 도메인 컬럼 추가](#sec1)
+  + ##### [  테이블 생성 및 컬럼 추가](#sec1)
   + ##### [  알림 생성](#sec2)
       ##### <h6>새댓글 알림:   댓글 작성될 때!<br><br>키워드 알림: 알림 받을 키워드 등록 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일치하는 항목 있을 때!</h6>
   + ##### [  알림 표시](#sec3)
