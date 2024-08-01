@@ -203,8 +203,8 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br><br>
 
 + #### <div id="sec2">알림 생성</div>
-  <h5>1. 새 댓글 알림: 새 댓글 등록 성공 </h5>
-  <h6>postReply.js 댓글 작성 함수 registerNewReply() 성공 응답 반환 시점부터 출발!</h6>
+  ##### 새 댓글 알림: 새 댓글 작성 완료 시점에 알림 생성
+  <h6>postReply.javaScript > 댓글 작성 함수 성공 응답 반환 > 새 댓글 알림 생성 함수 추가 newReplyNotion(response.data); 출발!</h6>
   
   > postReply.js
   ```javaScript
