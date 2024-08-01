@@ -360,7 +360,8 @@
           </script>
      
      ```
-
+     <br>
+     
      > NoticeRestController
      ```java
         @GetMapping("/register/notice/{bookId}")  // (예진) 알림받을 BookId 등록
@@ -372,7 +373,7 @@
                     return ResponseEntity.ok(1);
        } 
      ```
-     <br>
+     <br><br>
      
      <h5>2-2. 중고장터 새 글 등록 시, 글의 키워드를 유저들이 알림 받기로 등록한 키워드 리스트와 비교 -> 일치하는 항목 있을 때 알림 생성</h5>
      
