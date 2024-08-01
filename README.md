@@ -282,11 +282,20 @@
      ##### 1. 알림 받을 키워드 등록
      <h6>&nbsp;&nbsp;&nbsp;당근마켓 기능 참고함 - 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br>&nbsp;&nbsp;&nbsp;이런 중고책 찾으세요? 검색 결과 화면에 검색 키워드 포함된 도서 추천 리스트 제공 > 리스트에서 관심 있는 책 클릭해서 키워드 알림 받기 등록</h6><br>
 
-     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-1. 추천 도서 리스트: 책 레코드 중에서 제목에 사용자가 검색한 키워드가 포함된 상위 4개 반환하는 쿼리문 작성</h5>
+     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-1. 추천 도서 리스트: 책 레코드 중에서 제목에 사용자가 검색한 키워드가 포함된 상위 4개 반환하는 쿼리문 작성</h6>
      
-     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 검색 결과 화면에 사용자가 검색한 키워드 기반으로 추천 도서 리스트 </h5>
+       > BookRepository
+       ```java
      
-     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-3. 책 레코드 중에서 제목에 사용자가 검색한 키워드가 포함된 상위 4개 반환하는 쿼리문 작성</h5>
+            // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+            List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+      
+       ```
+   
+     
+     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 사용자가 검색한 키워드 기반으로 추천 도서 리스트 생성하여 검색 결과 화면으로 넘김 </h6>
+     
+     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-3. mainSearch.html에 이런 중고책 팢으세요? 화면 구성하고 키워드 등록 함수</h6>
      
      > MarketController 
      ```java
