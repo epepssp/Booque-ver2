@@ -291,19 +291,19 @@
 
      > MarketController
      ```java
-        @GetMapping("/mainSearch")
+        @GetMapping("/mainSearch")  // 검색어 입력하면, 검색 결과 넘겨주는 
         public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
                   Model model, String orderSlt , String status) {
-                               // (중략)
-     
-                  // 검색어(mainKeyword) 포함된 책 추천 리스트(4개) 넘겨줌
-                  // (예진) 키워드 포함된 책 제목 => 이런 중고책 찾으세요? => 알람 설정 할 수 있게
-                  List<Book> list4 = bookService.searchByBookName(mainKeyword); // 여기 추가
+
+                  // 이런 중고책 찾으세요? -> 검색어 포함된 책 추천 리스트(4개) 넘겨줌 -> 키워드 알림 등록 할 수 있도록
+                  List<Book> list4 = bookService.searchByBookName(mainKeyword); 
                   model.addAttribute("list4", list4);      
         }    
      ```
+
+     <details>
+     <summary>BookService - searchByBookName()</summary>
      
-     > BookService
      ```java
         public List<Book> searchByBookName(String Keyword) {
      
@@ -311,12 +311,19 @@
                  return titleList;
         }   
      ```
+     </details>
      
-     > BookRepository
+     <details>
+     <summary>BookRepository -findTop4ByBookNameIgnoreCaseContaining(Keyword) </summary>	     
+    
      ```java
+     
         // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);   
+        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+      
      ```
+     </details>
+     
      
      > marketSearch.html
      ```html
