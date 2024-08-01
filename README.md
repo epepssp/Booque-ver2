@@ -43,23 +43,16 @@
   #### 💡[ 알림(Notice)](#notice)
   + ##### [  테이블/도메인](#sec1)
   + ##### [  알림 생성](#sec2)
-  + ##### [  알림 표시](#sec3)
-  + ##### [  알림 확인](#sec4)
       ##### <h6>새댓글 알림:   댓글 작성될 때!<br><br>키워드 알림: 알림 받을 키워드 등록 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일치하는 항목 있을 때!</h6>
+  + ##### [  알림 표시](#sec3)
+      ##### <h6>상단바 알림 버튼 추가<br>뱃지에 알림 갯수 표시<br>로그인 사용자의 알림 리스트 dropdown 보여줌</h6>
+  + ##### [  알림 확인](#sec4)
   
-  <details>
-    <summary>🔹 style="font-size 🌼 키워드 알림</summary>
-	  2-1. 알림 받을 키워드 등록
-  </details>
-<h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;알림 받을 키워드 등록</h6>
-<h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2-2.중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크 비교하여 일치하는 항목 있을 때!</h6> 
+
 
   ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 표시](#sec3)
   ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 확인](#sec4)
 
-🔸<h5>[알림 표시</h5>](#sec3)
-
-🔸<a href="#sec3"><span style="font-size: small;">알림 표시</span></a>
 
    <h6>상단바에 알림  버튼 추가</h6>
       <h6>알림 갯수 카운트 > 뱃지에 알림 갯수 표시</h6>
