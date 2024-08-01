@@ -209,7 +209,6 @@
 
 <div id="sec1">테이블/도메인 추가</div>
 
-+ #### <div id="sec1">테이블/도메인 추가</div>
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
 + #### <div id="sec2">알림 생성</div>
