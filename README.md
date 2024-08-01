@@ -258,7 +258,7 @@
      <br>
      
      <details>
-     > NoticeService - <summary>create()</summary>
+     <summary>NoticeService - create()</summary>
      ```java
         // 새 알림 생성
         public Integer create(NoticeDto dto) {
