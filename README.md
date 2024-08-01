@@ -43,9 +43,9 @@
 💡 [**알림(Notice)**](#notice)
 + ##### [테이블 추가 / 도메인 컬럼 추가](#sec1)
 + ##### [알림 생성](#sec2)
-  <h6>1. 새댓글 알림:   댓글 작성될 때!</h6>
+  <h6>🔸 새댓글 알림:   댓글 작성될 때!</h6>
   <details>
-    <summary>🔹 키워드 알림</summary>
+    <summary>🔹 style="font-size🔸 키워드 알림</summary>
 	  2-1. 알림 받을 키워드 등록
   </details>
 <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2-1. 알림 받을 키워드 등록</h6>
