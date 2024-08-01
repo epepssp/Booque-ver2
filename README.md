@@ -243,9 +243,7 @@
  
      <h6>NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
      
-     <details>
-     <summary> NoticeRestController - newNotice()</summary>
-
+     > NoticeRestController 
      ```java
         @PostMapping("/notice")
         public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
@@ -254,11 +252,8 @@
               return ResponseEntity.ok(noticeId);
         }  
      ```
-     </details>
-
-     <details>
-     <summary>NoticeService - create()</summary>
-	     
+   
+     > NoticeService 
      ```java
         // 새 알림 생성
         public Integer create(NoticeDto dto) {
@@ -279,8 +274,7 @@
               return notice.getNoticeId();
         }   
      ```
-     </details>
-   
+
      
      <br><br>
 
