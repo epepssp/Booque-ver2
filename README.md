@@ -242,18 +242,45 @@
                 .catch(error => { console.log(error); });
         }
      ```
+  
+     <br>
+     <h6> NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
 
      > NoticeRestController
      ```java
-        // 리뷰 포스트에 새 댓글이 달리면 알림(notice) 만들어짐
         @PostMapping("/notice")
         public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
         
               Integer noticeId = noticeService.create(dto);
-       
               return ResponseEntity.ok(noticeId);
-       }  
+        }  
      ```
+     <br>
+     
+     <details>
+     <summary>> NoticeService - create()</summary>
+     ```java
+        // 새 알림 생성
+        public Integer create(NoticeDto dto) {
+        
+            Notices notice = null;
+            if(dto.getUsedBookId() == null) {
+                   notice = Notices.builder().userId(dto.getUserId())
+                                             .bookId(dto.getBookId())
+                                             .postId(dto.getPostId())
+                                             .replyId(dto.getReplyId()).build();
+            } else {
+                   notice = Notices.builder().userId(dto.getUserId())
+                                             .bookId(dto.getBookId())
+                                             .usedBookId(dto.getUsedBookId()).build();
+            }
+           
+              noticeRepository.save(notice);
+              return notice.getNoticeId();
+        }   
+     ```
+     </details>
+
      <h5>1-2. 키워드 알림:</h5>
      <h5>알림 받을 키워드 등록</h5>
           - 사용자가 키워드 검색<br>
