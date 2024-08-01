@@ -204,12 +204,12 @@
 
 + #### <div id="sec2">알림 생성</div>
   ##### 새 댓글 알림: 새 댓글 작성 완료 시점에 알림 생성
-  <h6>postReply.javaScript > 댓글 작성 함수 성공 응답 반환 > 새 댓글 알림 생성 함수 추가 newReplyNotion(response.data); 출발!</h6>
+  <h6>postReply.javaScript > registerNewReply() 댓글 등록 성공 응답 반환 > 새 댓글 알림 생성 함수 추가 newReplyNotion(data);</h6>
+  <br>
   
   > postReply.js
   ```javaScript
-       
-       function registerNewReply() {  // 댓글 작성 함수
+        function registerNewReply() {  
    
           const postId = document.querySelector('#postId').value;   
           const replyWriter = document.querySelector('#rWriter').value; 
@@ -221,12 +221,15 @@
           const data = { postId: postId, replyContent: replyContent, replyWriter: replyWriter }; 
 
           axios.post('/api/reply', data)
-               .then(response => {
-                      alert('#  댓글 등록 성공');
+               .then(response => {   
+                      alert('#  댓글 등록 성공');    
                       clearInputContent();
                       readAllReplies();
                       updateReplyCount();
-                      newReplyNotion(response.data);   // 새 댓글 등록 완료 시점에 새 댓글 알림 생성 
+
+                      // 댓글 등록 함수에서 성공 대답 반환되면
+                      // 새 댓글 알림 생성해야지  
+                      newReplyNotion(response.data);   
                 }
                 .catch(error => {  console.log(error);  });
         }
@@ -234,11 +237,9 @@
 
         // 새 댓글 알림 생성
         function newReplyNotion(data){
-      
            axios.post('/notice', data)
                 .then(response => { console.log('노티스 저장성공'); })         
                 .catch(error => { console.log(error); });
-     
         }
      ```
 
