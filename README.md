@@ -41,8 +41,8 @@
  <br>
  
 💡 **[알림(Notice)](#notice)**
-  ##### <Small>🔹</small>[  테이블/도메인](#sec1)
-  ##### <Small>🔹</small>[  알림 생성](#sec2)
+  ##### <Small> 🔹</small>[  테이블/도메인](#sec1)
+  ##### <Small> 🔹</small>[  알림 생성](#sec2)
   <h6> 새댓글 알림:   댓글 작성될 때!</h6>
   <details>
     <summary>🔹 style="font-size🔸 키워드 알림</summary>
