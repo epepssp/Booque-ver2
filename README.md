@@ -408,7 +408,7 @@
         };
      ```
 
-     
+  
      >  NoticeRestController
      ```java
         // (예진) usedBook 포스트 등록 될 때 해당 북아이디 알림 받기 설정한 유저가 있는지 체크한 후
