@@ -432,6 +432,8 @@
  
  + #### <div id="sec3">알림 표시</div>
    ##### 상단바에 알림 버튼 추가
+   <h6>알림 갯수 카운트해서 뱃지에 알임 갯수 표시</h6>
+   <h6> 로그인 사용자의 알림 리스트 dropdown으로</h6>
    
    > layout.html
    ```html
@@ -464,10 +466,8 @@
         <script th:src="@{ /js/notice.js }"></script>
    
      ```
-
-   ##### 뱃지에 알림 갯수 표시
-   ##### 로그인 사용자의 알림 리스트 dropdown으로 
-
+     <br>
+     
     
      > notice.js
      ```javaScript
@@ -495,7 +495,7 @@
              noticeCount.innerHTML = count;
 
 
-             // 로그인 한 사용자의 전체 알림 리스트
+             // 로그인 한 사용자의 전체 알림 리스트 - drop down으로 보여줄 리스트
              const divNotices = document.querySelector('#divNotices');
              let str ='';
         
@@ -524,6 +524,7 @@
              divNotices.innerHTML = str;
         }
      ```
+     <br>
 
      > NoticeRestController
      ```java
@@ -535,7 +536,8 @@
              return ResponseEntity.ok(list);
        }
      ```
-
+     <br>
+     
      > NoticeService
      ```java
         public List<NoticeDto> readNotices(Integer userId) {  // 알림 받을 userId
@@ -566,7 +568,7 @@
         } 
      ```
 
-   <br>
+     <br>
      
  + #### <div id="sec4">알림 확인 (= 알림 삭제)</div>
    <h5>알림 클릭 -> 해당 댓글 또는 판매 글로 이동 -> 알림 확인한 것으로 간주하고 알림 삭제</h5>  
