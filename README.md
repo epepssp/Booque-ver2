@@ -244,7 +244,8 @@
      ```
  
      <h6>1-2. NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
-
+     
+     ```
      <details>
      <summary> NoticeRestController - newNotice()</summary>
 
@@ -257,9 +258,7 @@
         }  
      ```
      </details>
-     
-     <br>
-     
+
      <details>
      <summary>NoticeService - create()</summary>
 	     
@@ -284,6 +283,7 @@
         }   
      ```
      </details>
+     ```
      
      <br><br>
 
