@@ -284,7 +284,7 @@
 
      ###### 1-1. searchBtn 클릭 시, 도서 추천 리스트 생성해서 넘겨줌 
   
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-1. searchBtn 클릭 시, 도서 추천 리스트 생성해서 넘겨줌 </h6>
+     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-1. searchBtn 클릭 시, 도서 추천 리스트 생성해서 넘겨줌 </h5>
      
      > MarketController 
      ```java
