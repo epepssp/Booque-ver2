@@ -203,7 +203,7 @@
 
 + #### <div id="sec2">알림 생성</div>
   ##### 새 댓글 알림: 새 댓글 등록될 때 알림 생성
-  <h6> postReply.javaScript - registerNewReply() 성공 응답 반환 > 새 댓글 얼림 생성 함수 추가: newReplyNotion(data) </h6>
+  <h6> postReply.javaScript - registerNewReply() 성공 응답 반환되는 부분에 새 댓글 얼림 생성 함수 추가 newReplyNotion(data) </h6>
 
   > postReply.js
   ```javaScript
@@ -285,6 +285,9 @@
      <br><br>
 
      ##### 키워드 알림
+     ###### 1. 알림 받을 키워드 등록
+     <h6>당근 마켓 참고: 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br>이런 중고책 찾으세요? 검색 결과 화면에 검색 키워드 포함된 도서 추천 리스트 제공</h6>
+  
      <h6>&nbsp;&nbsp;&nbsp;&nbsp;1. 알림 받을 키워드 등록<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;당근마켓 기능 참고함 - 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색 > 검색 결과 화면에 검색어(mainKeyword)가 포함된 도서 추천 리스트(4개) 보여줌 > 리스트에서 관심 있는 책 클릭해서 키워드 알림 받기 등록</h6>
 
      <h6>1-1. searchBtn 클릭 시, 도서 추천 리스트 생성해서 넘겨줌 </h6>
