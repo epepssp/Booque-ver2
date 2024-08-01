@@ -375,7 +375,9 @@
      ```
      <br><br>
      
-     <h5>2-2. 중고장터 새 글 등록 시, 글의 키워드를 유저들이 알림 받기로 등록한 키워드 리스트와 비교 -> 일치하는 항목 있을 때 알림 생성</h5>
+     ##### 2. 중고장터 새 글 등록 시, 등록된 키워드 목록에 새 글 키워드와 일치하는 항목 있는지 확인 -> 일치 항목 있을 때 알림 생성
+  
+     <h6> marketCreate.javaScript btnSubmit 이벤트 리스너에 checkBookId(bookId,usedBookId);추가 </h6>
      
      > marketCreate.js
      ```javaScript
@@ -390,7 +392,7 @@
                   formCreate.method = 'post';
                   formCreate.submit();
   
-                  checkBookId(bookId,usedBookId);   //여기
+                  checkBookId(bookId,usedBookId);   // 일치하는 항목 있는지 체크
               }
     
         });
@@ -403,8 +405,9 @@
                   .then(response => {  console.log('성공')  })
                   .catch(err => {  alert(err)  });
         };
+     
      ```
-
+     <br>
   
      >  NoticeRestController
      ```java
@@ -415,7 +418,8 @@
         
              List<User> users = userService.read();  // 유저 All
              for (User u : users) {
-                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 유저가 알람 받기 등록한 bookId가 새로 작성된 중고 판매글 bookId와 같을때 -> 노티스 생성
+                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 유저가 알람 받기 등록한 bookId가 새로 작성된 중고 판매글 bookId와 같으면
+     
                      NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
                      return ResponseEntity.ok(noticeService.create(dto));
                 } 
@@ -423,36 +427,13 @@
              return ResponseEntity.ok(1);
         }
      ```
-     
-     > NoticeService
-     ```java
-        // 새 알림 생성
-        public Integer create(NoticeDto dto) {
-        
-            Notices notice = null;
-            if(dto.getUsedBookId() == null) {
-                   notice = Notices.builder().userId(dto.getUserId())
-                                             .bookId(dto.getBookId())
-                                             .postId(dto.getPostId())
-                                             .replyId(dto.getReplyId()).build();
-            } else {
-                   notice = Notices.builder().userId(dto.getUserId())
-                                             .bookId(dto.getBookId())
-                                             .usedBookId(dto.getUsedBookId()).build();
-            }
-           
-              noticeRepository.save(notice);
-              return notice.getNoticeId();
-        }   
-     ```
-     
- <br>
+
+ <br><br>
  
  + #### <div id="sec3">알림 표시</div>
-   <h5>상단바 알림 버튼 추가</h5>
-    <h6>로그인 유저 알림 갯수 카운트</h6>
-    <h6>알림 버튼 우상단 뱃지에 알림 갯수 표시</h6>
-   <h5>로그인 한 사용자의 전체 알림 리스트 보여주기</h5>
+   ##### 상단바에 알림 버튼 추가
+   ##### 뱃지에 알림 갯수 표시
+   ##### 로그인 사용자의 알림 리스트 dropdown으로 
 
      > layout.html
      ```html
