@@ -324,8 +324,6 @@
      ```
      </details>
      
-     <br>
-     
      <h6>추천 리스트 받아서 보여줄 뷰</h6>
      
      > marketSearch.html
@@ -366,6 +364,8 @@
       </script>
      
      ```
+
+     <h6>2-2.중고장터 새 글 등록시 </h6>
      
      > NoticeRestController
      ```java
