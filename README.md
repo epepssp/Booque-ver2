@@ -203,8 +203,8 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br><br>
 
 + #### <div id="sec2">알림 생성</div>
-  ##### 새 댓글 알림: 새 댓글 작성 완료 시점에 알림 생성
-  <h6>postReply.javaScript > registerNewReply() 댓글 등록 성공 응답 반환 > 새 댓글 알림 생성 함수 추가 newReplyNotion(data);</h6>
+  ##### 1. 새 댓글 알림: 새 댓글 작성 완료 시점에 알림 생성
+  <h6>1-1.postReply.javaScript > registerNewReply() 댓글 등록 성공 응답 반환 > 새 댓글 알림 생성 함수 추가 newReplyNotion(data);</h6>
   <br>
   
   > postReply.js
@@ -242,10 +242,12 @@
                 .catch(error => { console.log(error); });
         }
      ```
-     <br>
-     <h6> NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
+ 
+     <h6>1-2. NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
 
-     > NoticeRestController
+     <details>
+     <summary> NoticeRestController - newNotice()</summary>
+
      ```java
         @PostMapping("/notice")
         public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
@@ -254,6 +256,8 @@
               return ResponseEntity.ok(noticeId);
         }  
      ```
+     </details>
+     
      <br>
      
      <details>
@@ -283,9 +287,9 @@
      
      <br><br>
 
-     ##### 키워드 알림
-     <h6>알림 받을 키워드 등록<br>
-     당근마켓 기능 참고함 - 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br>
+     ##### 2. 키워드 알림
+     <h6>2-1.알림 받을 키워드 등록</h6>
+     <h6>당근마켓 기능 참고함 - 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br>
      검색 > 검색 결과 화면에 검색어(mainKeyword)가 포함된 도서 추천 리스트(4개) 보여줌 > 리스트에서 관심 있는 책 클릭해서 키워드 알림 받기 등록</h6>
 
      > MarketController
