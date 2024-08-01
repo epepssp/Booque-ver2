@@ -195,12 +195,12 @@
 <br>
 
 
-## <div id="notice">💡 **알림 (Notice)**</div>
+### <div id="notice">💡 **알림 (Notice)**</div>
 
-**새댓글 알림** 도서 리뷰 글에 새 댓글 달리면 알림 받을 수 있음<br>
-**키워드 알림** 중고장터에 원하는 키워드가 포함된 새 판매 글이 등록되면 알림 받을 수 있음<br>
+#### **새댓글 알림** 도서 리뷰 포스트에 새 댓글 달리면 알림 받을 수 있음<br>
+#### **키워드 알림** 중고장터에 원하는 키워드가 포함된 새 판매 글이 등록되면 알림 받을 수 있음<br>
 
-+ #### <div id="sec1">테이블/도메인 추가</div>
++ ##### <div id="sec1">테이블/도메인 추가</div>
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
 
 + #### <div id="sec2">알림 생성</div>
