@@ -41,13 +41,13 @@
  <br>
  
   #### 💡[ 알림(Notice)](#notice)
-  ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  테이블/도메인](#sec1)
-  ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 생성](#sec2)
-  ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 표시](#sec3)
-  ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 확인](#sec4)
+  + ##### [  테이블/도메인](#sec1)
+  + ##### [  알림 생성](#sec2)
+  + ##### [  알림 표시](#sec3)
+  + ##### [  알림 확인](#sec4)
   <h6> 새댓글 알림:   댓글 작성될 때!</h6>
   <details>
-    <summary>🔹 style="font-size🔸 키워드 알림</summary>
+    <summary>🔹 style="font-size 🌼 키워드 알림</summary>
 	  2-1. 알림 받을 키워드 등록
   </details>
 <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2-1. 알림 받을 키워드 등록</h6>
