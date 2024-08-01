@@ -55,7 +55,6 @@
 
 ##### <Small>🔸</small>[ 알림 생성](#sec2)
 
-
 🔸<h5>[알림 표시</h5>](#sec3)
 
 🔸<a href="#sec3"><span style="font-size: small;">알림 표시</span></a>
