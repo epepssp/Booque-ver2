@@ -324,6 +324,9 @@
      ```
      </details>
      
+     <br>
+     
+     <h6>추천 리스트 받아서 보여줄 뷰</h6>
      
      > marketSearch.html
      ```html
@@ -352,8 +355,9 @@
           </div>
       </div>
 
+
       <script>
-        function register(event) {
+        function register(event) {  // 키워드 알림 등록 함수 
            const bookId = document.querySelector('#b-Id').value;
            axios.get('/register/notice/'+bookId)
                 .then(response => {  alert('알림 등록 완료!');  })
