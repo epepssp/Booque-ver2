@@ -200,7 +200,7 @@
 **키워드 알림** 중고장터에 원하는 키워드가 포함된 새 판매 글이 등록되면 알림 받을 수 있음<br><br>
 
 + #### <div id="sec1">테이블 생성 및 도메인 컬럼 추가</div>
-<img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br>
+<img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br><br>
 
 + #### <div id="sec2">알림 생성</div>
   <h5>1. 새 댓글 알림: 새 댓글 등록 성공 </h5>
@@ -408,7 +408,9 @@
               return notice.getNoticeId();
         }   
      ```
-
+     
+ <br>
+ 
  + #### <div id="sec3">알림 표시</div>
    <h5>상단바 알림 버튼 추가</h5>
     <h6>로그인 유저 알림 갯수 카운트</h6>
@@ -539,6 +541,9 @@
              return noticeList;   // 생성된 시간 순서대로 하나의 알람 리스트 만들어서 넘김
         } 
      ```
+
+   <br>
+     
  + #### <div id="sec4">알림 확인 (= 알림 삭제)</div>
    <h5>알림 클릭 -> 해당 댓글 또는 판매 글로 이동 -> 알림 확인한 것으로 간주하고 알림 삭제</h5>  
    <h6>새 댓글 알림 클릭해서 이동하면, 해당 댓글 백그라운드 컬러로 표시 -> 댓글 배경 클릭시 백그라운드 컬러 효과 사라짐</h6>
