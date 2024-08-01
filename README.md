@@ -40,7 +40,7 @@
 
  <br>
  
-💡 **[알림(Notice)](#notice)**
+  ### 💡[ 알림(Notice)](#notice)
   ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  테이블/도메인](#sec1)
   ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 생성](#sec2)
   ##### <Small>&nbsp;&nbsp;&nbsp;&nbsp;🔹</small>[  알림 표시](#sec3)
