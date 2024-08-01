@@ -291,15 +291,13 @@
            List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
       
      ```
-   
+     <br>
      
      <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 사용자가 검색한 키워드 기반으로 추천 도서 리스트 생성하여 검색 결과 화면으로 넘김 </h6>
      
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-3. mainSearch.html에 이런 중고책 팢으세요? 화면 구성하고 키워드 등록 함수</h6>
-     
      > MarketController 
      ```java
-        @GetMapping("/mainSearch")  // 검색어(mainKeyword) 검색 결과 넘겨주는 
+        @GetMapping("/mainSearch") 
         public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
                   Model model, String orderSlt , String status) {
 
@@ -308,21 +306,10 @@
                   model.addAttribute("list4", list4);      
         }    
      ```
+     <br>
      
-     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 책 제목에 사용자가 검색한 키워드가 포함된 책 레코드 중에서 상위 4개 반환하는 쿼리문 작성</h5>
+     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-3. mainSearch.html에 이런 중고책 찾으세요? 화면 구성하고 키워드 등록 함수</h6>
      
-     > BookRepository
-     ```java
-     
-        // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-        List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
-      
-     ```
-   
-     <h5>&nbsp;&nbsp;&nbsp;&nbsp;1-3. 제목에 검색 키워드(mainKeyword) 포함된 책 4개 리턴하는 리스트</h5>
-     
-     <h6>1-3. 검색 결과 추천 리스트 받아서 보여줄 뷰/키워드 등록 함수 </h6>
-  
      > marketSearch.html
      ```html
 
@@ -349,19 +336,31 @@
             </div>
           </div>
       </div>
-
-
-      <script>
-        function register(event) {  // 키워드 알림 등록 함수 
-           const bookId = document.querySelector('#b-Id').value;
-           axios.get('/register/notice/'+bookId)
-                .then(response => {  alert('알림 등록 완료!');  })
-                .catch(err =>{  console.log(err);  });
-        }
-      </script>
      
      ```
+     <br>
      
+     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-4. 키워드 등록</h6>
+
+     > marketSearch.html
+     ```html
+
+          <div style="display: inline-block;"> <!-- 키워드 등록 버튼 --> 
+              <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
+          </div>
+
+     
+          <script>
+              function register(event) {  // 키워드 등록 함수
+                  const bookId = document.querySelector('#b-Id').value;
+                  axios.get('/register/notice/'+bookId)
+                       .then(response => {  alert('알림 등록 완료!');  })
+                       .catch(err =>{  console.log(err);  });
+               }
+          </script>
+     
+     ```
+
      > NoticeRestController
      ```java
         @GetMapping("/register/notice/{bookId}")  // (예진) 알림받을 BookId 등록
