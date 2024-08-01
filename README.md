@@ -284,13 +284,13 @@
 
      <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-1. 추천 도서 리스트: 책 레코드 중에서 제목에 사용자가 검색한 키워드가 포함된 상위 4개 반환하는 쿼리문 작성</h6>
      
-       > BookRepository
-       ```java
+         > BookRepository
+         ```java
      
-            // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-            List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+              // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+              List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
       
-       ```
+         ```
    
      
      <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 사용자가 검색한 키워드 기반으로 추천 도서 리스트 생성하여 검색 결과 화면으로 넘김 </h6>
