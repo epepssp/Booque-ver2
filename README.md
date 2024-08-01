@@ -432,11 +432,9 @@
  
  + #### <div id="sec3">알림 표시</div>
    ##### 상단바에 알림 버튼 추가
-   ##### 뱃지에 알림 갯수 표시
-   ##### 로그인 사용자의 알림 리스트 dropdown으로 
-
-     > layout.html
-     ```html
+   
+   > layout.html
+   ```html
      
        <!-- 상단바 로그인 한 상태 -->
        <th:block sec:authorize="isAuthenticated()">
@@ -445,14 +443,17 @@
           <!-- 알림 버튼 -->
           <div class="w3-dropdown-hover w3-bar-item w3-right">
              <button class="w3-button" id="btnAlarm" style="color:white; margin-top:8px; margin-right:30px;">
-                 <!-- (예진) 알림 아이콘 오른쪽 상단 빨간 뱃지 가운데 알림 갯수 뜨도록 -->
+   
+                 <!-- 알림 버튼 우상단 빨간 뱃지 -->
                  <i class="fa fa-bell-o"></i>
                  <span class="position-absolute top-10 right-10 translate-middle badge rounded-pill bg-danger" style="width: 24px;  height: 24px;">
+                    <!-- 뱃지 가운데 알림 갯수 카운트하여 표시 -->
                     <span id="noticeCount" class="position-absolute top-50 start-50 translate-middle" style="transform: translate(-50%, -50%); font-size: 15px;"></span>
                  </span>
+   
              </button>
              <div class="w3-dropdown-content w3-card-4 w3-bar-block mb-2" style="top:66px; right:46px;">
-                 <!-- (예진) 댓글 알림 리스트 보여줄 영역 -->
+                 <!-- 로그인 유저 알림 리스트 보여줄 영역 -->
                  <div id="divNotices" class="notices"></div>
              </div>
           </div>
@@ -461,8 +462,13 @@
 
         <!-- 노티스 자바스크립트 -->
         <script th:src="@{ /js/notice.js }"></script>
+   
      ```
 
+   ##### 뱃지에 알림 갯수 표시
+   ##### 로그인 사용자의 알림 리스트 dropdown으로 
+
+    
      > notice.js
      ```javaScript
 
