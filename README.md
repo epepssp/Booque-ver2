@@ -432,8 +432,7 @@
  
  + #### <div id="sec3">알림 표시</div>
    ##### 상단바에 알림 버튼 추가
-   <h6>알림 갯수 카운트해서 뱃지에 알임 갯수 표시</h6>
-   <h6> 로그인 사용자의 알림 리스트 dropdown으로</h6>
+   <h6>&nbsp;&nbsp;&nbsp;알림 갯수 카운트해서 뱃지에 알림 갯수 표시<br>&nbsp;&nbsp;&nbsp;로그인 사용자의 전체 알림 dropdown 리스트로 보여줌</h6><br>
    
    > layout.html
    ```html
