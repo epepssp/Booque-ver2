@@ -212,10 +212,11 @@
 + #### <div id="sec2">알림 생성</div>
   <h5>1. 새 댓글 알림: 새 댓글 등록 성공 </h5>
   <h6>postReply.js 댓글 작성 함수 registerNewReply() 성공 응답 반환 시점부터 출발!</h6>
+  
   > postReply.js
   ```javaScript
-       // 댓글 작성 함수
-       function registerNewReply() {  
+       
+       function registerNewReply() {  // 댓글 작성 함수
    
           const postId = document.querySelector('#postId').value;   
           const replyWriter = document.querySelector('#rWriter').value; 
