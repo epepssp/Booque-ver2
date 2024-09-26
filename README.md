@@ -98,13 +98,17 @@
            <span onclick="document.getElementById('imageModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
            <div style="margin-left: 25x;" class="p-3" align="left"><small>프로필 사진 변경</small></div>
            <div align="center" class="m-3 pt-4 pb-4" style="border-top: 1px solid #DCDCDC; border-bottom: 1px solid #DCDCDC;">
+
+               <!-- 선택한 사진 제출하는 form -->
                <form id="profileForm" enctype="multipart/form-data" method="post" action="/post/profile/imageUpdate">
                     <input type="hidden" id="id" name="id" th:value="${ user.id }"/>
                     <input style="display: inline-block;" type="file" name="file" id="file"/>
                </form>
+
            </div>
            <div class="mt-3 p-1">
-               <button type="button" id="btnProfileUpdate" class="btn btn-primary">수정하기</button>
+               <!-- 프로필 사진 변경 버튼 -->
+               <button type="button" id="btnProfileUpdate" class="btn btn-primary">변경하기</button>
            </div>
         </div>
      </div>
@@ -115,8 +119,7 @@
 
  ```javascript
 
-     getImage();
-
+     // 프로필 사진 변경 버튼 클릭 이벤트 리스너 
      btnProfileUpdate.addEventListener('click', e => {
 
        const fileInput = document.querySelector('input[name="file"]');
@@ -127,9 +130,9 @@
        
        document.getElementById('imageModal').style.display = 'none';
   
-       axios.post('/submit/image', formData)
+       axios.post('/submit/image', formData)   // file을 RestController에 전달
             .then(response => { 
-                getImage();
+                getImage();    // 로그인 유저 프로필 이미지 보여주는 함수
                 console.log(response);
             })
             .catch(err => { console.log(err) })
@@ -141,9 +144,12 @@
         const profileImageDiv = document.querySelector('#profileImageDiv');
 
         axios.get('/user/fileName/' + id)  
-             .then(response => { 
-                   let img = `<img src="/api/view/${response.data}" width=200px; />`; 
-                   profileImageDiv.innerHTML = img;  // profileImageDiv에 프로필 사진 넣기
+             .then(response => {
+                   let img = `<img src="/api/view/${response.data}" width=200px; />`;
+
+                   // profileImageDiv에 프로필 사진 넣기
+                   profileImageDiv.innerHTML = img;
+
               })
              .catch(err => { console.log(err) })
        }
