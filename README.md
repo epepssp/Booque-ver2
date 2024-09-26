@@ -87,7 +87,7 @@
 
  ```html
 
-       <!-- (예진) 프로필 이미지-->
+       <!-- (예진) 프로필 사진 영역-->
        <a th:href="@{ /myPage }">
           <span id="profileImageDiv"></span>
        </a>
@@ -107,11 +107,12 @@
 
  ```
 
+##### btnProfileUpdate 클릭 이벤트 리스너
 > imageUpload.js 
  ```javascript
 
-     // 프로필 사진 변경 버튼 클릭 이벤트 리스너 
-     btnProfileUpdate.addEventListener('click', e => {   // 프로필 사진 변경 버튼 클릭 이벤트 리스너 등록
+    // 프로필 사진 변경 버튼 클릭 이벤트 리스너 등록
+     btnProfileUpdate.addEventListener('click', e => {  
 
             const fileInput = document.querySelector('input[name="file"]');
             const file = fileInput.files[0];  // 사진 한 장
@@ -121,9 +122,9 @@
        
             document.getElementById('imageModal').style.display = 'none';
   
-            axios.post('/submit/image', formData)    
+            axios.post('/submit/image', formData)  // ImageUploadController upload(dto, file) 메서드 호출
                  .then(response => { 
-                                 getImage();
+                                 getImage();       // 로그인 유저의 프로필 사진 보여주는 함수
                                  console.log(response);
                   }).catch(err => { console.log(err) })
       });
@@ -152,16 +153,16 @@
 > imageUpload.js 
 ```javascript
 
-     function getImage(){
+     function getImage(){   // 로그인 유저의 프로필 사진 보여주는 함수
           const id = document.querySelector('#id').value;
           const profileImageDiv = document.querySelector('#profileImageDiv');
      
-          axios.get('/user/fileName/' + id)     
+          axios.get('/user/fileName/' + id)     // ImageUploadController  getProfileImage(id) 메서드 호출
                .then(response => { 
-                      let img = `<img src="/api/view/${response.data}" width=200px; />`  
-                      profileImageDiv.innerHTML = img;  
+                      let img = `<img src="/api/view/${response.data}" width=200px; />`     // ImageUploadController  viewFile(fileName) 메서드 호출
+                      profileImageDiv.innerHTML = img;    // profileImageDiv에 사진 넣어서 보여준다.
               }).catch(err => {  console.log(err)  })              
-       }
+    }
 
 ```
 
