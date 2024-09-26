@@ -87,121 +87,113 @@
 
  ```html
 
-    <!-- (예진) 프로필 사진 업데이트 버튼 -->
-    <span th:if="${ user.username } == ${ #authentication.name }" >
-         <img onclick="document.getElementById('imageModal').style.display='block'" src="/images/im.png" width=22px; align="right" />
-    </span>
+       <!-- (예진) 프로필 이미지-->
+       <a th:href="@{ /myPage }">
+          <span id="profileImageDiv"></span>
+       </a>
+    
+       <!-- (예진) 프로필 사진 업데이트 버튼 -->
+       <span th:if="${ user.username } == ${ #authentication.name }" >
+           <img onclick="document.getElementById('imageModal').style.display='block'" src="/images/im.png" />
+       </span>
 
-    <!-- 프사 변경 모달 -->
-    <div id ="imageModal" class="w3-modal">
-        <div class="w3-modal-content" style="width: 350px; height: 180px;">
-           <span onclick="document.getElementById('imageModal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-           <div style="margin-left: 25x;" class="p-3" align="left"><small>프로필 사진 변경</small></div>
-           <div align="center" class="m-3 pt-4 pb-4" style="border-top: 1px solid #DCDCDC; border-bottom: 1px solid #DCDCDC;">
 
-               <!-- 선택한 사진 제출하는 form -->
-               <form id="profileForm" enctype="multipart/form-data" method="post" action="/post/profile/imageUpdate">
-                    <input type="hidden" id="id" name="id" th:value="${ user.id }"/>
-                    <input style="display: inline-block;" type="file" name="file" id="file"/>
-               </form>
-
-           </div>
-           <div class="mt-3 p-1">
-               <!-- 프로필 사진 변경 버튼 -->
-               <button type="button" id="btnProfileUpdate" class="btn btn-primary">변경하기</button>
-           </div>
-        </div>
-     </div>
+       <!-- 프로필 사진 변경 모달 내용 일부 -->
+       <div class="modal-body">
+          <input type="hidden" id="id" name="id" th:value="${ user.id }"/><input type="file" name="file" id="file"/>
+       </div>
+       <!-- 프로필 사진 변경 버튼 -->
+       <div class="modal-footer"><button type="button" id="btnProfileUpdate" class="btn btn-primary">수정하기</button></div>
 
  ```
 
- > imageUpload.js 
-
+> imageUpload.js 
  ```javascript
 
      // 프로필 사진 변경 버튼 클릭 이벤트 리스너 
-     btnProfileUpdate.addEventListener('click', e => {
+     btnProfileUpdate.addEventListener('click', e => {   // 프로필 사진 변경 버튼 클릭 이벤트 리스너 등록
 
-       const fileInput = document.querySelector('input[name="file"]');
-       const file = fileInput.files[0];  // 사진 한 장
+            const fileInput = document.querySelector('input[name="file"]');
+            const file = fileInput.files[0];  // 사진 한 장
     
-       const formData = new FormData();  // file로 전송할 수 없고 formData 타입으로 바꿔서 보내야
-       formData.append('file', file); // "file"이 서버에서 파일을 받아오는 이름과 일치해야 함
+            const formData = new FormData();  // file로 전송할 수 없고 formData 타입으로 바꿔서 보내야
+            formData.append('file', file); // "file"이 서버에서 파일을 받아오는 이름과 일치해야 함
        
-       document.getElementById('imageModal').style.display = 'none';
+            document.getElementById('imageModal').style.display = 'none';
   
-       axios.post('/submit/image', formData)   // file을 RestController에 전달
-            .then(response => { 
-                getImage();    // 로그인 유저 프로필 이미지 보여주는 함수
-                console.log(response);
-            })
-            .catch(err => { console.log(err) })
+            axios.post('/submit/image', formData)    
+                 .then(response => { 
+                                 getImage();
+                                 console.log(response);
+                  }).catch(err => { console.log(err) })
       });
-   
-      function getImage(){  // 로그인 유저 프로필 이미지
-        
-        const id = document.querySelector('#id').value;
-        const profileImageDiv = document.querySelector('#profileImageDiv');
+```
 
-        axios.get('/user/fileName/' + id)  
-             .then(response => {
-                   let img = `<img src="/api/view/${response.data}" width=200px; />`;
-
-                   // profileImageDiv에 프로필 사진 넣기
-                   profileImageDiv.innerHTML = img;
-
-              })
-             .catch(err => { console.log(err) })
-       }
- ```
-
- > ImageUploadController. java 일부
- ```java
-
-     @Value("${site.book.upload.path}") // 필요한 곳에 절대 경로(로컬 폴더) 값 주입하여 사용 
-     private String imageFilePath;
+> ImageUploadController
+```java
 
      @PostMapping("/submit/image")
      public ResponseEntity<Integer> upload(@AuthenticationPrincipal UserSecurityDto userSecurityDto, MultipartFile file) 
-            throws IllegalStateException, IOException {
+                throws IllegalStateException, IOException {
         
-        UUID uuid = UUID.randomUUID();  // 식별자
-        String fileName = uuid + "_" + file.getOriginalFilename();
+              UUID uuid = UUID.randomUUID();  // 식별자
+              String fileName = uuid + "_" + file.getOriginalFilename();
+              File saveFile = new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
+              file.transferTo(saveFile);
         
-        File saveFile = new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
-        file.transferTo(saveFile);
+              User user = userRepository.findById(userSecurityDto.getId()).get();
+              user.setFileName(fileName);
+              userRepository.save(user);
         
-        User user = userRepository.findById(userSecurityDto.getId()).get();
-        
-        user.setFileName(fileName);
-        userRepository.save(user);
-        
-       return ResponseEntity.ok(1);
+              return ResponseEntity.ok(1);
+    }  
+```
 
+
+> imageUpload.js 
+```javascript
+
+function getImage(){
+         const id = document.querySelector('#id').value;
+         const profileImageDiv = document.querySelector('#profileImageDiv');
+     
+         axios.get('/user/fileName/' + id)     
+              .then(response => { 
+                      let img = `<img src="/api/view/${response.data}" width=200px; />`  
+                      profileImageDiv.innerHTML = img;  
+              }).catch(err => {  console.log(err)  })              
      }
-    
-    
-     @GetMapping("/api/view/{fileName}")
-     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
-        log.info("viewFile(fileName={})", fileName);
+```
+
+> ImageUploadController
+```java
+
+@GetMapping("/user/fileName/{id}")
+                       public ResponseEntity<String> getProfileImage(@PathVariable Integer id){
+                             User u =userService.read(id);
+                             return ResponseEntity.ok(u.getFileName());
+                       }
+
+                   @GetMapping("/api/view/{fileName}")
+                       public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
+                                File file = new File(imageFilePath, fileName);
         
-        File file = new File(imageFilePath, fileName);
-        
-        String contentType = null;
-        try {
-            contentType = Files.probeContentType(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                                  String contentType = null;
+                                  try {
+                                       contentType = Files.probeContentType(file.toPath());
+                                  } catch (IOException e) {
+                                       e.printStackTrace();
+                                  }
        
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", contentType);
+                                  HttpHeaders headers = new HttpHeaders();
+                                  headers.add("Content-Type", contentType);
+                                  Resource resource = new FileSystemResource(file);
         
-        Resource resource = new FileSystemResource(file);
-        
-        return ResponseEntity.ok().headers(headers).body(resource);
-     }
- ```
+                                  return ResponseEntity.ok().headers(headers).body(resource);
+                        }
+```
+   
+     
 <br>
 
 ## <div id="notice">💡 **알림 (Notice)**</div>
