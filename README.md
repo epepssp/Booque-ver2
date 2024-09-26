@@ -50,9 +50,7 @@
  + ##### ImageUploadController의 upload 메서드
    ###### &nbsp;&nbsp;◽ 중복을 방지하기 위해 식별자(UUID) 생성하여 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다.<br><br>&nbsp;&nbsp;◽ 파일이 저장될 경로와 새로운 fileName을 담아 File 객체를 생성하고, 그 객체를 지정된 외부 경로에 저장한다.
 
-
-
-#### 사진 파일을 지정된 외부 디렉토리에 저장
+ + #####
 
 
  <br>
