@@ -37,11 +37,10 @@
 ## 나의 구현 기능
   #### 💡[ 외부 경로 이미지 업로드 - 프로필 사진 변경](#profile)
  + ##### 설정
-   ##### &nbsp;&nbsp;◽ SecurityConfig<br><br>&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가<br><br>&nbsp;&nbsp;◽ 외부 경로 주입
+   ###### &nbsp;&nbsp;◽ SecurityConfig<br><br>&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가<br><br>&nbsp;&nbsp;◽ 외부 경로 주입
  <br>
  
  + ##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
- <br>
  
  + ##### btnProfileUpdate 이벤트 리스너
    ###### &nbsp;&nbsp;◽ fileInput 찾고 fileInput의 file을 가져와 file 변수에 담는다.<br><br>&nbsp;&nbsp;◽ file 데이터를 전송하기 위해 formData 생성하여 file을 formData에 추가한다.<br><br>&nbsp;&nbsp;◽ Axios POST 요청 방식으로 formData를 ImageUploadController의 upload 메서드로 전송한다. 
