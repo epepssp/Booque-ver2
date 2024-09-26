@@ -107,7 +107,8 @@
 
  ```
 
-##### btnProfileUpdate 클릭 이벤트 리스너
+##### btnProfileUpdate 클릭 이벤트 리스너 작성한다.
+##### btnProfileUpdate 클릭 > fileInput창에 선택된 file을 찾아 formData 타입으로 바꾼 뒤 axios.post로 ImageUploadController 전달
 > imageUpload.js 
  ```javascript
 
@@ -130,6 +131,7 @@
       });
 ```
 
+Controller: formData 타입 file을 전달받아 fileName을 생성하고, path와 fileName을 file 객체에 담는다. 유저의 프로필 사진을 변경하여 저장한다.
 > ImageUploadController
 ```java
 
@@ -149,6 +151,7 @@
               return ResponseEntity.ok(1);
     }  
 ```
+
 
 > imageUpload.js 
 ```javascript
