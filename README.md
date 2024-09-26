@@ -39,18 +39,15 @@
  + ##### 설정
    ##### &nbsp;&nbsp;◽ SecurityConfig<br><br>&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가<br><br>&nbsp;&nbsp;◽ 외부 경로 주입
 
- + ##### 구현
+ + ##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
 
-##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
+ + ##### btnProfileUpdate 이벤트 리스너;<br><br>&nbsp;&nbsp◽ fileInput 찾고 fileInput의 file을 가져와 file 변수에 담는다.<br><br>&nbsp;&nbsp;◽ file 데이터를 전송하기 위해 formData 생성하여 file을 formData에 추가한다.<br><br>&nbsp;&nbsp;◽ Axios POST 요청 방식으로 formData를 ImageUploadController의 upload 메서드로 전송한다. 
 
- #### 사진 파일을 지정된 외부 디렉토리에 저장
- 
-##### file 데이터를 전송하기 위해 formData 생성하여 file을 formData에 추가한다.
-##### Axios로 formData를 POST 요청으로 ImageUploadController에 전송한다.
+ + ##### upload 메서드: <br><br>&nbsp;&nbsp◽ 중복을 방지하기 위해 식별자(UUID) 생성하여 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다.<br><br>&nbsp;&nbsp◽ 파일이 저장될 경로와 새로운 fileName을 담아 File 객체를 생성하고, 그 객체를 지정된 외부 경로에 저장한다.
 
-##### 사용자가 업로드한 이미지를 서버에 저장하는 upload 메서드
-##### 중복 방지를 위해 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다. 
-##### File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한 뒤, 해당 file 객체를 saveFile로 실제로 저장한다.
+
+
+#### 사진 파일을 지정된 외부 디렉토리에 저장
 
 
  <br>
@@ -168,9 +165,10 @@
               // 파일이 저장될 경로와 fileName을 담아 File 객체를 생성한다.
               File saveFile = new File(imageFilePath, fileName);
 
-              // 파일을 saveFile로 전환하여 실제로 저장한다.
+              // 파일을 지정된 외부 디렉토리에 저장
               file.transferTo(saveFile);
-        
+
+              // 프로필 사진이 변경되었기 때문에, 유저의 프사 fileName도 바꿔준다. 
               User user = userRepository.findById(userSecurityDto.getId()).get();
               user.setFileName(fileName);
               userRepository.save(user);
