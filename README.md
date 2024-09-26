@@ -36,7 +36,7 @@
 
 ## 나의 구현 기능
   #### 💡[ 외부 경로 이미지 업로드 - 프로필 사진 변경](#profile)
- + ##### 설정:&nbsp; ◽ SecurityConfig<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가
+ + ##### 설정:&nbsp; ◽ SecurityConfig<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가
  + ##### 
  
  <br>
