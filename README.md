@@ -182,8 +182,8 @@
 <br>
 
 function getImage(): 프로필 사진 요청하는 함수
-유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일(img)을 반환 받는다.
-profileImageDiv.innerHTML = img;
+유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일을 반환 받는다.
+innerHTML로 해당 이미지 파일을 프로필 사진 영역에 넣어주면, 프로필 사진 변경 완료! 
 
 > imageUpload.jsㅇ 
 ```javascript
