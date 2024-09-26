@@ -50,7 +50,8 @@
  + ##### ImageUploadController의 upload 메서드
    ###### &nbsp;&nbsp;◽ 중복을 방지하기 위해 식별자(UUID) 생성하여 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다.<br><br>&nbsp;&nbsp;◽ 파일이 저장될 경로와 새로운 fileName을 담아 File 객체를 생성하고, 그 객체를 지정된 외부 경로에 저장한다.
 
- + #####
+ + ##### ImageUpload.js의 getImage() 함수
+   ###### &nbsp;&nbsp;◽ 유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일을 반환 받는다.<br><br>&nbsp;&nbsp;◽해당 이미지 파일을 프로필 사진 영역에 넣어주면, 프로필 사진 변경 완료! 
 
 
  <br>
@@ -180,10 +181,6 @@
     }  
 ```
 <br>
-
-function getImage(): 프로필 사진 요청하는 함수
-유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일을 반환 받는다.
-innerHTML로 해당 이미지 파일을 프로필 사진 영역에 넣어주면, 프로필 사진 변경 완료! 
 
 > imageUpload.jsㅇ 
 ```javascript
