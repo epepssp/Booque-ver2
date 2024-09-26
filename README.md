@@ -149,48 +149,49 @@
     }  
 ```
 
-
 > imageUpload.js 
 ```javascript
 
-function getImage(){
-         const id = document.querySelector('#id').value;
-         const profileImageDiv = document.querySelector('#profileImageDiv');
+     function getImage(){
+          const id = document.querySelector('#id').value;
+          const profileImageDiv = document.querySelector('#profileImageDiv');
      
-         axios.get('/user/fileName/' + id)     
-              .then(response => { 
+          axios.get('/user/fileName/' + id)     
+               .then(response => { 
                       let img = `<img src="/api/view/${response.data}" width=200px; />`  
                       profileImageDiv.innerHTML = img;  
               }).catch(err => {  console.log(err)  })              
-     }
+       }
+
 ```
 
 > ImageUploadController
 ```java
 
-@GetMapping("/user/fileName/{id}")
-                       public ResponseEntity<String> getProfileImage(@PathVariable Integer id){
-                             User u =userService.read(id);
-                             return ResponseEntity.ok(u.getFileName());
-                       }
+    @GetMapping("/user/fileName/{id}")
+    public ResponseEntity<String> getProfileImage(@PathVariable Integer id){
+            User u =userService.read(id);
+            return ResponseEntity.ok(u.getFileName());
+    }
 
-                   @GetMapping("/api/view/{fileName}")
-                       public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
-                                File file = new File(imageFilePath, fileName);
+
+    @GetMapping("/api/view/{fileName}")
+    public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
+            File file = new File(imageFilePath, fileName);
         
-                                  String contentType = null;
-                                  try {
-                                       contentType = Files.probeContentType(file.toPath());
-                                  } catch (IOException e) {
-                                       e.printStackTrace();
-                                  }
+            String contentType = null;
+            try {
+                    contentType = Files.probeContentType(file.toPath());
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
        
-                                  HttpHeaders headers = new HttpHeaders();
-                                  headers.add("Content-Type", contentType);
-                                  Resource resource = new FileSystemResource(file);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", contentType);
+            Resource resource = new FileSystemResource(file);
         
-                                  return ResponseEntity.ok().headers(headers).body(resource);
-                        }
+            return ResponseEntity.ok().headers(headers).body(resource);
+    }
 ```
    
      
