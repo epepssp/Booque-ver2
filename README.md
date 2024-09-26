@@ -181,11 +181,11 @@
 ```
 <br>
 
-FileName을 전달하여 외부 디렉토리에 저장되어 있는 해당 파일의 반환을 요청한다.
-유저 Id를 전달하고 해당 유저의 프로필 사진 FileName을 요청한다.
-리턴 받은 FileName을 전달하여 외부 디렉토리에 저장된 해당 파일을 반환해 달라고 요청한다. 
-반환 받은 파일을 profileImageDiv에 추가해서 프로필 사진 보여준다.
-> imageUpload.js 
+function getImage(): 프로필 사진 요청하는 함수
+유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일(img)을 반환 받는다.
+profileImageDiv.innerHTML = img;
+
+> imageUpload.jsㅇ 
 ```javascript
 
      function getImage(){   
