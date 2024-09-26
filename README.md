@@ -82,7 +82,7 @@
         site.book.upload.path=E:\\study\\images
  ```
 
- + #### 구현
+ 
  > list.html 일부
 
  ```html
@@ -108,7 +108,10 @@
  ```
 <br>
 
-##### btnProfileUpdate 이벤트 리스너
+#### 유저가 선택한 사진 파일을 지정된 외부 디렉토리에 저장
+##### btnProfileUpdate 이벤트 리스너 등록
+##### fileInput창을 찾아서 fileInput창의 file을 가져와 file 변수에 담는다.
+##### 데이터를 ControllerformData에 전송하기 위해 formData 생성하여 file을 formData에 추가한다.
 > imageUpload.js 
  ```javascript
 
@@ -132,6 +135,8 @@
 ```
 <br>
 
+##### 중복 방지를 위해 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다. 
+##### File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한 뒤, 해당 file 객체를 saveFile로 실제로 저장한다.
 > ImageUploadController
 ```java
 
@@ -165,13 +170,13 @@
           const id = document.querySelector('#id').value;
           const profileImageDiv = document.querySelector('#profileImageDiv');
      
-          axios.get('/user/fileName/' + id)  // 유저 id를 전송하고, 해당 유저의 프로필 fileName 리턴 요청한다.
+          axios.get('/user/fileName/' + id)  // 유저 id 전송하고, 해당 유저의 프로필 fileName을 요청
                .then(response => {
 
-                      // 리턴 받은 fileName을 파람으로 전달하여, 파일을 사진으로 요청한다.
+                      // fileName 전달하여 해당 파일 반환 요청 
                       let img = `<img src="/api/view/${response.data}" width=200px; />`
 
-                      // profileImageDiv에 파일 이미지 보여준다.
+                      // 반환받은 이미지 파일을 profileImageDiv 추가해서 보여준다.
                       profileImageDiv.innerHTML = img;
 
               }).catch(err => {  console.log(err)  })              
@@ -189,17 +194,22 @@
     }
 
 
-    @GetMapping("/api/view/{fileName}")
+    @GetMapping("/api/view/{fileName}") // 서버에 저장된 파일을 클라이언트가 요청했을 때, 해당 파일을 반환한다.
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
+
+            // 파일이 저장된 경로와 전달 받은 fileName을 결합해서 실제 파일 객체를 생성 
             File file = new File(imageFilePath, fileName);
         
             String contentType = null;
             try {
+                    // 해당 파일의 MIME 타입(파일 유형)
                     contentType = Files.probeContentType(file.toPath());
             } catch (IOException e) {
                     e.printStackTrace();
             }
-       
+
+            // 해당 파일의 contentType 정보를 HTTP 응답 헤더에 추가한다.
+            // 브라우저가 해당 파일을 파악하여 제대로 반환할 수 있도록
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", contentType);
             Resource resource = new FileSystemResource(file);
