@@ -98,7 +98,7 @@
        </span>
 
 
-       <!-- 프로필 사진 변경 모달 내용 일부 -->
+       <!-- file modal 내용 일부 -->
        <div class="modal-body">
           <input type="hidden" id="id" name="id" th:value="${ user.id }"/><input type="file" name="file" id="file"/>
        </div>
@@ -106,42 +106,47 @@
        <div class="modal-footer"><button type="button" id="btnProfileUpdate" class="btn btn-primary">수정하기</button></div>
 
  ```
+<br>
 
-##### btnProfileUpdate 클릭 이벤트 리스너 작성한다.
-##### btnProfileUpdate 클릭 > fileInput창에 선택된 file을 찾아 formData 타입으로 바꾼 뒤 axios.post로 ImageUploadController 전달
+##### btnProfileUpdate 이벤트 리스너
 > imageUpload.js 
  ```javascript
 
     // 프로필 사진 변경 버튼 클릭 이벤트 리스너 등록
      btnProfileUpdate.addEventListener('click', e => {  
 
-            const fileInput = document.querySelector('input[name="file"]');
-            const file = fileInput.files[0];  // 사진 한 장
+            const fileInput = document.querySelector('input[name="file"]');  // 모달에서 fileInput창을 찾는다.
+            const file = fileInput.files[0];  // fileInput창의 file을 가져와서 file 변수에 담는다.
     
-            const formData = new FormData();  // file로 전송할 수 없고 formData 타입으로 바꿔서 보내야
-            formData.append('file', file); // "file"이 서버에서 파일을 받아오는 이름과 일치해야 함
+            const formData = new FormData();  
+            formData.append('file', file);   // file을 formData에 추가한다.
        
             document.getElementById('imageModal').style.display = 'none';
   
-            axios.post('/submit/image', formData)  // ImageUploadController upload(dto, file) 메서드 호출
+            axios.post('/submit/image', formData)  // ImageUploadController에 formData 전송한다.
                  .then(response => { 
                                  getImage();       // 로그인 유저의 프로필 사진 보여주는 함수
                                  console.log(response);
                   }).catch(err => { console.log(err) })
       });
 ```
+<br>
 
-Controller: formData 타입 file을 전달받아 fileName을 생성하고, path와 fileName을 file 객체에 담는다. 유저의 프로필 사진을 변경하여 저장한다.
 > ImageUploadController
 ```java
 
      @PostMapping("/submit/image")
      public ResponseEntity<Integer> upload(@AuthenticationPrincipal UserSecurityDto userSecurityDto, MultipartFile file) 
                 throws IllegalStateException, IOException {
-        
-              UUID uuid = UUID.randomUUID();  // 식별자
+
+              // 파일 이름 중복 방지하기 위해 식별자를 사용하여 fileName을 만든다.
+              UUID uuid = UUID.randomUUID();  
               String fileName = uuid + "_" + file.getOriginalFilename();
-              File saveFile = new File(imageFilePath, fileName); // saveFile: 파일 껍데기(객체) 생성해서 경로+파일이름 저장
+
+              // File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한다.
+              File saveFile = new File(imageFilePath, fileName);
+
+              // 파일을 saveFile로 실제로 저장한다.
               file.transferTo(saveFile);
         
               User user = userRepository.findById(userSecurityDto.getId()).get();
@@ -151,7 +156,7 @@ Controller: formData 타입 file을 전달받아 fileName을 생성하고, path�
               return ResponseEntity.ok(1);
     }  
 ```
-
+<br>
 
 > imageUpload.js 
 ```javascript
@@ -160,10 +165,15 @@ Controller: formData 타입 file을 전달받아 fileName을 생성하고, path�
           const id = document.querySelector('#id').value;
           const profileImageDiv = document.querySelector('#profileImageDiv');
      
-          axios.get('/user/fileName/' + id)     // ImageUploadController  getProfileImage(id) 메서드 호출
-               .then(response => { 
-                      let img = `<img src="/api/view/${response.data}" width=200px; />`     // ImageUploadController  viewFile(fileName) 메서드 호출
-                      profileImageDiv.innerHTML = img;    // profileImageDiv에 사진 넣어서 보여준다.
+          axios.get('/user/fileName/' + id)  // 유저 id를 전송하고, 해당 유저의 프로필 fileName 리턴 요청한다.
+               .then(response => {
+
+                      // 리턴 받은 fileName을 파람으로 전달하여, 파일을 사진으로 요청한다.
+                      let img = `<img src="/api/view/${response.data}" width=200px; />`
+
+                      // profileImageDiv에 파일 이미지 보여준다.
+                      profileImageDiv.innerHTML = img;
+
               }).catch(err => {  console.log(err)  })              
     }
 
