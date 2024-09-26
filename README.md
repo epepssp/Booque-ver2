@@ -41,6 +41,18 @@
 
  + ##### 구현
 
+##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
+
+ #### 사진 파일을 지정된 외부 디렉토리에 저장
+ 
+##### file 데이터를 전송하기 위해 formData 생성하여 file을 formData에 추가한다.
+##### Axios로 formData를 POST 요청으로 ImageUploadController에 전송한다.
+
+##### 사용자가 업로드한 이미지를 서버에 저장하는 upload 메서드
+##### 중복 방지를 위해 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다. 
+##### File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한 뒤, 해당 file 객체를 saveFile로 실제로 저장한다.
+
+
  <br>
  
   #### 💡[ 알림(Notice)](#notice)
@@ -82,7 +94,7 @@
         site.book.upload.path=E:\\study\\images
  ```
 
- 
+ ##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
  > list.html 일부
 
  ```html
@@ -108,35 +120,38 @@
  ```
 <br>
 
-#### 유저가 선택한 사진 파일을 지정된 외부 디렉토리에 저장
-##### btnProfileUpdate 이벤트 리스너 등록
-##### fileInput창을 찾아서 fileInput창의 file을 가져와 file 변수에 담는다.
-##### 데이터를 ControllerformData에 전송하기 위해 formData 생성하여 file을 formData에 추가한다.
+##### btnProfileUpdate 이벤트 리스너 처리
 > imageUpload.js 
  ```javascript
 
     // 프로필 사진 변경 버튼 클릭 이벤트 리스너 등록
      btnProfileUpdate.addEventListener('click', e => {  
 
-            const fileInput = document.querySelector('input[name="file"]');  // 모달에서 fileInput창을 찾는다.
-            const file = fileInput.files[0];  // fileInput창의 file을 가져와서 file 변수에 담는다.
-    
-            const formData = new FormData();  
-            formData.append('file', file);   // file을 formData에 추가한다.
+            // fileInput창을 찾는다.
+            const fileInput = document.querySelector('input[name="file"]');
+
+            // fileInput창의 file을 가져와서 file 변수에 담는다.
+            const file = fileInput.files[0];  
+
+            // file 데이터를 전송하기 위해 formData 생성하고
+            const formData = new FormData();
+
+            // file을 formData에 추가한다.
+            formData.append('file', file);   
        
             document.getElementById('imageModal').style.display = 'none';
-  
-            axios.post('/submit/image', formData)  // ImageUploadController에 formData 전송한다.
+
+            // Axios POST 요청으로 formData를 전달하여 upload 메서드 호출
+            axios.post('/submit/image', formData)  
                  .then(response => { 
-                                 getImage();       // 로그인 유저의 프로필 사진 보여주는 함수
+                                 getImage();    
                                  console.log(response);
                   }).catch(err => { console.log(err) })
       });
 ```
 <br>
 
-##### 중복 방지를 위해 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다. 
-##### File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한 뒤, 해당 file 객체를 saveFile로 실제로 저장한다.
+##### upload 메서드: 전달받은 formData의 이미지 파일을 지정된 외부 디렉토리에 저장하는 함수
 > ImageUploadController
 ```java
 
@@ -144,14 +159,16 @@
      public ResponseEntity<Integer> upload(@AuthenticationPrincipal UserSecurityDto userSecurityDto, MultipartFile file) 
                 throws IllegalStateException, IOException {
 
-              // 파일 이름 중복 방지하기 위해 식별자를 사용하여 fileName을 만든다.
-              UUID uuid = UUID.randomUUID();  
+              // 식별자 생성: 파일 이름 중복 방지하기 위해
+              UUID uuid = UUID.randomUUID();
+
+              // 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName) 생성한다.
               String fileName = uuid + "_" + file.getOriginalFilename();
 
-              // File 객체를 생성하여 파일이 저장될 경로와 파일 이름을 지정한다.
+              // 파일이 저장될 경로와 fileName을 담아 File 객체를 생성한다.
               File saveFile = new File(imageFilePath, fileName);
 
-              // 파일을 saveFile로 실제로 저장한다.
+              // 파일을 saveFile로 전환하여 실제로 저장한다.
               file.transferTo(saveFile);
         
               User user = userRepository.findById(userSecurityDto.getId()).get();
@@ -163,10 +180,11 @@
 ```
 <br>
 
+클라이언트가 서버에 저장된 파일을 요청하고, 해당 파일을 반환하는
 > imageUpload.js 
 ```javascript
 
-     function getImage(){   // 로그인 유저의 프로필 사진 보여주는 함수
+     function getImage(){   
           const id = document.querySelector('#id').value;
           const profileImageDiv = document.querySelector('#profileImageDiv');
      
