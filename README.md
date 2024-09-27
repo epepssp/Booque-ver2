@@ -89,10 +89,10 @@
     }
 
  ``` 
- > application.properties 외부경로 위치 추가
+ > application.properties 외부경로 폴더 위치 추가
 
  ``` application.properties
-        site.book.upload.path=E:\\study\\images
+        site.book.upload.path=C:\\study\\images
  ```
  <br>
  
