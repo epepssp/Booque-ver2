@@ -257,47 +257,38 @@
 
   > postReply.js
   ```javaScript
-        function registerNewReply() {  
-   
-          const postId = document.querySelector('#postId').value;   
-          const replyWriter = document.querySelector('#rWriter').value; 
-          if(replyWriter == "anonymousUser") {
-              alert('로그인 후 이용 가능한 서비스입니다.');
-              return;
-          }
-          const replyContent = document.querySelector('#replyContent').value; 
-          const data = { postId: postId, replyContent: replyContent, replyWriter: replyWriter }; 
+        function registerNewReply() {  // 새 댓글 작성 함수
 
           axios.post('/api/reply', data)
-               .then(response => {   
-                      alert('#  댓글 등록 성공');    
+               .then(response => {    // 댓글 등록 성공 응답 반환
                       clearInputContent();
                       readAllReplies();
                       updateReplyCount();
 
-                      // 댓글 등록 함수에서 성공 대답 반환되면
-                      // 새 댓글 알림 생성해야지  
+                      // 새 댓글 알림 생성해야지!!  
                       newReplyNotion(response.data);   
                 }
                 .catch(error => {  console.log(error);  });
         }
   
 
-        // 새 댓글 알림 생성
+        // 새 댓글 알림 생성 함수
         function newReplyNotion(data){
            axios.post('/notice', data)
                 .then(response => { console.log('노티스 저장성공'); })         
                 .catch(error => { console.log(error); });
         }
+  
      ```
  
-     <h6>NoticeRestController newNotice() > NoticeService create() > 알램 생성/저장되고 생성된 noticeId 반환</h6>
-     
-     > NoticeRestController 
+     ##### NoticeService의 create(dto) 함수 호출: 알람 생성하여 저장하고, 생성된 noticeId 반환
+  
+    > NoticeRestController 
      ```java
         @PostMapping("/notice")
         public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
-        
+
+              // Axios POST 방식으로 전달받은 dto를 파람에 담아서 noticeService의 create() 함수 호출 
               Integer noticeId = noticeService.create(dto);
               return ResponseEntity.ok(noticeId);
         }  
@@ -323,43 +314,34 @@
               noticeRepository.save(notice);
               return notice.getNoticeId();
         }   
-     ```
-
-     
+     ``` 
      <br><br>
 
-     ##### 키워드 알림
-     ##### 1. 알림 받을 키워드 등록
-     <h6>&nbsp;&nbsp;&nbsp;당근마켓 기능 참고함 - 사용자가 검색한 검색어 기반으로 키워드 알림 등록하도록 유도<br>&nbsp;&nbsp;&nbsp;이런 중고책 찾으세요? 검색 결과 화면에 검색 키워드 포함된 도서 추천 리스트 제공 > 리스트에서 관심 있는 책 클릭해서 키워드 알림 받기 등록</h6><br>
-
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-1. 추천 도서 리스트: 책 레코드 중에서 제목에 사용자가 검색한 키워드가 포함된 상위 4개 반환하는 쿼리문 작성</h6>
-     
-     > BookRepository
-     ```java
-     
-           // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
-           List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
-      
-     ```
-     <br>
-     
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-2. 사용자가 검색한 키워드 기반으로 추천 도서 리스트 생성하여 검색 결과 화면으로 넘김 </h6>
-     
-     > MarketController 
+     ##### ◽ 키워드 알림
+     ##### &nbsp;&nbsp;1. 알림 받을 키워드를 등록
+     ###### 추천 키워드 리스트: 사용자의 검색어를 포함하고 있는 키워드를 최대 4개까지 추천하여 제공한다. 
+     > MarketController
      ```java
         @GetMapping("/mainSearch") 
         public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
                   Model model, String orderSlt , String status) {
 
-                  // 이런 중고책 찾으세요? -> 검색어 포함된 책 추천 리스트(4개) 넘겨줌 -> 키워드 알림 등록 할 수 있도록
+                  // 이런 중고책 찾으세요? 키워드 추천 리스트 제공
                   List<Book> list4 = bookService.searchByBookName(mainKeyword); 
                   model.addAttribute("list4", list4);      
         }    
      ```
+     
+     ###### 추천 키워드 리스트 생성 쿼리문 
+     > BookRepository
+     ```java
+              // (예진) 부끄장터 제목에 검색 키워드 포함된 책 리스트중 4개만
+              List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+     ```
      <br>
      
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-3. mainSearch.html에 이런 중고책 찾으세요? 화면 구성하고 키워드 등록 함수</h6>
-     
+     ###### 이런 중고책 찾으세요?: 검색 결과 화면에 추천 키워드 리스트 보여주는 영역
+     ###### 유저는 리스트에서 원하는 항목을 클릭하여 알림 받을 키워드로 등혹 할 수 있다.
      > marketSearch.html
      ```html
 
@@ -386,20 +368,7 @@
             </div>
           </div>
       </div>
-     
-     ```
-     <br>
-     
-     <h6>&nbsp;&nbsp;&nbsp;&nbsp;1-4. 키워드 등록</h6>
 
-     > marketSearch.html
-     ```html
-
-          <div style="display: inline-block;"> <!-- 키워드 등록 버튼 --> 
-              <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
-          </div>
-
-     
           <script>
               function register(event) {  // 키워드 등록 함수
                   const bookId = document.querySelector('#b-Id').value;
@@ -408,7 +377,6 @@
                        .catch(err =>{  console.log(err);  });
                }
           </script>
-     
      ```
      <br>
      
@@ -425,7 +393,8 @@
      ```
      <br><br>
      
-     ##### 2. 중고장터 새 글 등록 시, 등록된 키워드 목록에 새 글 키워드와 일치하는 항목 있는지 확인 -> 일치 항목 있을 때 알림 생성
+     ##### 2. 키워드 알림 생성
+     ###### 새로운 판매글이 등록될 때마다 키워드 알림 목록에서 해당 도서와 일치하는 항목이 있는지 확인하고, 있다면 키워드 알림 생성한다.
   
      <h6> marketCreate.javaScript btnSubmit 이벤트 리스너에 checkBookId(bookId,usedBookId);추가 </h6>
      
