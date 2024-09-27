@@ -412,20 +412,8 @@
      > notice.js
      ```javaScript
 
-        const userId = document.querySelector('#userId2').innerText;
-    
-        if(userId){   // 로그인 한 유저가 있다면
-             showNotice();   // 로그인 한 유저의 알림 리스트 불러오기
-        }
-  
-    
-        function showNotice(){
-            axios.get('/showNotice/' + userId)  
-                 .then(response => { 
-                           updateNoticeList(response.data)  })
-                 .catch(err => { console.log(err) });
-        }    
-    
+        // 로그인 한 유저가 있으면, 유저의 id를 전달하여 해당 유저의 알림 리스트를 리턴 받는다.
+      
         function updateNoticeList(data){
      
              // 알림 갯수 count -> 뱃지에 알림 갯수 표시
