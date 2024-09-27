@@ -253,7 +253,7 @@
 
 + #### <div id="sec2">알림 생성</div>
   ##### ◽ 새 댓글 알림: 새 댓글 등록될 때 알림 생성
-  ###### &nbsp;&nbsp;postReply.javaScript - registerNewReply() 성공 응답 반환되는 부분에 새 댓글 얼림 생성 함수 추가 newReplyNotion(data)
+  ###### &nbsp;&nbsp;postReply.javaScript - registerNewReply() 성공 응답 반환되는 부분에 새 댓글 알림 생성 함수 추가 newReplyNotion(data)
 
   > postReply.js
   ```javaScript
