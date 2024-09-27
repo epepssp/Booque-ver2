@@ -96,7 +96,7 @@
         site.book.upload.path=E:\\study\\images
  ```
 
- ##### <div id="pic1">프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭</div>
+ + ##### <div id="pic1">프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭</div>
  > list.html 일부
 
  ```html
@@ -122,7 +122,7 @@
  ```
 <br>
 
-##### <div id="pic2">btnProfileUpdate 이벤트 리스너 처리</div>
++ ##### <div id="pic2">btnProfileUpdate 이벤트 리스너 처리</div>
 > imageUpload.js 
  ```javascript
 
@@ -153,7 +153,7 @@
 ```
 <br>
 
-##### <div id="pic3">upload 메서드: 전달받은 이미지 파일을 외부 경로 디렉토리에 저장하는 함수</div>
++ ##### <div id="pic3">upload 메서드: 전달받은 이미지 파일을 외부 경로 디렉토리에 저장하는 함수</div>
 > ImageUploadController
 ```java
 
@@ -183,7 +183,7 @@
 ```
 <br>
 
-##### <div id="pic4">getImage(): 프로필 사진 요청하는 함수</div>
++ ##### <div id="pic4">getImage(): 프로필 사진 요청하는 함수</div>
 > imageUpload.jsㅇ 
 ```javascript
 
@@ -205,7 +205,7 @@
 
 ```
 
-##### <div id="pic5">viewFile 메서드: fileName을 전달받아 로컬 폴더에 저장된 해당 파일을 찾아 반환한다.</div>
++ ##### <div id="pic5">viewFile 메서드: fileName을 전달받아 로컬 폴더에 저장된 해당 파일을 찾아 반환한다.</div>
 > ImageUploadController
 ```java
 
