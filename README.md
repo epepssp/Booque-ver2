@@ -394,14 +394,12 @@
      <br><br>
      
      ##### 2. 키워드 알림 생성
-     ###### 새로운 판매글이 등록될 때마다 키워드 알림 목록에서 해당 도서와 일치하는 항목이 있는지 확인하고, 있다면 키워드 알림 생성한다.
-  
-     <h6> marketCreate.javaScript btnSubmit 이벤트 리스너에 checkBookId(bookId,usedBookId);추가 </h6>
-     
+     ###### 새 판매 글이 등록될 때 해당 도서를 알림 받기로 등록한 유저가 있는지 확인하여, 있다면 있는 갯수만큼 키워드 알림 생성한다.
+     ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수를 추가한다.
      > marketCreate.js
      ```javaScript
        
-	btnSubmit.addEventListener('click', function () {
+	btnSubmit.addEventListener('click', function () {   // 새 글 작성 버튼 이벤트 리스너
 
                      // (중략)
                const result = confirm('등록하시겠습니까?');
@@ -411,13 +409,11 @@
                   formCreate.method = 'post';
                   formCreate.submit();
   
-                  checkBookId(bookId,usedBookId);   // 일치하는 항목 있는지 체크
+                  checkBookId(bookId,usedBookId);   // 일치하는 항목 있는지 체크하는 함수를 추가한다
               }
     
         });
 
-
-        //(예진) 새 글 등록시 생성해야 할 노티스 있는지 체크: 해당 bookId 알림 받기 한 유저가 있다면 노티스 생성
         function checkBookId(bookId,usedBookId) {
              const data = { bookId : bookId, usedBookId : usedBookId }
              axios.post('/notice/check', data)
@@ -430,15 +426,14 @@
   
      >  NoticeRestController
      ```java
-        // (예진) usedBook 포스트 등록 될 때 해당 북아이디 알림 받기 설정한 유저가 있는지 체크한 후
-        // 있다면 노티스 생성  
+        
         @PostMapping("/notice/check")
         public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
         
-             List<User> users = userService.read();  // 유저 All
+             List<User> users = userService.read();  // 전수 조사
              for (User u : users) {
-                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 유저가 알람 받기 등록한 bookId가 새로 작성된 중고 판매글 bookId와 같으면
-     
+                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 일치하는 bookId(키워드)가 있으면
+                     // 키워드 알림 생성
                      NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
                      return ResponseEntity.ok(noticeService.create(dto));
                 } 
@@ -446,7 +441,6 @@
              return ResponseEntity.ok(1);
         }
      ```
-
  <br><br>
  
  + #### <div id="sec3">알림 표시</div>
