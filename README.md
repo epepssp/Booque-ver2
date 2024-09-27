@@ -276,10 +276,58 @@
      <br><br>
 
      ##### ◽ 키워드 알림
-     ###### &nbsp;&nbsp;1. 알림 받을 키워드 등록
+     ##### 중고장터 새 글이 등록될 때, 새 글의 판매 도서를 알림 받기로 등록한 유저가 있는지 확인하고, 있다면 키워드 알림 생성 됨
+     ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
+     > marketCreate.js
+     ```javaScript
+       
+	btnSubmit.addEventListener('click', function () {   // 새 글 작성 버튼 이벤트 리스너
+
+               const result = confirm('등록하시겠습니까?');
+              if (result) {
+                  document.querySelector('#formCreate').submit();
+                  formCreate.action = '/market/create';
+                  formCreate.method = 'post';
+                  formCreate.submit();  
+  
+                  checkBookId(bookId,usedBookId);   // 생성해야 할 키워드 알림이 있는지 체크
+              }
+    
+        });
+
+        function checkBookId(bookId,usedBookId) {
+             const data = {     bookId : bookId,             // 새 글의 id(usedBookId)와 판매하는 책의 bookId 전달 
+                            usedBookId : usedBookId    }
+             axios.post('/notice/check', data)
+                  .then(response => {  console.log('성공')  })
+                  .catch(err => {  alert(err)  });
+        };
+     
+     ```
+     <br>
+  
+     >  NoticeRestController
+     ```java
+        
+        @PostMapping("/notice/check")
+        public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
+        
+             List<User> users = userService.read();  // 전수 조사
+             for (User u : users) {
+                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 일치하는 bookId(키워드)가 있으면 키워드 알림 생성
+                
+                     NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
+                     return ResponseEntity.ok(noticeService.create(dto));
+                } 
+             } 
+             return ResponseEntity.ok(1);
+        }
+     ```
+
+
+     ###### &nbsp;&nbsp; 알림 받을 키워드 등록
      ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 검색창에 입력한 키워드가 포함된 도서 추천 리스트를 제공하여, 키워드 알림 등록을 유도한다.  
      ###### &nbsp;&nbsp;&nbsp; 추천 리스트에서 원하는 항목을 클릭하면 알림 받을 키워드(bookId)로 등록 할 수 있다.
-
 
      > MarketController
      ```java
@@ -321,61 +369,10 @@
      ```
      <br>
      <br><br>
-     
-
-     ##### 2. 새 글 등록시 해당 도서를 알림 받기로 등록한 유저가 있는지 확인하여, 있다면 키워드 알림 생성 됨
-     ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
-     > marketCreate.js
-     ```javaScript
-       
-	btnSubmit.addEventListener('click', function () {   // 새 글 작성 버튼 이벤트 리스너
-
-               const result = confirm('등록하시겠습니까?');
-              if (result) {
-                  document.querySelector('#formCreate').submit();
-                  formCreate.action = '/market/create';
-                  formCreate.method = 'post';
-                  formCreate.submit();  
-  
-                  checkBookId(bookId,usedBookId);   // 생성해야 할 키워드 알림이 있는지 체크
-              }
-    
-        });
-
-        function checkBookId(bookId,usedBookId) {
-             const data = {     bookId : bookId,             // 새 글의 id(usedBookId)와 판매하는 책의 bookId 전달 
-                            usedBookId : usedBookId    }
-             axios.post('/notice/check', data)
-                  .then(response => {  console.log('성공')  })
-                  .catch(err => {  alert(err)  });
-        };
-     
-     ```
-     <br>
-  
-     >  NoticeRestController
-     ```java
-        
-        @PostMapping("/notice/check")
-        public ResponseEntity<Integer> checkContainBookId(@RequestBody NoticeDto noticeDto){
-        
-             List<User> users = userService.read();  // 전수 조사
-             for (User u : users) {
-                if(u.getNoticeBookId() == noticeDto.getBookId()) { // 일치하는 bookId(키워드)가 있으면
-                     // 키워드 알림 생성
-                     NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
-                     return ResponseEntity.ok(noticeService.create(dto));
-                } 
-             } 
-             return ResponseEntity.ok(1);
-        }
-     ```
- <br><br><br>
  
  + #### <div id="sec3">알림 표시</div>
-   ##### 상단바에 알림 버튼 추가
-   <h6>&nbsp;&nbsp;&nbsp;알림 갯수 카운트해서 뱃지에 알림 갯수 표시<br>&nbsp;&nbsp;&nbsp;로그인 사용자의 전체 알림 dropdown 리스트로 보여줌</h6><br>
-   
+
+   ##### ◽ 상단바에 알림 버튼 추가
    > layout.html
    ```html
      
@@ -409,7 +406,9 @@
      ```
      <br>
      
-    
+      ##### ◽ 로그인 사용자의 알림 갯수 카운트해서 알림 버튼 우상단 뱃지에 알림 갯수 표시
+      ##### ◽ 로그인 사용자의 전체 알림 리스트를 drop-down 보여줌
+     
      > notice.js
      ```javaScript
 
