@@ -277,7 +277,7 @@
 
      ##### ◽ 키워드 알림
      ###### &nbsp;&nbsp;1. 알림 받을 키워드 등록
-     ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 검색창에 입력한 키워드가 포함된 추천 도서 리스트를 제공하여, 키워드 알림 등록을 유도한다.  
+     ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 검색창에 입력한 키워드가 포함된 도서 추천 리스트를 제공하여, 키워드 알림 등록을 유도한다.  
      ###### &nbsp;&nbsp;&nbsp; 추천 리스트에서 원하는 항목을 클릭하면 알림 받을 키워드(bookId)로 등록 할 수 있다.
 
 
@@ -305,34 +305,21 @@
 
      > marketSearch.html
      ```html
-
-           <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
+               <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
                   <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
                </div>
             
 
-          <script>
-              function register(event) {  // 키워드 등록 함수
-                  const bookId = document.querySelector('#b-Id').value;
-                  axios.get('/register/notice/'+bookId)
-                       .then(response => {  alert('알림 등록 완료!');  })
-                       .catch(err =>{  console.log(err);  });
-               }
-          </script>
+               <script>
+                   function register(event) {  // 키워드 등록 함수
+                       const bookId = document.querySelector('#b-Id').value;
+                       axios.get('/register/notice/'+bookId)
+                            .then(response => {  alert('알림 등록 완료!');  })
+                            .catch(err =>{  console.log(err);  });
+                    }
+               </script>
      ```
      <br>
-     
-     > NoticeRestController
-     ```java
-        @GetMapping("/register/notice/{bookId}")  // (예진) 알림받을 BookId 등록
-        public ResponseEntity<Integer> registerBookId(@PathVariable Integer bookId, @AuthenticationPrincipal UserSecurityDto dto) {
-                    User user = userService.read(dto.getId());
-                    user.setNoticeBookId(bookId);
-                    userRepository.save(user);
-        
-                    return ResponseEntity.ok(1);
-       } 
-     ```
      <br><br>
      
 
@@ -343,21 +330,21 @@
        
 	btnSubmit.addEventListener('click', function () {   // 새 글 작성 버튼 이벤트 리스너
 
-                     // (중략)
                const result = confirm('등록하시겠습니까?');
               if (result) {
                   document.querySelector('#formCreate').submit();
                   formCreate.action = '/market/create';
                   formCreate.method = 'post';
-                  formCreate.submit();
+                  formCreate.submit();  
   
-                  checkBookId(bookId,usedBookId);   // 일치하는 항목 있는지 체크하는 함수를 추가한다
+                  checkBookId(bookId,usedBookId);   // 생성해야 할 키워드 알림이 있는지 체크
               }
     
         });
 
         function checkBookId(bookId,usedBookId) {
-             const data = { bookId : bookId, usedBookId : usedBookId }
+             const data = {     bookId : bookId,             // 새 글의 id(usedBookId)와 판매하는 책의 bookId 전달 
+                            usedBookId : usedBookId    }
              axios.post('/notice/check', data)
                   .then(response => {  console.log('성공')  })
                   .catch(err => {  alert(err)  });
@@ -383,7 +370,7 @@
              return ResponseEntity.ok(1);
         }
      ```
- <br><br>
+ <br><br><br>
  
  + #### <div id="sec3">알림 표시</div>
    ##### 상단바에 알림 버튼 추가
