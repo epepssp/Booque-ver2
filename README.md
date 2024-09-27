@@ -62,9 +62,9 @@
   + ##### [  알림 생성](#sec2)
     ###### &nbsp;&nbsp;◽ 새댓글 알림: 댓글 작성될 때!<br><br>&nbsp;&nbsp;◽ 키워드 알림: 알림 받을 키워드 등록 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일치하는 항목 있을 때!</h6>
   + ##### [  알림 표시](#sec3)
-      ##### <h6>상단바에 알림 버튼 추가<br><br>뱃지에 알림 갯수 표시<br><br>로그인 사용자의 전체 알림 리스트 dropdown 보여줌</h6>
+    ###### &nbsp;&nbsp;◽ 상단바에 알림 버튼 추가<br><br>&nbsp;&nbsp;◽ 뱃지에 알림 갯수 표시<br><br>&nbsp;&nbsp;◽ 로그인 사용자의 전체 알림 리스트 dropdown으로 보여줌</h6>
   + ##### [  알림 확인](#sec4)
-      ##### <h6>알림 클릭하여 해당 댓글(판매글)로 이동하면 알림 확인한 것으로 간주하여 알림 삭제<br><br>새 댓글 백그라운드 컬러 효과</h6>
+   ###### &nbsp;&nbsp;◽ 알림 클릭하여 해당 댓글(판매글)로 이동하면 알림 확인한 것으로 간주하여 알림 삭제<br><br>&nbsp;&nbsp;◽ 새 댓글 백그라운드 컬러 효과</h6>
 
  <br><br><br>
 
