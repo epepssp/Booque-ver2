@@ -53,7 +53,8 @@
  + ##### ImageUpload.js의 getImage() 함수
    ###### &nbsp;&nbsp;◽ 유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일을 반환 받는다.<br><br>&nbsp;&nbsp;◽ 해당 이미지 파일을 프로필 사진 영역에 넣어주면, 프로필 사진 변경 완료! 
 
-
+ + ##### ImageUploadController의 viewFile 메서드
+   ###### &nbsp;&nbsp;◽ 파일 저장 경로와 전달 받은 fileName으로 실제 file 객체를 생성한다. <br><br>&nbsp;&nbsp;◽ 브라우저가 file을 파악하여 제대로 반환할 수 있도록 HTTP 응답 헤더에 해당 file의 contentType을 찾아서 추가한다.
  <br>
  
   #### 💡[ 알림(Notice)](#notice)
@@ -212,8 +213,8 @@
             return ResponseEntity.ok(u.getFileName());
     }
 
-
-    @GetMapping("/api/view/{fileName}") // 서버에 저장된 파일을 클라이언트가 요청했을 때, 해당 파일을 반환한다.
+    
+    @GetMapping("/api/view/{fileName}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
 
             // 파일이 저장된 경로와 전달 받은 fileName을 결합해서 실제 파일 객체를 생성 
