@@ -88,15 +88,14 @@
         };
     }
 
- ```
- <br>
- 
+ ``` 
  > application.properties 외부경로 위치 추가
 
  ``` application.properties
         site.book.upload.path=E:\\study\\images
  ```
-
+ <br>
+ 
  + #### <div id="pic1">프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭</div>
  > list.html 일부
 
