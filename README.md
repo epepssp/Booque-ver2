@@ -75,7 +75,7 @@
  <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/086e1692-d718-4703-888f-07dd7dbb9766" height="400" alt="프사"></div>
  <br> 
 
- + #### 설정
+ + #### 설정 추가
  > SecurityConfig.java 추가
 
  ```java
