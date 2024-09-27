@@ -272,12 +272,12 @@
               }.catch(error => {  console.log(error);  });
         }
   
-     ```
-     <br><br>
+   ```
+   <br><br>
 
-     ##### ◽ 키워드 알림
-     ##### 중고장터 새 글이 등록될 때, 새 글의 판매 도서를 알림 받기로 등록한 유저가 있는지 확인하고, 있다면 키워드 알림 생성 됨
-     ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
+   ##### ◽ 키워드 알림
+   ##### 중고장터 새 글이 등록될 때, 새 글의 판매 도서를 알림 받기로 등록한 유저가 있는지 확인하고, 있다면 키워드 알림 생성 됨
+   ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
      > marketCreate.js
      ```javaScript
        
