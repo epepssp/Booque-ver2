@@ -252,75 +252,33 @@
 <img width="650" alt="노티스" src="https://github.com/user-attachments/assets/adfb5f56-863b-4870-ac0e-8b7edd597c1f"><br><br>
 
 + #### <div id="sec2">알림 생성</div>
-  ##### ◽ 새 댓글 알림: 새 댓글 등록될 때 알림 생성
-  ###### &nbsp;&nbsp;registerNewReply() 성공 응답 반환 시, 새 댓글 알림 생성 함수 추가 newReplyNotion(data)
+  ##### ◽ 새 댓글 알림
+  ###### &nbsp;&nbsp;댓글 작성 버튼 클릭 시 생성 됨
 
   > postReply.js
   ```javaScript
-        function registerNewReply() {  // 새 댓글 작성 함수
 
+    //댓글 작성 확인 버튼
+    const btnReplyRegister = document.querySelector('#btnReplyRegister');
+    btnReplyRegister.addEventListener('click', registerNewReply);
+
+    function registerNewReply() {  
           axios.post('/api/reply', data)
-               .then(response => {    // 댓글 등록 성공 응답 반환
-                      clearInputContent();
-                      readAllReplies();
-                      updateReplyCount();
-
-                      // 새 댓글 알림 생성해야지!!  
-                      newReplyNotion(response.data);   
-                }
-                .catch(error => {  console.log(error);  });
-        }
+               .then(response => {
   
-
-        // 새 댓글 알림 생성 함수
-        function newReplyNotion(data){
-           axios.post('/notice', data)
-                .then(response => { console.log('노티스 저장성공'); })         
-                .catch(error => { console.log(error); });
-        }
-  
-     ```
- 
-     ##### NoticeService의 create(dto) 함수 호출: 알람 생성하여 저장하고, 생성된 noticeId 반환
-  
-    > NoticeRestController 
-     ```java
-        @PostMapping("/notice")
-        public ResponseEntity<Integer> newNotice(@RequestBody NoticeDto dto){
-
-              // Axios POST 방식으로 전달받은 dto를 파람에 담아서 noticeService의 create() 함수 호출 
-              Integer noticeId = noticeService.create(dto);
-              return ResponseEntity.ok(noticeId);
-        }  
-     ```
+                      // 새 댓글 알림 생성 함수 추가 
+                      newReplyNotion(response.data);
    
-     > NoticeService 
-     ```java
-        // 새 알림 생성
-        public Integer create(NoticeDto dto) {
-        
-            Notices notice = null;
-            if(dto.getUsedBookId() == null) {
-                   notice = Notices.builder().userId(dto.getUserId())
-                                             .bookId(dto.getBookId())
-                                             .postId(dto.getPostId())
-                                             .replyId(dto.getReplyId()).build();
-            } else {
-                   notice = Notices.builder().userId(dto.getUserId())
-                                             .bookId(dto.getBookId())
-                                             .usedBookId(dto.getUsedBookId()).build();
-            }
-           
-              noticeRepository.save(notice);
-              return notice.getNoticeId();
-        }   
-     ``` 
+              }.catch(error => {  console.log(error);  });
+        }
+  
+     ```
      <br><br>
 
      ##### ◽ 키워드 알림
-     ###### &nbsp;&nbsp;1. 알림 받을 키워드를 등록
-     ###### 이런 중고책 찾으세요? 검색 결과 화면에 사용자가 검색한 키워드가 포함된 도서 추천 리스트를 제공하여 사용자의 키워드 알림 등록을 유도한다.
-     ###### 사용자는 추천 리스트에서 원하는 항목을 클릭하여 알림 받을 키워드를 등록 할 수 있다.
+     ###### &nbsp;&nbsp;1. 알림 받을 키워드 등록
+     ###### 사용자가 검색창에 키워드를 입력하면, 검색 결과 페이지에 해당 키워드가 포함된 추천 도서 리스트를 제공하여 키워드 알림 등록을 유도한다.  
+     ###### 추천 리스트에서 원하는 항목을 클릭하여 알림 받을 키워드(bookId) 등록 할 수 있다.
 
   
      > MarketController
@@ -343,32 +301,15 @@
      <br>
   
      ###### 이런 책 찾으세요?
+   이미지로
+
      > marketSearch.html
      ```html
 
-      <div style="margin-bottom: 40px;">
-        <h6 class="mb-1 fw-bold" style="margin-left: 40px; font-size: 15px; font-style: italic;">&nbsp;이런 책 찾으시나요?</h6>
-        <h6 style="margin-left: 40px; font-size: 13px; font-style: italic;">&nbsp;원하는 책 클릭하고, 새 글 알림 받아보세요!</h6>
-          <div class="rounded" th:each="x : ${ list4 }" style="margin-left: 40px; border: 1px solid silver; display: inline-block;">
-            <div style="margin: 10px;">
-               <div style="display: inline-block; vertical-align: top; margin-right: 10px;">
-                 <a th:href="@{ /detail?id={bookId} (bookId = ${ x.bookId })}"><img th:src="${ x.bookImage }" /></a>
-                 <input type="hidden" id="b-Id" th:value="${ x.bookId }"/>
-               </div>
-               <div style="text-align: left; display: inline-block;">
-                  <div class="d-inline-flex px-1 my-1  border rounded text-secondary" style="font-size: 10px;">  
-                     <span th:text="${ x.bookgroup }"></span><span> / </span><span th:text="${ x.category }"></span> 
-                  </div>
-                  <div style="font-size: 13px; width: 145px;" class="fw-bold text-truncate"  th:text="${ x.bookName }"></div> 
-                  <div style="font-size: 12px;"><span th:text ="${ '저자: ' + x.author }"></span> </div> 
-                  <div style="font-size: 12px;"><span th:text ="${ x.publisher + ' 출판' }"></span></div>  
-               </div> 
-               <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
+           <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
                   <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
                </div>
-            </div>
-          </div>
-      </div>
+            
 
           <script>
               function register(event) {  // 키워드 등록 함수
@@ -395,7 +336,7 @@
      <br><br>
      
      
-     ##### 2. 새 판매 글 등록되면 해당 도서를 알림 받기 등록한 유저가 있는지 확인하고, 있다면 있는 갯수만큼 키워드 알림 생성한다.
+     ##### 2. 새 글 등록시 해당 도서를 알림 받기로 등록한 유저가 있는지 확인하고, 있다면 키워드 알림 생성한다.
      ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
      > marketCreate.js
      ```javaScript
