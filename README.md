@@ -40,20 +40,20 @@
    ###### &nbsp;&nbsp;◽ SecurityConfig<br><br>&nbsp;&nbsp;◽ application.properties 외부 경로 폴더 위치 추가
 
 
- + ##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
+ + ##### [프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭](#pic1)
 
  
- + ##### btnProfileUpdate 이벤트 리스너
+ + ##### [btnProfileUpdate 이벤트 리스너](#pic2)
    ###### &nbsp;&nbsp;◽ fileInput 찾고 fileInput의 file을 가져와 file 변수에 담는다.<br><br>&nbsp;&nbsp;◽ file 데이터를 전송하기 위해 formData 생성하여 file을 formData에 추가한다.<br><br>&nbsp;&nbsp;◽ Axios POST 요청 방식으로 formData를 ImageUploadController의 upload 메서드로 전송한다. 
 
 
- + ##### ImageUploadController의 upload 메서드
+ + ##### [ImageUploadController의 upload 메서드](#pic3)
    ###### &nbsp;&nbsp;◽ 중복을 방지하기 위해 식별자(UUID) 생성하여 원본 파일 이름 앞에 식별자(UUID)를 추가한 새로운 파일 이름(fileName)을 만든다.<br><br>&nbsp;&nbsp;◽ 파일이 저장될 경로와 새로운 fileName을 담아 File 객체를 생성하고, 그 객체를 지정된 외부 경로에 저장한다.
 
- + ##### ImageUpload.js의 getImage() 함수
+ + ##### [ImageUpload.js의 getImage() 함수](#pic4)
    ###### &nbsp;&nbsp;◽ 유저 id 전달하고 리턴 받은 fileName을 서버로 전달하여, 서버로부터 로컬 폴더에 저장된 해당 미미지 파일을 반환 받는다.<br><br>&nbsp;&nbsp;◽ 해당 이미지 파일을 프로필 사진 영역에 넣어주면, 프로필 사진 변경 완료! 
 
- + ##### ImageUploadController의 viewFile 메서드
+ + ##### [ImageUploadController의 viewFile 메서드](#pic5)
    ###### &nbsp;&nbsp;◽ 파일 저장 경로와 전달 받은 fileName으로 실제 file 객체를 생성한다. <br><br>&nbsp;&nbsp;◽ 브라우저가 file을 파악하여 제대로 반환할 수 있도록 HTTP 응답 헤더에 해당 file의 contentType을 찾아서 추가한다.
  <br>
  
@@ -96,7 +96,7 @@
         site.book.upload.path=E:\\study\\images
  ```
 
- ##### 프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭
+ ##### <div id="pic1">프로필 사진 업데이트 버튼 클릭 > File Modal 열림 > fileInput창에서 사진 선택 > btnProfileUpdate 클릭</div>
  > list.html 일부
 
  ```html
@@ -122,7 +122,7 @@
  ```
 <br>
 
-##### btnProfileUpdate 이벤트 리스너 처리
+##### <div id="pic2">btnProfileUpdate 이벤트 리스너 처리</div>
 > imageUpload.js 
  ```javascript
 
@@ -153,7 +153,7 @@
 ```
 <br>
 
-##### upload 메서드: 전달받은 formData의 이미지 파일을 지정된 외부 디렉토리에 저장하는 함수
+##### <div id="pic3">upload 메서드: 전달받은 이미지 파일을 외부 경로 디렉토리에 저장하는 함수</div>
 > ImageUploadController
 ```java
 
@@ -183,6 +183,7 @@
 ```
 <br>
 
+##### <div id="pic4">getImage(): 프로필 사진 요청하는 함수</div>
 > imageUpload.jsㅇ 
 ```javascript
 
@@ -204,6 +205,7 @@
 
 ```
 
+##### <div id="pic5">viewFile 메서드: fileName을 전달받아 로컬 폴더에 저장된 해당 파일을 찾아 반환한다.</div>
 > ImageUploadController
 ```java
 
