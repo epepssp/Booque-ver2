@@ -253,6 +253,7 @@
 
 + #### <div id="sec2">알림 생성</div>
   ##### ◽ 새 댓글 알림
+  
   ###### &nbsp;&nbsp;댓글 작성 버튼 클릭 시 생성 됨
 
   > postReply.js
@@ -276,7 +277,7 @@
    <br><br>
 
    ##### ◽ 키워드 알림
-   ##### 중고장터 새 글이 등록될 때, 새 글의 판매 도서를 알림 받기로 등록한 유저가 있는지 확인하고, 있다면 키워드 알림 생성 됨
+   ##### 중고책 판매글 작성되면, 알림 받기 등록된 전체 키워드 리스트에서 해당 도서와 일치하는 항목 있는지 확인하고, 있다면 키워드 알림 생성
    ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
      > marketCreate.js
      ```javaScript
@@ -315,9 +316,8 @@
              List<User> users = userService.read();  // 전수 조사
              for (User u : users) {
                 if(u.getNoticeBookId() == noticeDto.getBookId()) { // 일치하는 bookId(키워드)가 있으면 키워드 알림 생성
-                
-                     NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
-                     return ResponseEntity.ok(noticeService.create(dto));
+                      NoticeDto dto = NoticeDto.builder().userId(u.getId()).bookId(noticeDto.getBookId()).usedBookId(noticeDto.getUsedBookId()).build();
+                      return ResponseEntity.ok(noticeService.create(dto));
                 } 
              } 
              return ResponseEntity.ok(1);
