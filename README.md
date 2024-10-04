@@ -60,7 +60,7 @@
   #### 💡[ 알림(Notice)](#notice)
   + ##### [  테이블 생성 및 컬럼 추가](#sec1)
   + ##### [  알림 생성](#sec2)
-    ###### &nbsp;&nbsp;◽ 새댓글 알림: 댓글 작성될 때<br><br>&nbsp;&nbsp;◽ 키워드 알림: 1. 알림 받을 키워드 등록 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크하고, <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일치하는 항목 있을 때
+    ###### &nbsp;&nbsp;◽ 새댓글 알림: 댓글 작성될 때<br><br>&nbsp;&nbsp;◽ 키워드 알림: 1. 알림 받을 키워드 등록 <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. 중고장터 새 글 등록 시, 등록된 키워드 목록에서 새 글 키워드와 일치하는 항목 있는지 체크하고, <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일치하는 항목 있을 때
 
   + ##### [  알림 표시](#sec3)
     ###### &nbsp;&nbsp;◽ 상단바에 알림 버튼 추가<br><br>&nbsp;&nbsp;◽ 뱃지에 알림 갯수 표시<br><br>&nbsp;&nbsp;◽ 로그인 사용자의 전체 알림 리스트 dropdown으로 보여줌</h6>
