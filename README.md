@@ -254,7 +254,8 @@
 
 + #### <div id="sec2">알림 생성</div>
   ##### ◽ 새 댓글 알림
-  
+  <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/a81cd3f7-308d-4b45-abe3-a84ad1c32283" height="400" alt="댓글알림"></div>
+   
   ###### &nbsp;&nbsp;댓글 작성 버튼 클릭 시 생성 됨
 
   > postReply.js
@@ -278,6 +279,8 @@
    <br><br>
 
    ##### ◽ 키워드 알림
+  <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/ca090a59-a4e5-47f5-bf17-c18ada6ceba1" height="400" alt="키워드알림"></div>
+  
    ###### &nbsp;&nbsp; 1. 알림 받을 키워드 등록
      ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 입력한 키워드가 포함된 도서 리스트를 추천해주는 방식으로, 키워드 알림 등록을 유도한다.  
      ###### &nbsp;&nbsp;&nbsp; 사용자는 추천 리스트에서 원하는 항목을 클릭하여 알림 받을 키워드(bookId)로 등록 할 수 있다.
@@ -563,9 +566,9 @@
      
 
  + #### 움짤
- <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/a81cd3f7-308d-4b45-abe3-a84ad1c32283" height="400" alt="댓글알림"></div>
+
 
  <br>
- <div align="center"><img src="https://github.com/epepssp/Booque-ver2/assets/118948099/ca090a59-a4e5-47f5-bf17-c18ada6ceba1" height="400" alt="키워드알림"></div>
+ 
 
 
