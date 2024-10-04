@@ -278,7 +278,51 @@
    <br><br>
 
    ##### ◽ 키워드 알림
-   ##### 중고책 판매글 작성되면, 알림 받기 등록된 전체 키워드 리스트에서 해당 도서와 일치하는 항목 있는지 확인하고,<br> 있다면 키워드 알림 생성
+   ###### &nbsp;&nbsp; 1. 알림 받을 키워드 등록
+     ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 입력한 키워드가 포함된 도서 리스트를 추천하여, 키워드 알림 등록을 유도한다.  
+     ###### &nbsp;&nbsp;&nbsp; 사용자는 추천 리스트에서 원하는 항목을 클릭하여 알림 받을 키워드(bookId)로 등록 할 수 있다.
+
+     > MarketController
+     ```java
+        @GetMapping("/mainSearch") 
+        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
+                  Model model, String orderSlt , String status) {
+
+                  // 이런 중고책 찾으세요? 키워드 추천 리스트 제공
+                  List<Book> list4 = bookService.searchByBookName(mainKeyword); 
+                  model.addAttribute("list4", list4);      
+        }    
+     ```
+     
+     > BookRepository
+     ```java
+              // 제목에 사용자가 검색한 키워드가 포함된 책 4권만 반환하는 리스트
+              List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
+     ```
+     <br>
+  
+     ###### 이런 책 찾으세요?
+   이미지로
+
+     > marketSearch.html
+     ```html
+               <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
+                  <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
+               </div>
+            
+
+               <script>
+                   function register(event) {  // 키워드 등록 함수
+                       const bookId = document.querySelector('#b-Id').value;
+                       axios.get('/register/notice/'+bookId)
+                            .then(response => {  alert('알림 등록 완료!');  })
+                            .catch(err =>{  console.log(err);  });
+                    }
+               </script>
+     ```
+     <br>
+     
+   ##### 2. 중고책 판매글 작성되면, 알림 받기 등록된 전체 키워드 리스트에서 해당 도서와 일치하는 항목 있는지 확인하고,<br> 있다면 키워드 알림 생성
    ###### 새 글 작성 버튼 이벤트 리스너에 checkBookId(bookId,usedBookId) 함수 추가
      > marketCreate.js
      ```javaScript
@@ -326,49 +370,7 @@
      ```
 
 
-     ###### &nbsp;&nbsp; 알림 받을 키워드 등록
-     ###### &nbsp;&nbsp;&nbsp; 검색 결과 페이지에 사용자가 입력한 키워드가 포함된 추천 도서 리스트를 제공하여 키워드 알림 등록을 유도한다.  
-     ###### &nbsp;&nbsp;&nbsp; 추천 리스트에서 원하는 항목을 클릭하면 알림 받을 키워드(bookId)로 등록 할 수 있다.
-
-     > MarketController
-     ```java
-        @GetMapping("/mainSearch") 
-        public void mainSearch(@AuthenticationPrincipal UserSecurityDto userDto ,String region, String mainKeyword,
-                  Model model, String orderSlt , String status) {
-
-                  // 이런 중고책 찾으세요? 키워드 추천 리스트 제공
-                  List<Book> list4 = bookService.searchByBookName(mainKeyword); 
-                  model.addAttribute("list4", list4);      
-        }    
-     ```
      
-     > BookRepository
-     ```java
-              // 제목에 사용자가 검색한 키워드가 포함된 책 4권만 반환하는 리스트
-              List<Book> findTop4ByBookNameIgnoreCaseContaining(String Keyword);
-     ```
-     <br>
-  
-     ###### 이런 책 찾으세요?
-   이미지로
-
-     > marketSearch.html
-     ```html
-               <div style="display: inline-block;"><!-- 키워드 등록 버튼 --> 
-                  <span class="m-1" onclick="register(event);"><i class="bi bi-hand-index-fill" style="font-size: 21px;"></i></span>
-               </div>
-            
-
-               <script>
-                   function register(event) {  // 키워드 등록 함수
-                       const bookId = document.querySelector('#b-Id').value;
-                       axios.get('/register/notice/'+bookId)
-                            .then(response => {  alert('알림 등록 완료!');  })
-                            .catch(err =>{  console.log(err);  });
-                    }
-               </script>
-     ```
-     <br>
      <br><br>
  
  + #### <div id="sec3">알림 표시</div>
